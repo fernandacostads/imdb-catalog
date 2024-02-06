@@ -4,13 +4,13 @@
 
 Desenvolver um Sistema de Gerenciamento de Banco de Dados (DBMS) para um catálogo de filmes, semelhante ao IMDb, utilizando a Programação Orientada a Objetos (POO).
 
-##Integrantes
+## Integrantes
 
-1- ... (a preencher)
-2- Daniel Martins de Andrade
-3- ... (a preencher)
-4- ... (a preencher)
-5- ... (a preencher)
+1. ... (a preencher)
+2. Daniel Martins de Andrade
+3. ... (a preencher)
+4. ... (a preencher)
+5. ... (a preencher)
 
 ## Classes
 

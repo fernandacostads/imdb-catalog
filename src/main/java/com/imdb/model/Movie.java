@@ -4,7 +4,7 @@ public class Movie {
     public int id;
     public String nome;
 
-    public Filme() {
+    public Movie() {
     }
 
     public String toString() {

@@ -1,36 +1,33 @@
 package com.imdb.repository;
 
-import Model.Movie;
+
+import com.imdb.model.Movie;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class MovieRepository {
-    private static List<Movie> Movies = new ArrayList(10);
+    private static final List<Movie> movies = new ArrayList<>(10);
     private static int cont = 0;
 
     private MovieRepository() {
     }
 
-    public static Movie insere(Movie Movie) {
+    public static void insere(Movie Movie) {
         Movie.id = ++cont;
-        Movies.add(Movie);
+        movies.add(Movie);
         System.out.println("inserido com sucesso!");
-        return Movie;
     }
 
-    public static Movie edita(int id, String nome) {
-        Optional<Movie> MoviePorId = Movies.stream().filter((f) -> {
-            return f.id == id;
-        }).findFirst();
-        if (MoviePorId.isEmpty()) {
+    public static void edita(int id, String nome) {
+        Optional<Movie> moviePorId = movies.stream().filter((f) -> f.id == id).findFirst();
+        if (moviePorId.isEmpty()) {
             new Exception("Id não encontrado");
         }
 
-        Movie Movie = (Movie)MoviePorId.get();
-        Movie.nome = nome;
-        return Movie;
+        Movie movie = moviePorId.get();
+        movie.nome = nome;
     }
 
     public static Movie deleta() {
@@ -38,13 +35,11 @@ public class MovieRepository {
     }
 
     public static List<Movie> obterLista() {
-        return Movies;
+        return movies;
     }
 
-    public static List<Movie> pesquisarPorNome(String search) {
-        return (List)Movies.stream().filter((i) -> {
-            return i.nome.toLowerCase().contains(search.toLowerCase());
-        }).collect(Collectors.toList());
+    public static List pesquisarPorNome(String search) {
+        return movies.stream().filter((i) -> i.nome.toLowerCase().contains(search.toLowerCase())).collect(Collectors.toList());
     }
 
     public static List<Movie> pesquisarPorCategoria(String categoria) {

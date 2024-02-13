@@ -17,7 +17,7 @@ public class MovieController {
             Movie movie4 = new Movie("Rambo IV", LocalDate.of(1993, 1, 26), 1550.95, "filme sensacional", List.of(Genre.Ação, Genre.Drama), 80, "inglês");
             Movie movie5 = new Movie("Spider-Man", LocalDate.of(1994, 2, 27), 1650.25, "filme espetacular", List.of(Genre.Ação, Genre.Fantasia), 90, "inglês");
             Movie movie6 = new Movie("The Shawshank Redemption", LocalDate.of(1994, 3, 28), 1750.35, "filme incrível", List.of(Genre.Drama), 120, "inglês");
-            Movie movie7 = new Movie("Inception", LocalDate.of(1995, 4, 29), 1850.45, "filme alucinante", List.of(Genre.Ficção_Cientifica, Genre.Ação), 130, "inglês");
+            Movie movie7 = new Movie("Inception", LocalDate.of(1995, 4, 29), 1850.45, "filme alucinante", List.of(Genre.Ficção_científica, Genre.Ação), 130, "inglês");
             Movie movie8 = new Movie("The Godfather", LocalDate.of(1996, 5, 30), 1950.55, "filme clássico", List.of(Genre.Outros, Genre.Drama), 140, "inglês");
             Movie movie9 = new Movie("Pulp Fiction", LocalDate.of(1997, 6, 1), 2050.65, "filme cult", List.of(Genre.Outros, Genre.Comédia), 150, "inglês");
             Movie movie10 = new Movie("The Dark Knight", LocalDate.of(1998, 7, 2), 2150.75, "filme épico", List.of(Genre.Ação, Genre.Drama), 160, "inglês");
@@ -34,7 +34,16 @@ public class MovieController {
             MovieRepository.addMovie(movie9);
             MovieRepository.addMovie(movie10);
         }
-
+    public static void mainMenu() {
+        System.out.println("\n----- Menu -----");
+        System.out.println("1. Adicionar Filme");
+        System.out.println("2. Imprimir Lista de Filmes");
+        System.out.println("3. Deletar Filme");
+        System.out.println("4. Editar Filme");
+        System.out.println("5. Pesquisar Filme");
+        System.out.println("0. Sair");
+        System.out.print("Escolha uma opção: ");
+    }
     public static Movie movieParameter (Scanner sc){
         System.out.print("Título: ");
         String titulo = sc.nextLine();

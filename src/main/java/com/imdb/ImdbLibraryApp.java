@@ -6,12 +6,13 @@ import java.util.Scanner;
 public class ImdbLibraryApp {
     public static void main(String[] args) {
 
-        MovieController.teste();
+        MovieController.teste();//inicia 10 movies pra teste
+
         Scanner scanner = new Scanner(System.in);
         int opcao;
 
         do {
-            mainMenu();
+            MovieController.mainMenu();
             opcao = scanner.nextInt();
             scanner.nextLine(); // Limpar o buffer do scanner
 
@@ -27,15 +28,5 @@ public class ImdbLibraryApp {
         } while (opcao != 0);
 
         scanner.close();
-    }
-    private static void mainMenu() {
-        System.out.println("\n----- Menu -----");
-        System.out.println("1. Adicionar Filme");
-        System.out.println("2. Imprimir Lista de Filmes");
-        System.out.println("3. Deletar Filme");
-        System.out.println("4. Editar Filme");
-        System.out.println("5. Pesquisar Filme");
-        System.out.println("0. Sair");
-        System.out.print("Escolha uma opção: ");
     }
 }

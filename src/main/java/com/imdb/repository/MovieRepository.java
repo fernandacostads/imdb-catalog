@@ -28,21 +28,25 @@ public class MovieRepository {
         return new ArrayList<>(movieMap.values()); // Retorne todos os filmes
     }
 
-    public static Optional<List<Movie>> searchMovieByName(String search) {
-        List<Movie> collect = movieMap.values().stream()
-                .filter((movie) -> movie.getTitle().toLowerCase().contains(search.toLowerCase()))
-                .collect(Collectors.toList());
-        return collect.isEmpty() ? Optional.empty() : Optional.of(collect);
-    }
-
     public static Optional<Movie> searchMovieById(int id) {
         return Optional.ofNullable(movieMap.get(id));
     }
 
-    public static Optional <List<Movie>> searchMovieByGenre(String genre) {
-        List<Movie> collect = movieMap.values().stream()
-                .filter((movie) -> movie.getGenres().contains(genre))
+    public static Optional<List<Movie>> searchMovieByName(String search) {
+        List<Movie> collect = movieMap.values()
+                .stream()
+                .filter(movie -> movie.getTitle().toLowerCase().contains(search.toLowerCase()))
                 .collect(Collectors.toList());
-        return collect.isEmpty() ? Optional.empty() : Optional.of(collect);
+
+        return Optional.ofNullable(collect.isEmpty() ? null : collect);
+    }
+    public static Optional <List<Movie>> searchMovieByGenre(String genre) {
+        List<Movie> collect = movieMap.values()
+                .stream()
+                .filter(movie -> movie.getGenres().stream()
+                        .map(Enum::name)
+                        .anyMatch(genre::equalsIgnoreCase)) // Verifica se há algum gênero que corresponde à entrada, ignorando maiúsculas e minúsculas
+                .collect(Collectors.toList());
+        return Optional.ofNullable(collect.isEmpty() ? null : collect);
     }
 }

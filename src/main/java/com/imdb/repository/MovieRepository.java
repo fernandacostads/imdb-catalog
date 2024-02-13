@@ -36,7 +36,7 @@ public class MovieRepository {
       .stream()
       .filter(movie ->
         movie.getTitle().toLowerCase().contains(search.toLowerCase())
-      )//Verifica se a string de busca está presente em algum título de filme.
+      ) //Verifica se a string de busca está presente em algum título de filme.
       .collect(Collectors.toList());
 
     return Optional.ofNullable(collect.isEmpty() ? null : collect);

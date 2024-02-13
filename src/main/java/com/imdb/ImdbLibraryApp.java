@@ -2,7 +2,6 @@ package com.imdb;
 
 import com.imdb.controller.MovieController;
 import com.imdb.controller.TesteController;
-
 import java.util.Scanner;
 
 public class ImdbLibraryApp {

@@ -3,7 +3,6 @@ package com.imdb.controller;
 import com.imdb.model.Genre;
 import com.imdb.model.Movie;
 import com.imdb.repository.MovieRepository;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,6 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MovieController {
+
   public static void mainMenu() {
     System.out.println("\n----- Menu -----");
     System.out.println("1. Adicionar Filme");
@@ -48,16 +48,16 @@ public class MovieController {
     System.out.print("Idioma: ");
     String idioma = sc.nextLine();
 
-    return new Movie(titulo,
-            dataLancamento,
-            orcamento,
-            sinopse,
-            genero,
-            duracao,
-            idioma
+    return new Movie(
+      titulo,
+      dataLancamento,
+      orcamento,
+      sinopse,
+      genero,
+      duracao,
+      idioma
     );
   }
-
 
   public static void addMovie(Scanner sc) {
     System.out.println("\n----- Adicionar Filme -----");
@@ -68,7 +68,7 @@ public class MovieController {
   public static void editMovie(Scanner sc) {
     System.out.println("\n----- Editar Filme -----");
     System.out.print(
-            "Digite o ID do filme que deseja editar (ou 0 para cancelar): "
+      "Digite o ID do filme que deseja editar (ou 0 para cancelar): "
     );
     int idFilme = sc.nextInt();
     sc.nextLine(); // Limpar o buffer do scanner
@@ -78,9 +78,7 @@ public class MovieController {
       return;
     }
 
-    Movie movieAux = MovieRepository
-            .searchMovieById(idFilme)
-            .orElse(null);
+    Movie movieAux = MovieRepository.searchMovieById(idFilme).orElse(null);
 
     if (movieAux != null) {
       boolean continuarEdicao = true;
@@ -120,7 +118,9 @@ public class MovieController {
             break;
           case 5:
             System.out.print("Novo Gênero: ");
-            movieAux.setGenres(Collections.singletonList(Genre.valueOf(sc.nextLine())));
+            movieAux.setGenres(
+              Collections.singletonList(Genre.valueOf(sc.nextLine()))
+            );
             break;
           case 6:
             System.out.print("Nova Duração: ");
@@ -145,7 +145,9 @@ public class MovieController {
     }
 
     System.out.println("Filme Editado: " + movieAux);
-    System.out.print("Deseja confirmar a edição deste filme? (S para Sim, N para Não):");
+    System.out.print(
+      "Deseja confirmar a edição deste filme? (S para Sim, N para Não):"
+    );
 
     String resposta = sc.nextLine().toUpperCase();
 
@@ -184,39 +186,39 @@ public class MovieController {
       // Pesquisar por ID
       System.out.println("\nResultados da Busca ID:\n");
       MovieRepository
-              .searchMovieById(searchId)
-              .ifPresentOrElse(
-                      System.out::println,
-                      () ->
-                              System.out.println(
-                                      "Nenhum filme encontrado com o ID fornecido: " + searchId
-                              )
-              );
+        .searchMovieById(searchId)
+        .ifPresentOrElse(
+          System.out::println,
+          () ->
+            System.out.println(
+              "Nenhum filme encontrado com o ID fornecido: " + searchId
+            )
+        );
     } catch (NumberFormatException e) {
       // Não é um número, então deve ser uma busca por nome ou gênero
       // Pesquisar por Nome
       System.out.println("\nResultados da Busca por Nome:\n");
       MovieRepository
-              .searchMovieByName(search)
-              .ifPresentOrElse(
-                      movies -> movies.forEach(System.out::println),
-                      () ->
-                              System.out.println(
-                                      "Nenhum filme encontrado com o nome fornecido: " + search
-                              )
-              );
+        .searchMovieByName(search)
+        .ifPresentOrElse(
+          movies -> movies.forEach(System.out::println),
+          () ->
+            System.out.println(
+              "Nenhum filme encontrado com o nome fornecido: " + search
+            )
+        );
 
       // Pesquisar por Gênero
       System.out.println("\nResultados da Busca Gênero:\n");
       MovieRepository
-              .searchMovieByGenre(search)
-              .ifPresentOrElse(
-                      movies -> movies.forEach(System.out::println),
-                      () ->
-                              System.out.println(
-                                      "Nenhum filme encontrado com o gênero fornecido: " + search
-                              )
-              );
+        .searchMovieByGenre(search)
+        .ifPresentOrElse(
+          movies -> movies.forEach(System.out::println),
+          () ->
+            System.out.println(
+              "Nenhum filme encontrado com o gênero fornecido: " + search
+            )
+        );
     }
   }
 }

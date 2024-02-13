@@ -21,12 +21,8 @@ public class ImdbLibraryApp {
                 case 3 -> MovieController.removeMovie(scanner);
                 case 4 -> MovieController.editMovie(scanner);
                 case 5 -> MovieController.searchMovie(scanner);
-                case 0 -> {
-                    System.out.println("Saindo do programa. Até mais!");
-                    }
-                default -> {
-                    System.out.println("Opção inválida. Tente novamente.");
-                }
+                case 0 -> System.out.println("Saindo do programa. Até mais!");
+                default -> System.out.println("Opção inválida. Tente novamente.");
             }
         } while (opcao != 0);
 

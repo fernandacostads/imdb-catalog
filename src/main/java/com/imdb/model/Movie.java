@@ -111,9 +111,9 @@ public class Movie {
     @Override
     public String toString() {
         return "/--------------------------------------------------------------------------" +
-                "\n  id=" + id + "                                              \u2605: " + String.format("%.1f", 3.974) + "/5" +
+                "\n  id=" + id + "                                              ★: " + String.format("%.1f", 3.974) + "/5" +
                 "\n  título= " + title +
-                "\n  Data de Lançamento= " + releaseDate + "                    Orçamento \u2248 R$ " + String.format("%.0f", budget) +
+                "\n  Data de Lançamento= " + releaseDate + "                    Orçamento ≈ R$ " + String.format("%.0f", budget) +
                 "\n  Descrição= " + synopsis +
                 "\n  Atores= " + listOfActors +
                 "\n  Dietores= " + listOfRatings +

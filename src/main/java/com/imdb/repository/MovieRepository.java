@@ -34,6 +34,7 @@ public class MovieRepository {
                 .collect(Collectors.toList());
         return collect.isEmpty() ? Optional.empty() : Optional.of(collect);
     }
+
     public static Optional<Movie> searchMovieById(int id) {
         return Optional.ofNullable(movieMap.get(id));
     }

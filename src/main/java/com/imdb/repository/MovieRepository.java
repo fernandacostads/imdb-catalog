@@ -27,7 +27,7 @@ public class MovieRepository {
   }
 
   public static Optional<Movie> searchMovieById(int id) {
-    return Optional.ofNullable(movieMap.get(id));
+    return Optional.ofNullable(movieMap.get(id)); //Retorna o filme pesquisado pelo ID
   }
 
   public static Optional<List<Movie>> searchMovieByName(String search) {
@@ -36,7 +36,7 @@ public class MovieRepository {
       .stream()
       .filter(movie ->
         movie.getTitle().toLowerCase().contains(search.toLowerCase())
-      )
+      )//Verifica se a string de busca está presente em algum título de filme.
       .collect(Collectors.toList());
 
     return Optional.ofNullable(collect.isEmpty() ? null : collect);

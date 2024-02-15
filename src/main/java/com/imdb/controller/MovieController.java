@@ -1,5 +1,6 @@
 package com.imdb.controller;
 
+import com.imdb.AppServices.ValidationService;
 import com.imdb.model.Genre;
 import com.imdb.model.Movie;
 import com.imdb.repository.MovieRepository;
@@ -24,7 +25,7 @@ public class MovieController {
 
   public static Movie movieParameter(Scanner sc) {
     System.out.print("Título: ");
-    String titulo = sc.nextLine();
+    String titulo = ValidationService.isValidMovieName(sc);
 
     System.out.print("Data de Lançamento (Formato: AAAA-MM-DD): ");
     String dataString = sc.nextLine();
@@ -95,13 +96,12 @@ public class MovieController {
         System.out.println("0. Sair"); // Opção para sair do menu
 
         System.out.print("Escolha uma opção: ");
-        int opcao = sc.nextInt();
-        sc.nextLine(); // Limpar o buffer do scanner
+        int opcao = ValidationService.isValidOption(sc,7,0);
 
         switch (opcao) {
           case 1:
             System.out.print("Novo título: ");
-            movieAux.setTitle(sc.nextLine());
+            movieAux.setTitle(ValidationService.isValidMovieName(sc));
             break;
           case 2:
             System.out.print("Novo Data de Lançamento (Formato: AAAA-MM-DD): ");

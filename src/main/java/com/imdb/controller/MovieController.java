@@ -18,7 +18,7 @@ public class MovieController {
 
     System.out.print("Data de Lançamento (Formato: AAAA-MM-DD): ");
     String dataString = sc.nextLine();
-    LocalDate dataLancamento = LocalDate.parse(dataString);
+    String dataLancamento = dataString;
 
     System.out.print("Orçamento: ");
     double orcamento = sc.nextDouble();
@@ -42,10 +42,10 @@ public class MovieController {
       titulo,
       dataLancamento,
       orcamento,
+      "$",
       sinopse,
-      genero,
-      duracao,
-      idioma
+      null,
+      null
     );
   }
 
@@ -94,7 +94,7 @@ public class MovieController {
             break;
           case 2:
             System.out.print("Novo Data de Lançamento (Formato: AAAA-MM-DD): ");
-            movieAux.setReleaseDate(LocalDate.parse(sc.nextLine()));
+            movieAux.setReleaseDate(sc.nextLine());
             break;
           case 3:
             System.out.print("Novo valor de Orçamento:");
@@ -103,25 +103,9 @@ public class MovieController {
             break;
           case 4:
             System.out.print("Nova Descrição do Filme: ");
-            movieAux.setSynopsis(sc.nextLine());
+            movieAux.setDescription(sc.nextLine());
             break;
-          case 5:
-            System.out.print("Novo Gênero: ");
-            movieAux.setGenres(
-              Collections.singletonList(Genre.valueOf(sc.nextLine()))
-            );
-            break;
-          case 6:
-            System.out.print("Nova Duração: ");
-            movieAux.setDuration(sc.nextInt());
-            sc.nextLine();
-            break;
-          case 7:
-            System.out.print("Novo idioma: ");
-            String novoIdioma = sc.nextLine();
-            movieAux.setLanguage(novoIdioma);
-            break;
-          case 0:
+              case 0:
             System.out.println("Saindo do menu de edição.");
             continuarEdicao = false;
             break;
@@ -197,7 +181,7 @@ public class MovieController {
             )
         );
 
-      // Pesquisar por Gênero
+      /* Pesquisar por Gênero
       System.out.println("\nResultados da Busca Gênero:\n");
       MovieRepository
         .searchMovieByGenre(search)
@@ -207,7 +191,7 @@ public class MovieController {
             System.out.println(
               "Nenhum filme encontrado com o gênero fornecido: " + search
             )
-        );
+        );*/
     }
   }
 }

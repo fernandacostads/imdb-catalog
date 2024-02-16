@@ -5,7 +5,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class MovieRepository {
-
   private static final Map<Integer, Movie> movieMap = new HashMap<>(); // Mapa para armazenar os filmes por ID
   private static int nextId = 1; // Contador para gerar IDs
 
@@ -42,7 +41,7 @@ public class MovieRepository {
     return Optional.ofNullable(collect.isEmpty() ? null : collect);
   }
 
-  public static Optional<List<Movie>> searchMovieByGenre(String genre) {
+  /*public static Optional<List<Movie>> searchMovieByGenre(String genre) {
     List<Movie> collect = movieMap
       .values()
       .stream()
@@ -55,5 +54,5 @@ public class MovieRepository {
       ) // Verifica se há algum gênero que corresponde à entrada, ignorando maiúsculas e minúsculas
       .collect(Collectors.toList());
     return Optional.ofNullable(collect.isEmpty() ? null : collect);
-  }
+  }*/
 }

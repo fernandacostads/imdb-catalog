@@ -15,8 +15,7 @@ public class Movie {
   private List<Actor> actors;
 
   //CONSTRUCTOR
-  public Movie(int id, String title, String releaseDate, double budget, String currency, String description, List<Actor> actors, List<Director> directors) {
-    this.id = id;
+  public Movie(String title, String releaseDate, double budget, String currency, String description, List<Actor> actors, List<Director> directors) {
     this.title = title;
     this.releaseDate = releaseDate;
     this.budget = budget;

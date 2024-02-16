@@ -1,6 +1,6 @@
 package com.imdb;
 
-import com.imdb.AppServices.ValidationService;
+import com.imdb.appServices.ValidationService;
 import com.imdb.controller.MovieController;
 import com.imdb.controller.TesteController;
 import java.util.Scanner;

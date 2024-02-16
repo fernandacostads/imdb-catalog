@@ -70,7 +70,7 @@ public class TesteController {
       "filme alucinante",
       List.of(Genre.Ficção_científica, Genre.Ação),
       130,
-      "inglês"
+      "Português"
     );
     Movie movie8 = new Movie(
       "The Godfather",

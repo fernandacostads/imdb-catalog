@@ -1,6 +1,6 @@
 package com.imdb.controller;
 
-import com.imdb.AppServices.ValidationService;
+import com.imdb.appServices.ValidationService;
 import com.imdb.model.Genre;
 import com.imdb.model.Movie;
 import com.imdb.repository.MovieRepository;

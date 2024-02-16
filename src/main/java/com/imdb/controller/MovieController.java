@@ -12,17 +12,6 @@ import java.util.Scanner;
 
 public class MovieController {
 
-  public static void mainMenu() {
-    System.out.println("\n----- Menu -----");
-    System.out.println("1. Adicionar Filme");
-    System.out.println("2. Imprimir Lista de Filmes");
-    System.out.println("3. Deletar Filme");
-    System.out.println("4. Editar Filme");
-    System.out.println("5. Pesquisar Filme");
-    System.out.println("0. Sair");
-    System.out.print("Escolha uma opção: ");
-  }
-
   public static Movie movieParameter(Scanner sc) {
     System.out.print("Título: ");
     String titulo = ValidationService.isValidMovieName(sc);
@@ -60,7 +49,7 @@ public class MovieController {
     );
   }
 
-  public static void addMovie(Scanner sc) {
+  public static void registerNewMovie(Scanner sc) {
     System.out.println("\n----- Adicionar Filme -----");
     MovieRepository.addMovie(movieParameter(sc));
     System.out.println("Filme adicionado com sucesso!");
@@ -159,7 +148,7 @@ public class MovieController {
     }
   }
 
-  public static void removeMovie(Scanner sc) {
+  public static void deleteMovie(Scanner sc) {
     System.out.println("Digite o Id do filme que deseja excluir");
     int id = sc.nextInt();
     sc.nextLine();
@@ -168,7 +157,7 @@ public class MovieController {
     System.out.println("Filme removido com sucesso!");
   }
 
-  public static void listAllMovies() {
+  public static void showListOfMovies() {
     List<Movie> movies = MovieRepository.getAllMovies();
     if (movies.isEmpty()) {
       System.out.println("Nenhum filme cadastrado.");

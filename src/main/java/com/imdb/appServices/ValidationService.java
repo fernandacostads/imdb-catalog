@@ -55,7 +55,7 @@ public class ValidationService {
     if (userInput != null && !userInput.trim().isEmpty() && userInput.length() >= 3) {
       return userInput;
     } else {
-      System.out.println("Título inválido! O nome deve ter pelo menos 3 caracteres.");
+      System.out.println("Invalid title! The movie name must be at least 3 characters long.");
       return isValidMovieName(sc);
     }
   }

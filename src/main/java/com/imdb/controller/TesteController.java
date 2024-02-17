@@ -1,11 +1,11 @@
 package com.imdb.controller;
 
 import com.imdb.model.Movie;
-import com.imdb.repository.MovieRepository;
+import com.imdb.repository.impl.MovieRepository;
 import java.io.IOException;
 
 public class TesteController {
-
+/*
   public static void teste() throws IOException {
     Movie movie1 = new Movie(
       "Rambo I",
@@ -109,5 +109,5 @@ public class TesteController {
     MovieRepository.addMovie(movie8);
     MovieRepository.addMovie(movie9);
     MovieRepository.addMovie(movie10);
-  }
+  }*/
 }

@@ -8,21 +8,104 @@ import java.util.Scanner;
 
 public class ActorController {
 
-  private final ActorService actorService;
-  private final Scanner scanner;
-  private final MovieController movieController;
+  private static ActorService actorService;
 
-  public ActorController(
-    ActorService actorService,
-    Scanner scanner,
-    MovieController movieController
-  ) {
+  public ActorController(ActorService actorService) {
     this.actorService = actorService;
-    this.scanner = scanner;
-    this.movieController = movieController;
   }
 
-  public void editActors(Movie selectedMovie) {
+  public void start() {
+    Scanner scanner = new Scanner(System.in);
+    int choice;
+
+    do {
+      System.out.println("1. Create Actor");
+      System.out.println("2. View Actor");
+      System.out.println("3. View All Actors");
+      System.out.println("4. Update Actor");
+      System.out.println("5. Delete Actor");
+      System.out.println("0. Exit");
+      System.out.print("Enter your choice: ");
+
+      choice = scanner.nextInt();
+      scanner.nextLine(); // Consume newline
+
+      switch (choice) {
+        case 1 -> createActor(scanner);
+        case 2 -> viewActor(scanner);
+        case 3 -> viewAllActors();
+        case 4 -> updateActor(scanner);
+        case 5 -> deleteActor(scanner);
+        case 0 -> System.out.println("Exiting...");
+        default -> System.out.println("Invalid choice. Please try again.");
+      }
+
+    } while (choice != 0);
+  }
+
+  public static Actor createActor(Scanner scanner) {
+    System.out.print("Enter Actor Name: ");
+    String name = scanner.nextLine();
+
+    System.out.print("Enter Actor Nationality: ");
+    String nationality = scanner.nextLine();
+
+    Actor actor = new Actor(name, nationality);
+    actorService.addActor(actor);
+    return actor;
+  }
+
+  private void viewActor(Scanner scanner) {
+    System.out.print("Enter Actor Name: ");
+    String name = scanner.nextLine();
+
+    Actor actor = actorService.searchActor(name);
+
+    if (actor != null) {
+      System.out.println("Actor Details:");
+      System.out.println("ID: " + actor.getId());
+      System.out.println("Name: " + actor.getName());
+      System.out.println("Nationality: " + actor.getNationality());
+    } else {
+      System.out.println("Actor not found.");
+    }
+  }
+
+  private void viewAllActors() {
+    List<Actor> actors = actorService.getAllActors();
+    System.out.println("All Actors:");
+
+    for (Actor actor : actors) {
+      System.out.println("ID: " + actor.getId() + ", Name: " + actor.getName() + ", Nationality: " + actor.getNationality());
+    }
+  }
+
+  private void updateActor(Scanner scanner) {
+    System.out.print("Enter Actor Name: ");
+    String name = scanner.nextLine();
+    Actor existingActor = actorService.searchActor(name);
+
+    if (existingActor != null) {
+      System.out.print("Enter New Actor Name: ");
+      String newName = scanner.nextLine();
+
+      System.out.print("Enter New Actor Nationality: ");
+      String newNationality = scanner.nextLine();
+
+      Actor updatedActor = new Actor(newName, newNationality);
+      actorService.updateActor(updatedActor);
+    } else {
+      System.out.println("Actor not found.");
+    }
+  }
+
+  private void deleteActor(Scanner scanner) {
+    System.out.print("Enter Actor ID: ");
+    String name = scanner.nextLine();
+    actorService.removeActor(name);
+  }
+
+/* public void editActors(Movie selectedMovie, Scanner scanner) {
     List<Actor> actors = selectedMovie.getActors();
     if (actors.isEmpty()) {
       System.out.println("No actors available to edit.");
@@ -53,7 +136,7 @@ public class ActorController {
     }
   }
 
-  private void editActorDetails(Movie selectedMovie) {
+  private void editActorDetails(Movie selectedMovie, Scanner scanner) {
     System.out.println("List of Actors:");
     List<Actor> actors = selectedMovie.getActors();
     for (int i = 0; i < actors.size(); i++) {
@@ -119,9 +202,5 @@ public class ActorController {
     } else {
       System.out.println("Failed to remove actor.");
     }
-  }
-
-  public MovieController getMovieController() {
-    return movieController;
-  }
+  }*/
 }

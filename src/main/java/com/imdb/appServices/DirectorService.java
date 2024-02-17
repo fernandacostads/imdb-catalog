@@ -8,30 +8,30 @@ import java.util.List;
 
 public class DirectorService {
 
-  private final DirectorRepository directorRepository;
+  private static DirectorRepository directorRepository;
 
   public DirectorService(DirectorRepository directorRepository) {
     this.directorRepository = directorRepository;
+  }
+
+  public static void addDirector(Director director) {
+    directorRepository.addDirector(director);
+  }
+
+  public Director searchDirector(String name) {
+    return directorRepository.search(name);
   }
 
   public List<Director> getAllDirectors() {
     return directorRepository.getAllDirectors();
   }
 
-  public Director getDirectorById(int id) {
-    return directorRepository.getDirectorById(id);
+  public void updateDirector(Director director) {
+    directorRepository.updateDirector(director);
   }
 
-  public Director getDirectorByName(String name) {
-    return directorRepository.getDirectorByName(name);
-  }
-
-  public void addDirector(Director director) {
-    directorRepository.addDirector(director);
-  }
-
-  public Director findDirectorById(int id) {
-    return directorRepository.findDirectorById(id);
+  public void removeDirector(String name) {
+    directorRepository.removeDirector(name);
   }
 
   public Director findDirectorByName(String name) {

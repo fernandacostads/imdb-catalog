@@ -1,58 +1,52 @@
 package com.imdb.appServices;
 
 import com.imdb.model.Actor;
+import com.imdb.model.Actor;
 import com.imdb.model.Movie;
-import com.imdb.repository.ActorRepository;
+import com.imdb.repository.impl.ActorRepository;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ActorService {
 
-  private final ActorRepository actorRepository;
+  private static ActorRepository actorRepository = null;
 
   public ActorService(ActorRepository actorRepository) {
     this.actorRepository = actorRepository;
+  }
+
+  public static void addActor(Actor actor) {
+    actorRepository.addActor(actor);
+  }
+
+  public Actor searchActor(String name) {
+    return actorRepository.search(name);
   }
 
   public List<Actor> getAllActors() {
     return actorRepository.getAllActors();
   }
 
-  public Actor getActorById(int id) {
-    return actorRepository.getActorById(id);
+  public void updateActor(Actor actor) {
+    actorRepository.updateActor(actor);
+  }
+
+  public void removeActor(String name) {
+    actorRepository.removeActor(name);
+  }
+
+  public void editActor(Movie movieToEdit) {
   }
 
   public Actor getActorByName(String name) {
-    return actorRepository.getActorByName(name);
+    List<Actor> movieList = getAllActors();
+
+    for (Actor actor : movieList) {
+      if (actor.getName().equalsIgnoreCase(name)) {
+        return actor;
+      }
+    }
+    // Se nenhum filme for encontrado com o nome especificado
+    return null;
   }
-
-  public void addActor(Actor actor) {
-    actorRepository.addActor(actor);
-  }
-
-  public Actor findActorById(int id) {
-    return actorRepository.findActorById(id);
-  }
-
-  public Actor findActorByName(String name) {
-    return actorRepository.findActorByName(name);
-  }
-
-  public Actor findActorByNationality(String nationality) {
-    return actorRepository.findActorByNationality(nationality);
-  }
-
-  public boolean updateActor(Actor updatedActor) {
-    return actorRepository.updateActor(updatedActor);
-  }
-
-  public boolean deleteActor(int id) {
-    return actorRepository.deleteActor(id);
-  }
-
-  public void editActors(ArrayList<Movie> selectedMovie) {}
-
-  public void editActor(Movie movie) {}
-
-  public void editDirector(Movie movie) {}
 }

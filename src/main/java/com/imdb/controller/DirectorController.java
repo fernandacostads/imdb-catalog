@@ -6,9 +6,107 @@ import com.imdb.model.Movie;
 import java.util.List;
 import java.util.Scanner;
 
-public class DirectorController {
+  public class DirectorController {
 
-  private final DirectorService directorService;
+    private static DirectorService directorService = null;
+
+    public DirectorController(DirectorService directorService) {
+      this.directorService = directorService;
+    }
+
+    public void start() {
+      Scanner scanner = new Scanner(System.in);
+      int choice;
+
+      do {
+        System.out.println("1. Create Director");
+        System.out.println("2. View Director");
+        System.out.println("3. View All Directors");
+        System.out.println("4. Update Director");
+        System.out.println("5. Delete Director");
+        System.out.println("0. Exit");
+        System.out.print("Enter your choice: ");
+
+        choice = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (choice) {
+          case 1 -> createDirector(scanner);
+          case 2 -> viewDirector(scanner);
+          case 3 -> viewAllDirectors();
+          case 4 -> updateDirector(scanner);
+          case 5 -> deleteDirector(scanner);
+          case 0 -> System.out.println("Exiting...");
+          default -> System.out.println("Invalid choice. Please try again.");
+        }
+
+      } while (choice != 0);
+    }
+
+    public static Director createDirector(Scanner scanner) {
+      System.out.print("Enter Director Name: ");
+      String name = scanner.nextLine();
+
+      System.out.print("Enter Director Nationality: ");
+      String nationality = scanner.nextLine();
+
+      Director director = new Director(name, nationality);
+      directorService.addDirector(director);
+      return director;
+    }
+
+    private void viewDirector(Scanner scanner) {
+      System.out.print("Enter Director Name: ");
+      String name = scanner.nextLine();
+
+      Director director = directorService.searchDirector(name);
+
+      if (director != null) {
+        System.out.println("Director Details:");
+        System.out.println("ID: " + director.getId());
+        System.out.println("Name: " + director.getName());
+        System.out.println("Nationality: " + director.getNationality());
+      } else {
+        System.out.println("Director not found.");
+      }
+    }
+
+    private void viewAllDirectors() {
+      List<Director> directors = directorService.getAllDirectors();
+      System.out.println("All Directors:");
+
+      for (Director director : directors) {
+        System.out.println("ID: " + director.getId() + ", Name: " + director.getName() + ", Nationality: " + director.getNationality());
+      }
+    }
+
+    private void updateDirector(Scanner scanner) {
+      System.out.print("Enter Director Name: ");
+      String name = scanner.nextLine();
+      Director existingDirector = directorService.searchDirector(name);
+
+      if (existingDirector != null) {
+        System.out.print("Enter New Director Name: ");
+        String newName = scanner.nextLine();
+
+        System.out.print("Enter New Director Nationality: ");
+        String newNationality = scanner.nextLine();
+
+        Director updatedDirector = new Director(newName, newNationality);
+        updatedDirector.setId(existingDirector.getId());
+        directorService.updateDirector(updatedDirector);
+      } else {
+        System.out.println("Director not found.");
+      }
+    }
+
+    private void deleteDirector(Scanner scanner) {
+      System.out.print("Enter Director ID: ");
+      String name = scanner.nextLine();
+      directorService.removeDirector(name);
+    }
+
+ /* private final DirectorService directorService;
   private final Scanner scanner;
   private final MovieController movieController;
 
@@ -123,5 +221,5 @@ public class DirectorController {
 
   public MovieController getMovieController() {
     return movieController;
-  }
+  }*/
 }

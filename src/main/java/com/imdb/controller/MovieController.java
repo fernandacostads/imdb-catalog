@@ -6,8 +6,7 @@ import com.imdb.appServices.MovieService;
 import com.imdb.model.Actor;
 import com.imdb.model.Director;
 import com.imdb.model.Movie;
-import com.imdb.repository.MovieRepository;
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -20,17 +19,48 @@ public class MovieController {
   private final DirectorService directorService;
   private final Scanner scanner;
 
-  public MovieController(
-    MovieService movieService,
-    ActorService actorService,
-    DirectorService directorService,
-    Scanner scanner
-  ) {
+  public MovieController(MovieService movieService, ActorService actorService, DirectorService directorService, Scanner scanner) {
     this.movieService = movieService;
     this.actorService = actorService;
     this.directorService = directorService;
     this.scanner = scanner;
   }
+
+  public void registerNewMovie(){
+    System.out.print("Enter the name of the movie: ");
+    String name = scanner.nextLine();
+
+    Movie existingMovie = movieService.getMovieByName(name);
+
+    if (existingMovie != null) {
+      System.out.println("This movie title already exists.");
+      System.out.print("Do you want to edit it? (Yes or No): ");
+      String editChoice = scanner.nextLine();
+      if (editChoice.equalsIgnoreCase("Yes")) {
+        editMovie();
+      }
+      return;
+    }
+
+    String title = name;
+    int releaseDate = enterReleaseDate();
+    double budget = enterBudget();
+    String currency = enterCurrency();
+    String description = enterDescription();
+    List<Actor> actors = enterActors();
+    List<Director> directors = enterDirectors();
+
+    Movie newMovie = new Movie(title, releaseDate, budget, currency, description, actors, directors);
+    movieService.addMovie(newMovie);
+
+    System.out.print("Do you want to add a new movie? (Yes or No): ");
+    if (scanner.nextLine().equalsIgnoreCase("Yes")) {
+      registerNewMovie();
+    } else {
+      System.out.println("Returning to main menu...");
+    }
+  }
+
 
   public void showListOfMovies() {
     List<Movie> movies = movieService.getAllMovies();
@@ -50,12 +80,11 @@ public class MovieController {
     int movieId = safeNextInt();
     if (movieId == 0) return;
 
-    Movie selectedMovie = MovieRepository.getMovieById(movieId);
+    Movie selectedMovie = MovieService.searchMovie(movieId);
     if (selectedMovie == null) {
       System.out.println("Movie with ID " + movieId + " not found.");
       return;
     }
-
     printMovieDetails(selectedMovie);
   }
 
@@ -95,57 +124,6 @@ public class MovieController {
       editMovie();
     } else {
       System.out.println("Returning to the main menu...");
-    }
-  }
-
-  public void registerNewMovie() throws IOException {
-    System.out.print("Enter the name of the movie: ");
-    String name = scanner.nextLine();
-
-    Movie existingMovie = movieService.getMovieByName(name);
-
-    if (existingMovie != null) {
-      System.out.println("This movie title already exists.");
-      System.out.print("Do you want to edit it? (Yes or No): ");
-      String editChoice = scanner.nextLine();
-      if (editChoice.equalsIgnoreCase("Yes")) {
-        editMovie();
-        return;
-      } else {
-        return;
-      }
-    }
-
-    int releaseDate = enterReleaseDate();
-
-    double budget = 0.0;
-
-    String currency = enterCurrency();
-
-    String description = enterDescription();
-
-    List<Actor> actors = enterActors();
-
-    List<Director> directors = enterDirectors();
-
-    Movie newMovie = new Movie(
-      name,
-      releaseDate,
-      budget,
-      currency,
-      description,
-      actors,
-      directors
-    );
-    MovieRepository.addMovie(newMovie);
-    System.out.println("Movie saved successfully!");
-
-    System.out.print("Do you want to add a new movie? (Yes or No): ");
-    String addAnother = scanner.nextLine();
-    if (addAnother.equalsIgnoreCase("Yes")) {
-      registerNewMovie();
-    } else {
-      System.out.println("Returning to main menu...");
     }
   }
 
@@ -304,7 +282,7 @@ public class MovieController {
     int movieIdToEdit = scanner.nextInt();
     scanner.nextLine();
 
-    Movie movieToEdit = MovieRepository.getMovieById(movieIdToEdit);
+    Movie movieToEdit = MovieService.searchMovie(movieIdToEdit);
     if (movieToEdit != null) {
       System.out.println("Editing movie: " + movieToEdit.getTitle());
       System.out.println("What would you like to edit?");
@@ -395,12 +373,7 @@ public class MovieController {
     int movieIdToDelete = scanner.nextInt();
     scanner.nextLine();
 
-    boolean deleted = movieService.deleteMovieById(movieIdToDelete);
-    if (deleted) {
-      System.out.println("Movie deleted successfully.");
-    } else {
-      System.out.println("Invalid movie ID. Please enter a valid ID.");
-    }
+    movieService.removeMovie(movieIdToDelete);
   }
 
   private int safeNextInt() {
@@ -560,7 +533,7 @@ public class MovieController {
         int movieId = scanner.nextInt();
         scanner.nextLine();
         ArrayList<Movie> aux = new ArrayList<>();
-        aux.add(MovieRepository.getMovieById(movieId));
+        aux.add(MovieService.searchMovie(movieId));
         displayMovieTitleSearchResult(aux);
       } else {
         System.out.println("Returning to the main menu...");
@@ -588,7 +561,7 @@ public class MovieController {
         System.out.print("Enter the movie ID: ");
         int movieId = scanner.nextInt();
         scanner.nextLine();
-        Movie selectedMovie = MovieRepository.getMovieById(movieId);
+        Movie selectedMovie = MovieService.searchMovie(movieId);
         if (selectedMovie != null) {
           printMovieDetails(selectedMovie);
         } else {
@@ -616,7 +589,7 @@ public class MovieController {
         int movieId = scanner.nextInt();
         scanner.nextLine();
         ArrayList<Movie> aux = new ArrayList<>();
-        aux.add(MovieRepository.getMovieById(movieId));
+        aux.add(MovieService.searchMovie(movieId));
         displayMovieTitleSearchResult(aux);
       } else {
         System.out.println("Returning to the main menu...");

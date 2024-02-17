@@ -1,13 +1,29 @@
 package com.imdb.appServices;
 
 import com.imdb.model.Director;
+import com.imdb.model.Movie;
 import com.imdb.repository.DirectorRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DirectorService {
     private final DirectorRepository directorRepository;
 
     public DirectorService(DirectorRepository directorRepository) {
         this.directorRepository = directorRepository;
+    }
+
+    public List<Director> getAllDirectors() {
+        return directorRepository.getAllDirectors();
+    }
+
+    public Director getDirectorById(int id) {
+        return directorRepository.getDirectorById(id);
+    }
+
+    public Director getDirectorByName(String name) {
+        return directorRepository.getDirectorByName(name);
     }
 
     public void addDirector(Director director) {
@@ -32,5 +48,8 @@ public class DirectorService {
 
     public boolean deleteDirector(int id) {
         return directorRepository.deleteDirector(id);
+    }
+
+    public void editDirectors(ArrayList<Movie> selectedMovie) {
     }
 }

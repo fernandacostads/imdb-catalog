@@ -1,45 +1,132 @@
 package com.imdb.repository;
 
 import com.imdb.model.Movie;
-import java.util.*;
-import java.util.stream.Collectors;
+import com.imdb.model.Actor;
+import com.imdb.model.Director;
+
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MovieRepository {
-  private static final Map<Integer, Movie> movieMap = new HashMap<>(); // Mapa para armazenar os filmes por ID
-  private static int nextId = 1; // Contador para gerar IDs
+  private static final String FILE_PATH = "resources/movies.txt";
 
-  public static void addMovie(Movie movie) {
-    movie.setId(nextId); // Atribua o próximo ID ao filme
-    movieMap.put(nextId++, movie); // Adicione o filme ao mapa
+  public List<Movie> getAllMovies() {
+    List<Movie> movies = new ArrayList<>();
+    try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+      String line;
+      while ((line = br.readLine()) != null) {
+        String[] parts = line.split(",");
+        int id = Integer.parseInt(parts[0]);
+        String title = parts[1];
+        int releaseDate = Integer.parseInt(parts[2]);
+        double budget = Double.parseDouble(parts[3]);
+        String currency = parts[4];
+        String description = parts[5];
+        List<Actor> actors = parseActors(parts[6]);
+        List<Director> directors = parseDirectors(parts[7]);
+        movies.add(new Movie(id, title, releaseDate, budget, currency, description, actors, directors));
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return movies;
   }
 
-  public static void editMovie(int id, Movie updatedMovie) {
-    movieMap.put(id, updatedMovie); // Atualize o filme no mapa
+  public Movie getMovieById(int id) {
+    List<Movie> movies = getAllMovies();
+    for (Movie movie : movies) {
+      if (movie.getId() == id) {
+        return movie;
+      }
+    }
+    return null;
   }
 
-  public static void removeMovie(int id) {
-    movieMap.remove(id); // Remova o filme do mapa
+  public void addMovie(Movie movie) {
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
+      bw.write(movieToCsvString(movie));
+      bw.newLine();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
-  public static List<Movie> getAllMovies() {
-    return new ArrayList<>(movieMap.values()); // Retorne todos os filmes
+  public void deleteMovie(int id) {
+    List<Movie> movies = getAllMovies();
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH))) {
+      for (Movie movie : movies) {
+        if (movie.getId() != id) {
+          bw.write(movieToCsvString(movie));
+          bw.newLine();
+        }
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
-  public static Optional<Movie> searchMovieById(int id) {
-    return Optional.ofNullable(movieMap.get(id)); //Retorna o filme pesquisado pelo ID
+  private List<Actor> parseActors(String actorsString) {
+    List<Actor> actors = new ArrayList<>();
+    String[] actorInfo = actorsString.split(";");
+    for (String info : actorInfo) {
+      String[] parts = info.split(",");
+      int id = Integer.parseInt(parts[0]);
+      String name = parts[1];
+      String nationality = parts[2];
+      actors.add(new Actor(name, nationality));
+    }
+    return actors;
   }
 
-  public static Optional<List<Movie>> searchMovieByName(String search) {
-    List<Movie> collect = movieMap
-      .values()
-      .stream()
-      .filter(movie ->
-        movie.getTitle().toLowerCase().contains(search.toLowerCase())
-      ) //Verifica se a string de busca está presente em algum título de filme.
-      .collect(Collectors.toList());
-
-    return Optional.ofNullable(collect.isEmpty() ? null : collect);
+  private List<Director> parseDirectors(String directorsString) {
+    List<Director> directors = new ArrayList<>();
+    String[] directorInfo = directorsString.split(";");
+    for (String info : directorInfo) {
+      String[] parts = info.split(",");
+      int id = Integer.parseInt(parts[0]);
+      String name = parts[1];
+      String nationality = parts[2];
+      directors.add(new Director(name, nationality));
+    }
+    return directors;
   }
+
+  private String movieToCsvString(Movie movie) {
+    StringBuilder sb = new StringBuilder();
+    sb.append(movie.getId()).append(",");
+    sb.append(movie.getTitle()).append(",");
+    sb.append(movie.getReleaseDate()).append(",");
+    sb.append(movie.getBudget()).append(",");
+    sb.append(movie.getCurrency()).append(",");
+    sb.append(movie.getDescription()).append(",");
+    sb.append(actorsToCsvString(movie.getActors())).append(",");
+    sb.append(directorsToCsvString(movie.getDirectors()));
+    return sb.toString();
+  }
+
+  private String actorsToCsvString(List<Actor> actors) {
+    StringBuilder sb = new StringBuilder();
+    for (Actor actor : actors) {
+      sb.append(actor.getId()).append(",");
+      sb.append(actor.getName()).append(",");
+      sb.append(actor.getNationality()).append(";");
+    }
+    return sb.toString();
+  }
+
+  private String directorsToCsvString(List<Director> directors) {
+    StringBuilder sb = new StringBuilder();
+    for (Director director : directors) {
+      sb.append(director.getId()).append(",");
+      sb.append(director.getName()).append(",");
+      sb.append(director.getNationality()).append(";");
+    }
+    return sb.toString();
+  }
+}
+
 
   /*public static Optional<List<Movie>> searchMovieByGenre(String genre) {
     List<Movie> collect = movieMap

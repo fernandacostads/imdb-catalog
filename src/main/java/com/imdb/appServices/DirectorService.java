@@ -50,6 +50,6 @@ public class DirectorService {
         return directorRepository.deleteDirector(id);
     }
 
-    public void editDirectors(ArrayList<Movie> selectedMovie) {
+    public void editDirector(Movie movieToEdit) {
     }
 }

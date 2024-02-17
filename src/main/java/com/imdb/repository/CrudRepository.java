@@ -3,7 +3,7 @@ package com.imdb.repository;
 import com.imdb.model.Movie;
 import java.util.List;
 
-public interface MovieRepositoryI {
+public interface CrudRepository {
   Movie create(Movie movie);
 
   List<Movie> readByName(String name);

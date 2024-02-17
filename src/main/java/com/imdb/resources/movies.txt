@@ -1,0 +1,70 @@
+Id: 1
+Title: Rambo I
+Release Date: 1990
+Budget: 1250.1
+Currency: $
+Description: Um veterano da Guerra do Vietnã usa todo seu treinamento e agressividade exercitada nos campos de batalha quando é preso e torturado por policiais.
+
+Id: 2
+Title: Rambo II
+Release Date: 1991
+Budget: 1350.5
+Currency: $
+Description: Rambo está preso em uma penitenciária federal quando recebe uma proposta: será perdoado e reintegrado ao Exército se participar de uma missão no Vietnã, onde terá que enfrentar todo tipo de inimigos, inclusive oficiais americanos corruptos.
+
+Id: 3
+Title: Rambo III
+Release Date: 1992
+Budget: 1450.75
+Currency: $
+Description: O ex-soldado John Rambo recusa um pedido do coronel Trautman, seu antigo líder de pelotão, para uma nova missão, pensando apenas em continuar com o seu novo estilo de vida, baseado na crença budista. No entanto, quando o coronel Trautman é raptado pelos russos na fronteira do Afeganistão e o governo…
+
+Id: 4
+Title: Rambo IV
+Release Date: 1993
+Budget: 1550.95
+Currency: $
+Description: John Rambo vive na Tailândia e leva uma vida simples e solitária nas montanhas, pescando e capturando cobras venenosas para vender. Um grupo de missionários precisa passar pelas minas terrestres escondidas pelo caminho que leva ao campo de refugiados, onde pretendem entregar suprimentos médicos e co…
+
+Id: 5
+Title: Spider-Man
+Release Date: 1994
+Budget: 1650.25
+Currency: $
+Description: filme espetacular
+
+Id: 6
+Title: The Shawshank Redemption
+Release Date: 1994
+Budget: 1750.35
+Currency: $
+Description: Andy Dufresne é condenado a duas prisões perpétuas consecutivas pelas mortes de sua esposa e de seu amante. Porém, só Andy sabe que ele não cometeu os crimes. No presídio, durante dezenove anos, ele faz amizade com Red, sofre as brutalidades da vida na cadeia, se adapta, ajuda os carcereiros, etc.
+
+Id: 7
+Title: Inception
+Release Date: 1995
+Budget: 1850.45
+Currency: $
+Description: filme alucinante
+
+Id: 8
+Title: The Godfather
+Release Date: 1996
+Budget: 1950.55
+Currency: $
+Description: filme clássico
+
+Id: 9
+Title: Pulp Fiction
+Release Date: 1997
+Budget: 2050.65
+Currency: $
+Description: filme cult
+
+Id: 10
+Title: The Dark Knight
+Release Date: 1998
+Budget: 2015.0
+Currency: $
+Description: filme épico
+

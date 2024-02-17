@@ -1,20 +1,18 @@
 package com.imdb.model;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class Movie {
   private int id;
   private String title;
-  private LocalDate releaseDate;
+  private int releaseDate;
   private double budget;
   private String currency;
   private String description;
-  private List<Director> directors;
-  private List<Actor> actors;
+  private final List<Director> directors;
+  private final List<Actor> actors;
 
-  public Movie(int id, String title, int releaseDate, double budget, String currency, String description, List<Actor> actors, List<Director> directors) {
-    this.id = id;
+  public Movie(String title, int releaseDate, double budget, String currency, String description, List<Actor> actors, List<Director> directors) {
     this.title = title;
     this.releaseDate = releaseDate;
     this.budget = budget;
@@ -22,9 +20,6 @@ public class Movie {
     this.description = description;
     this.actors = actors;
     this.directors = directors;
-  }
-
-  public Movie(String name, int releaseDate, String currency, String description, List<Actor> actors, List<Director> directors) {
   }
 
   public int getId() {
@@ -43,11 +38,11 @@ public class Movie {
     this.title = title;
   }
 
-  public LocalDate getReleaseDate() {
+  public int getReleaseDate() {
     return releaseDate;
   }
 
-  public void setReleaseDate(LocalDate releaseDate) {
+  public void setReleaseDate(int releaseDate) {
     this.releaseDate = releaseDate;
   }
 
@@ -79,15 +74,7 @@ public class Movie {
     return actors;
   }
 
-  public void setActors(List<Actor> actors) {
-    this.actors = actors;
-  }
-
   public List<Director> getDirectors() {
     return directors;
-  }
-
-  public void setDirectors(List<Director> directors) {
-    this.directors = directors;
   }
 }

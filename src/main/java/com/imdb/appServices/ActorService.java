@@ -6,16 +6,13 @@ import com.imdb.repository.ActorRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class ActorService {
     private final ActorRepository actorRepository;
-    private final Scanner scanner;
 
-    public ActorService(ActorRepository actorRepository, Scanner scanner) {
+  public ActorService(ActorRepository actorRepository) {
         this.actorRepository = actorRepository;
-        this.scanner = scanner;
-    }
+  }
     public List<Actor> getAllActors() {
         return actorRepository.getAllActors();
     }

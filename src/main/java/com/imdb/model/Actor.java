@@ -5,11 +5,11 @@ public class Actor extends Person {
   private String name;
   private String nationality;
 
-  public Actor(String name, String nationality) {
-    this.id = id;
-    this.name = name;
-    this.nationality = nationality;
-  }
+    public Actor(int id, String name, String nationality) {
+      this.id = id;
+      this.name = name;
+      this.nationality = nationality;
+    }
 
   public int getId() {
     return id;

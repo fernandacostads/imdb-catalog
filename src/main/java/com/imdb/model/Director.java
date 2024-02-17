@@ -5,7 +5,7 @@ public class Director extends Person {
   private String name;
   private String nationality;
 
-  public Director(String name, String nationality) {
+  public Director(int id, String name, String nationality) {
     this.id = id;
     this.name = name;
     this.nationality = nationality;

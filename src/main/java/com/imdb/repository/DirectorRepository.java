@@ -6,7 +6,6 @@ import com.imdb.model.Movie;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class DirectorRepository {
     private final List<Director> directors;
 

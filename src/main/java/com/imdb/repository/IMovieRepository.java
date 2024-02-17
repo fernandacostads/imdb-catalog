@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface IMovieRepository {
   void addMovie(Movie movie);
-  Movie search(int id);
+  Movie search(int id) throws NullPointerException;
   List<Movie> getAllMovies();
   void updateMovie(Movie movie);
   void removeMovie(int id);

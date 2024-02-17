@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IActorRepository{
   void addActor(Actor actor);
-  Actor search(String name);
+  Actor search(String name) throws NullPointerException;
   List<Actor> getAllActors();
   void updateActor(Actor actor);
   void removeActor(String name);

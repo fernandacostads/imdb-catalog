@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IDirectorRepository{
   void addDirector(Director director);
-  Director search(String name);
+  Director search(String name) throws NullPointerException;
   List<Director> getAllDirectors();
   void updateDirector(Director director);
   void removeDirector(String name);

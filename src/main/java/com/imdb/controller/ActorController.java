@@ -31,7 +31,7 @@ public class ActorController {
       scanner.nextLine(); // Consume newline
 
       switch (choice) {
-        case 1 -> createActor(scanner);
+        case 1 -> createActor(scanner,1);
         case 2 -> viewActor(scanner);
         case 3 -> viewAllActors();
         case 4 -> updateActor(scanner);
@@ -43,14 +43,16 @@ public class ActorController {
     } while (choice != 0);
   }
 
-  public static Actor createActor(Scanner scanner) {
-    System.out.print("Enter Actor Name: ");
+  public static Actor createActor(Scanner scanner, int qnt) {
+    System.out.print("Enter the name of actor " + (qnt + 1) + ": ");
     String name = scanner.nextLine();
+    Actor actor = actorService.searchActor(name);
 
-    System.out.print("Enter Actor Nationality: ");
-    String nationality = scanner.nextLine();
-
-    Actor actor = new Actor(name, nationality);
+    if (actor == null) {
+      System.out.print("Actor not found, add nationality: ");
+      String nationality = scanner.nextLine();
+      actor = new Actor(name, nationality);
+    }
     actorService.addActor(actor);
     return actor;
   }

@@ -19,7 +19,11 @@ public class DirectorService {
   }
 
   public Director searchDirector(String name) {
-    return directorRepository.search(name);
+    try{
+      return directorRepository.search(name);
+    }catch (NumberFormatException e){
+      return null;
+    }
   }
 
   public List<Director> getAllDirectors() {

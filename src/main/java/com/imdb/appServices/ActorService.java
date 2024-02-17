@@ -19,8 +19,12 @@ public class ActorService {
     actorRepository.addActor(actor);
   }
 
-  public Actor searchActor(String name) {
-    return actorRepository.search(name);
+  public Actor searchActor(String name) throws NullPointerException{
+    try{
+      return actorRepository.search(name);
+    }catch(NullPointerException e) {
+      return null;
+    }
   }
 
   public List<Actor> getAllActors() {

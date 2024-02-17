@@ -1,6 +1,7 @@
 package com.imdb.controller;
 
 import com.imdb.appServices.DirectorService;
+import com.imdb.model.Actor;
 import com.imdb.model.Director;
 import com.imdb.model.Movie;
 import java.util.List;
@@ -31,7 +32,7 @@ import java.util.Scanner;
         scanner.nextLine();
 
         switch (choice) {
-          case 1 -> createDirector(scanner);
+          case 1 -> createDirector(scanner, 1);
           case 2 -> viewDirector(scanner);
           case 3 -> viewAllDirectors();
           case 4 -> updateDirector(scanner);
@@ -43,15 +44,17 @@ import java.util.Scanner;
       } while (choice != 0);
     }
 
-    public static Director createDirector(Scanner scanner) {
-      System.out.print("Enter Director Name: ");
+    public static Director createDirector(Scanner scanner, int qnt) {
+      System.out.print("Enter the name of director " + (qnt + 1) + ": ");
       String name = scanner.nextLine();
+      Director director = directorService.searchDirector(name);
 
-      System.out.print("Enter Director Nationality: ");
-      String nationality = scanner.nextLine();
-
-      Director director = new Director(name, nationality);
-      directorService.addDirector(director);
+      if (director == null) {
+        System.out.print("Director not found, add nationality: ");
+        String nationality = scanner.nextLine();
+        director = new Director(name, nationality);
+        DirectorService.addDirector(director);
+      }
       return director;
     }
 

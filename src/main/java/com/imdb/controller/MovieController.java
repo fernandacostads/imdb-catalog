@@ -1,5 +1,6 @@
 package com.imdb.controller;
 
+
 import com.imdb.appServices.ActorService;
 import com.imdb.appServices.DirectorService;
 import com.imdb.appServices.MovieService;
@@ -42,7 +43,6 @@ public class MovieController {
       return;
     }
 
-    String title = name;
     int releaseDate = enterReleaseDate();
     double budget = enterBudget();
     String currency = enterCurrency();
@@ -50,7 +50,7 @@ public class MovieController {
     List<Actor> actors = enterActors();
     List<Director> directors = enterDirectors();
 
-    Movie newMovie = new Movie(title, releaseDate, budget, currency, description, actors, directors);
+    Movie newMovie = new Movie(name, releaseDate, budget, currency, description, actors, directors);
     movieService.addMovie(newMovie);
 
     System.out.print("Do you want to add a new movie? (Yes or No): ");

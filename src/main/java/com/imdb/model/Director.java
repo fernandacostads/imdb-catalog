@@ -1,6 +1,7 @@
 package com.imdb.model;
 
 public class Director extends Person {
+
   private int id;
   private String name;
   private String nationality;

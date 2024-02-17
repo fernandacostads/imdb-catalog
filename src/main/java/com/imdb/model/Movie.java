@@ -3,6 +3,7 @@ package com.imdb.model;
 import java.util.List;
 
 public class Movie {
+
   private int id;
   private String title;
   private int releaseDate;
@@ -12,7 +13,15 @@ public class Movie {
   private final List<Director> directors;
   private final List<Actor> actors;
 
-  public Movie(String title, int releaseDate, double budget, String currency, String description, List<Actor> actors, List<Director> directors) {
+  public Movie(
+    String title,
+    int releaseDate,
+    double budget,
+    String currency,
+    String description,
+    List<Actor> actors,
+    List<Director> directors
+  ) {
     this.title = title;
     this.releaseDate = releaseDate;
     this.budget = budget;

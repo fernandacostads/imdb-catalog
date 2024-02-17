@@ -1,23 +1,23 @@
 package com.imdb.repository;
 
 import com.imdb.model.Movie;
-
 import java.io.*;
-import java.util.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.*;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MovieRepository {
-  private static final String FILE_NAME = "src/main/java/com/imdb/resources/movies.txt";
+
+  private static final String FILE_NAME =
+    "src/main/java/com/imdb/resources/movies.txt";
   private static final String SEPARATOR = System.lineSeparator();
 
   private static final Map<Integer, Movie> movieMap = new HashMap<>(); // Mapa para armazenar os filmes por ID
   private static int nextId = 1; // Contador para gerar IDs
-
 
   public static void addMovie(Movie movie) throws IOException {
     movie.setId(nextId++); // Atribua o próximo ID ao filme
@@ -71,13 +71,7 @@ public class MovieRepository {
               movieMap.put(movie.getId(), movie);
             }
 
-            movie = new Movie(null,
-                    0,
-                    0,
-                    null,
-                    null,
-                    null,
-                    null);
+            movie = new Movie(null, 0, 0, null, null, null, null);
 
             movie.setId(Integer.parseInt(line.substring(4).trim()));
           } else if (line.startsWith("Title: ")) {
@@ -107,8 +101,7 @@ public class MovieRepository {
     }
   }
 }
-
-          /*} else if (line.startsWith("Nome: ")) {
+/*} else if (line.startsWith("Nome: ")) {
             Actor actor = new Actor(0,null, null);
             actor.setName(line.substring(6).trim());
             movie.getActors().add(actor);
@@ -124,11 +117,11 @@ public class MovieRepository {
             }
           }
         }*/
-  // Check if there is a movie left to add after reading all lines
+// Check if there is a movie left to add after reading all lines
 /*        if (movie != null) {
           movieMap.put(movie.getId(), movie);*/
 //############################################################
- /* private List<Actor> parseActors(String actorsString) {
+/* private List<Actor> parseActors(String actorsString) {
     List<Actor> actors = new ArrayList<>();
     String[] actorInfo = actorsString.split(";");
     for (String info : actorInfo) {
@@ -140,8 +133,7 @@ public class MovieRepository {
     }
     return actors;
   }*/
-
- /* private List<Director> parseDirectors(String directorsString) {
+/* private List<Director> parseDirectors(String directorsString) {
     List<Director> directors = new ArrayList<>();
     String[] directorInfo = directorsString.split(";");
     for (String info : directorInfo) {

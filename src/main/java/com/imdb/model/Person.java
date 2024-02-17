@@ -1,6 +1,7 @@
 package com.imdb.model;
 
 public class Person {
+
   private String name;
   private String nationality;
 
@@ -9,8 +10,7 @@ public class Person {
     this.nationality = nationality;
   }
 
-  public Person() {
-  }
+  public Person() {}
 
   public String getName() {
     return name;

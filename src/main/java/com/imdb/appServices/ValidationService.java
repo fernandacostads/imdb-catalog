@@ -1,7 +1,6 @@
 package com.imdb.appServices;
 
 import com.imdb.model.Genre;
-
 import java.util.EnumSet;
 import java.util.Scanner;
 
@@ -40,22 +39,32 @@ public class ValidationService {
     } else if (userChoice >= rangeMin && userChoice <= rangeMax) {
       return userChoice;
     } else {
-      System.out.println("This option is invalid, you must choose a number from " +
-              rangeMin + " to " + rangeMax);
+      System.out.println(
+        "This option is invalid, you must choose a number from " +
+        rangeMin +
+        " to " +
+        rangeMax
+      );
       return -1;
     }
   }
 
   public static String isValidMovieName(Scanner sc) {
-  /*Check if the movie title is not empty,
+    /*Check if the movie title is not empty,
      if there are no unnecessary spaces,
      and if it has more than 3 letters*/
     final String userInput = getInput(sc);
 
-    if (userInput != null && !userInput.trim().isEmpty() && userInput.length() >= 3) {
+    if (
+      userInput != null &&
+      !userInput.trim().isEmpty() &&
+      userInput.length() >= 3
+    ) {
       return userInput;
     } else {
-      System.out.println("Invalid title! The movie name must be at least 3 characters long.");
+      System.out.println(
+        "Invalid title! The movie name must be at least 3 characters long."
+      );
       return isValidMovieName(sc);
     }
   }
@@ -78,6 +87,4 @@ public class ValidationService {
     // Verifica se o gênero está presente no enum
     return EnumSet.allOf(Genre.class).contains(genre);
   }
-
-
 }

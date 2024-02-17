@@ -104,4 +104,7 @@ public class DirectorController {
         }
     }
 
+    public MovieController getMovieController() {
+        return movieController;
+    }
 }

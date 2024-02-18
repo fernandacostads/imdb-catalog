@@ -3,14 +3,13 @@ package com.imdb.repository;
 import com.imdb.model.Actor;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IActorRepository{
   void addActor(Actor actor);
-  Actor search(String name) throws NullPointerException;
+  void removeActor(Actor actor);
+  Actor updateActor(Actor actor);
+  Optional<Actor> searchActor(String name);
   List<Actor> getAllActors();
-  void updateActor(Actor actor);
-  void removeActor(String name);
   void updateFile();
-  List<Actor> loadData();
-
 }

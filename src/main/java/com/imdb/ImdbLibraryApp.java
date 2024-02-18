@@ -1,34 +1,17 @@
 package com.imdb;
 
-import com.imdb.appServices.ActorService;
-import com.imdb.appServices.DirectorService;
-import com.imdb.appServices.MovieService;
 import com.imdb.appServices.ValidationService;
 import com.imdb.controller.MovieController;
-import com.imdb.repository.impl.ActorRepository;
-import com.imdb.repository.impl.DirectorRepository;
-import com.imdb.repository.impl.MovieRepository;
+import com.imdb.controller.TesteController;
 
 import java.util.Scanner;
 
 public class ImdbLibraryApp {
-
-  public static void main(String[] args) {
+     public static void main(String[] args) {
+       MovieController movieController = new MovieController();
+       TesteController testeController = new TesteController();
+       testeController.teste();
     try (var scanner = new Scanner(System.in)) {
-      ActorRepository actorRepository = new ActorRepository();
-      DirectorRepository directorRepository = new DirectorRepository();
-      MovieRepository movieRepository = new MovieRepository();
-
-      ActorService actorService = new ActorService(actorRepository);
-      DirectorService directorService = new DirectorService(directorRepository);
-      MovieService movieService = new MovieService(movieRepository);
-
-      MovieController movieController = new MovieController(
-              movieService,
-              actorService,
-              directorService,
-              scanner
-      );
 
       int choice;
 

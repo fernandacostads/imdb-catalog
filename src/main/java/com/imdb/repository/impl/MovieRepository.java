@@ -7,78 +7,87 @@ import com.imdb.repository.IMovieRepository;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class MovieRepository implements IMovieRepository {
+  private static MovieRepository instance;
+  private static List<Movie> moviesList;
+  private MovieRepository() {
+    moviesList = new ArrayList<>(10);
+   }
 
-  private final List<Movie> moviesList;
-  private static final String FILE_PATH = "src/main/resources/movies.txt";
-  private int idGenerator = 1;
-
-  public MovieRepository() {
-    this.moviesList = loadData();
+  public static synchronized MovieRepository getInstance() {
+    if (instance == null) {
+        instance = new MovieRepository();
+    }
+    return instance;
   }
-
-
+  private int idGenerator = 1;
   @Override
   public void addMovie(Movie movie) {
+    Optional<Movie> optionalMovie = getMovie(movie);
+    if (optionalMovie.isPresent()) {
+      throw new IllegalArgumentException("Movie had already exist!");
+    }
     movie.setId(idGenerator++);
     moviesList.add(movie);
     updateFile();
-    System.out.println("Movie saved successfully!");
   }
 
   @Override
-  public Movie search(int id) {
-    for (Movie filme : moviesList) {
-      if (filme.getId() == id) {
-        return filme;
-      }
+  public void removeMovie(Movie movie) {
+    Optional<Movie> optionalMovie = getMovie(movie);
+    if (optionalMovie.isEmpty()) {
+      throw new IllegalArgumentException("The movie does not exist!");
     }
-    return null; // Filme não encontrado
+    moviesList.remove(optionalMovie.get());
+    updateFile();
+  }
+
+  @Override
+  public Movie updateMovie(Movie movie) {
+    Optional<Movie> optionalMovie = getMovie(movie);
+    if (optionalMovie.isEmpty()) {
+      throw new IllegalArgumentException("The movie does not exist!");
+    }
+    moviesList.remove(optionalMovie.get());
+    moviesList.add(movie);
+    updateFile();
+    return movie;
+  }
+
+  @Override
+  public Optional<Movie> searchMovie(String title) {
+    return moviesList.stream()
+            .filter(aux -> aux.getTitle().equalsIgnoreCase(title))
+            .findFirst();
   }
 
   @Override
   public List<Movie> getAllMovies() {
-    return new ArrayList<>(moviesList);
+    return moviesList;
   }
 
-  @Override
-  public void updateMovie(Movie movie) {
-    for (int i = 0; i < moviesList.size(); i++) {
-      if (moviesList.get(i).getId() == movie.getId()) {
-        moviesList.set(i, movie);
-        updateFile();
-        System.out.println("Movie updated successfully.");
-        return;
-      }
-    }
-    System.out.println("Movie not found for update.");
-  }
-
-  @Override
-  public void removeMovie(int id) {
-    moviesList.removeIf(movie -> movie.getId() == id);
-    updateFile();
-    System.out.println("Movie deleted successfully.");
-  }
-
+  private static final String FILE_PATH = "src/main/java/com/imdb/resources/movies.txt";
   @Override
   public void updateFile() {
-    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
-      oos.writeObject(moviesList);
+    try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
+      outputStream.writeObject(moviesList);
     } catch (IOException e) {
-      e.printStackTrace();
-      System.out.println("Error saving to file.");
+      System.err.println("Error saving to file: " + e.getMessage());
     }
   }
 
-  @Override
-  public List<Movie> loadData() {
-    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FILE_PATH))) {
-      return (List<Movie>) ois.readObject();
-    } catch (IOException | ClassNotFoundException | ClassCastException e) {
-      // Se ocorrer uma exceção, cria uma nova lista
-      return new ArrayList<>();
+  @SuppressWarnings("unchecked")
+  private void loadData() {
+    try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(FILE_PATH))) {
+      moviesList = (List<Movie>) inputStream.readObject();
+    } catch (IOException | ClassNotFoundException e) {
+      System.err.println("Error loading data from file: " + e.getMessage());
     }
+  }
+
+  private Optional<Movie> getMovie(Movie movie) {
+    return moviesList.stream().filter(aux -> aux.equals(movie)).findFirst();
   }
 }

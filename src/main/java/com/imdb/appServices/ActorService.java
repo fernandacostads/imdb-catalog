@@ -1,56 +1,34 @@
 package com.imdb.appServices;
 
 import com.imdb.model.Actor;
-import com.imdb.model.Actor;
-import com.imdb.model.Movie;
 import com.imdb.repository.impl.ActorRepository;
-import java.util.ArrayList;
+
 import java.util.List;
+import java.util.Optional;
+
 
 public class ActorService {
 
-  private static ActorRepository actorRepository = null;
+  private final ActorRepository actorRepository;
 
-  public ActorService(ActorRepository actorRepository) {
-    this.actorRepository = actorRepository;
+  public ActorService() {
+    actorRepository = ActorRepository.getInstance();
   }
 
-  public static void addActor(Actor actor) {
+  public void addActor(Actor actor) {
     actorRepository.addActor(actor);
   }
-
-  public Actor searchActor(String name) throws NullPointerException{
-    try{
-      return actorRepository.search(name);
-    }catch(NullPointerException e) {
-      return null;
-    }
+  public void removeActor(Actor actor) {
+    actorRepository.removeActor(actor);
+  }
+  public Actor updateActor(Actor actor) {
+    return actorRepository.updateActor(actor);
   }
 
+  public Optional<Actor> searchActor(String name){
+    return actorRepository.searchActor(name);
+  }
   public List<Actor> getAllActors() {
     return actorRepository.getAllActors();
-  }
-
-  public void updateActor(Actor actor) {
-    actorRepository.updateActor(actor);
-  }
-
-  public void removeActor(String name) {
-    actorRepository.removeActor(name);
-  }
-
-  public void editActor(Movie movieToEdit) {
-  }
-
-  public Actor getActorByName(String name) {
-    List<Actor> movieList = getAllActors();
-
-    for (Actor actor : movieList) {
-      if (actor.getName().equalsIgnoreCase(name)) {
-        return actor;
-      }
-    }
-    // Se nenhum filme for encontrado com o nome especificado
-    return null;
   }
 }

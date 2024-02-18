@@ -1,6 +1,5 @@
 package com.imdb.controller;
 
-
 import com.imdb.appServices.ActorService;
 import com.imdb.appServices.DirectorService;
 import com.imdb.appServices.MovieService;
@@ -8,32 +7,30 @@ import com.imdb.model.Actor;
 import com.imdb.model.Director;
 import com.imdb.model.Movie;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+
 
 public class MovieController {
-
+  //Verificar
   private final MovieService movieService;
   private final ActorService actorService;
   private final DirectorService directorService;
-  private final Scanner scanner;
 
-  public MovieController(MovieService movieService, ActorService actorService, DirectorService directorService, Scanner scanner) {
-    this.movieService = movieService;
-    this.actorService = actorService;
-    this.directorService = directorService;
-    this.scanner = scanner;
+  public MovieController() {
+   movieService = new MovieService();
+   actorService = new ActorService();
+   directorService = new DirectorService();
   }
+
+  private static final Scanner scanner = new Scanner(System.in);
 
   public void registerNewMovie(){
     System.out.print("Enter the name of the movie: ");
     String name = scanner.nextLine();
 
-    Movie existingMovie = movieService.getMovieByName(name);
+    Optional<Movie> optionalMovie = movieService.searchMovie(name);
 
-    if (existingMovie != null) {
+    if (optionalMovie.isPresent()) {
       System.out.println("This movie title already exists.");
       System.out.print("Do you want to edit it? (Yes or No): ");
       String editChoice = scanner.nextLine();
@@ -61,7 +58,6 @@ public class MovieController {
     }
   }
 
-
   public void showListOfMovies() {
     List<Movie> movies = movieService.getAllMovies();
     if (movies.isEmpty()) {
@@ -80,12 +76,12 @@ public class MovieController {
     int movieId = safeNextInt();
     if (movieId == 0) return;
 
-    Movie selectedMovie = MovieService.searchMovie(movieId);
-    if (selectedMovie == null) {
+    Optional<Movie> selectedMovie = movieService.searchMovieById(movieId);
+    if (selectedMovie.isEmpty()) {
       System.out.println("Movie with ID " + movieId + " not found.");
       return;
     }
-    printMovieDetails(selectedMovie);
+    printMovieDetails(selectedMovie.get());
   }
 
   private void printMovieDetails(Movie selectedMovie) {
@@ -125,6 +121,13 @@ public class MovieController {
     } else {
       System.out.println("Returning to the main menu...");
     }
+  }
+
+  private double enterBudget() {
+    System.out.print("Budget: ");
+    double budget = scanner.nextDouble();
+    scanner.nextLine();
+    return budget;
   }
 
   private int enterReleaseDate() {
@@ -220,17 +223,18 @@ public class MovieController {
     for (int i = 1; i <= numberOfActors; i++) {
       System.out.print("Enter the name of actor " + i + ": ");
       String actorName = scanner.nextLine();
-      Actor existingActor = actorService.getActorByName(actorName);
+      Optional<Actor> existingActor = actorService.searchActor(actorName);
+
       String nationality;
-      if (existingActor != null) {
+      if (existingActor.isPresent()) {
         System.out.println("Actor already exists.");
       } else {
         System.out.print("Add nationality: ");
         nationality = scanner.nextLine();
-        existingActor = new Actor(0, actorName, nationality);
-        actorService.addActor(existingActor);
+        Actor newActor = new Actor(actorName, nationality);
+        actorService.addActor(newActor);
+        actors.add(newActor);
       }
-      actors.add(existingActor);
     }
     return actors;
   }
@@ -260,19 +264,19 @@ public class MovieController {
     for (int i = 1; i <= numberOfDirectors; i++) {
       System.out.print("Enter the name of director " + i + ": ");
       String directorName = scanner.nextLine();
-      Director existingDirector = directorService.getDirectorByName(
+      Optional<Director> existingDirector = directorService.searchDirector(
         directorName
       );
       String nationality;
-      if (existingDirector != null) {
+      if (existingDirector.isPresent()) {
         System.out.println("Director already exists.");
       } else {
         System.out.print("Add nationality: ");
         nationality = scanner.nextLine();
-        existingDirector = new Director(0, directorName, nationality);
-        directorService.addDirector(existingDirector);
+        Director newDiretor = new Director(directorName, nationality);
+        directorService.addDirector(newDiretor);
+        directors.add(newDiretor);
       }
-      directors.add(existingDirector);
     }
     return directors;
   }
@@ -282,9 +286,9 @@ public class MovieController {
     int movieIdToEdit = scanner.nextInt();
     scanner.nextLine();
 
-    Movie movieToEdit = MovieService.searchMovie(movieIdToEdit);
-    if (movieToEdit != null) {
-      System.out.println("Editing movie: " + movieToEdit.getTitle());
+    Optional<Movie> movieToEdit = movieService.searchMovieById(movieIdToEdit);
+    if (movieToEdit.isEmpty()) {
+      System.out.println("Editing movie: " + movieToEdit.get().getTitle());
       System.out.println("What would you like to edit?");
       System.out.println("1. Title");
       System.out.println("2. Release Date");
@@ -298,22 +302,22 @@ public class MovieController {
       int choice = safeNextInt();
       switch (choice) {
         case 1:
-          editTitle(movieToEdit);
+          editTitle(movieToEdit.get());
           break;
         case 2:
-          editReleaseDate(movieToEdit);
+          editReleaseDate(movieToEdit.get());
           break;
         case 3:
-          editBudget(movieToEdit);
+          editBudget(movieToEdit.get());
           break;
         case 4:
-          editDescription(movieToEdit);
+          editDescription(movieToEdit.get());
           break;
         case 5:
-          actorService.editActor(movieToEdit);
+          //actorService.updateActor(movieToEdit.get().getActors());
           break;
         case 6:
-          directorService.editDirector(movieToEdit);
+          //directorService.updateDirector(movieToEdit.get().getActors());
           break;
         case 7:
           System.out.println("Cancelling movie edit.");
@@ -373,7 +377,7 @@ public class MovieController {
     int movieIdToDelete = scanner.nextInt();
     scanner.nextLine();
 
-    movieService.removeMovie(movieIdToDelete);
+      movieService.removeMovie(movieService.searchMovieById(movieIdToDelete).get());
   }
 
   private int safeNextInt() {
@@ -479,12 +483,12 @@ public class MovieController {
   public void searchByDirector() {
     System.out.print("Which director do you want to look for? ");
     String directorName = scanner.nextLine();
-    Director director = directorService.getDirectorByName(directorName);
-    if (director == null) {
+    Optional<Director> director = directorService.searchDirector(directorName);
+    if (director.isEmpty()) {
       System.out.println("Director not found.");
       return;
     }
-    searchByDirector(movieService.getAllMovies(), director);
+    searchByDirector(movieService.getAllMovies(), director.get());
   }
 
   private void searchByDirector(List<Movie> allMovies, Director director) {
@@ -533,7 +537,7 @@ public class MovieController {
         int movieId = scanner.nextInt();
         scanner.nextLine();
         ArrayList<Movie> aux = new ArrayList<>();
-        aux.add(MovieService.searchMovie(movieId));
+        aux.add(movieService.searchMovieById(movieId).get());
         displayMovieTitleSearchResult(aux);
       } else {
         System.out.println("Returning to the main menu...");
@@ -561,9 +565,9 @@ public class MovieController {
         System.out.print("Enter the movie ID: ");
         int movieId = scanner.nextInt();
         scanner.nextLine();
-        Movie selectedMovie = MovieService.searchMovie(movieId);
-        if (selectedMovie != null) {
-          printMovieDetails(selectedMovie);
+        Optional<Movie> selectedMovie = movieService.searchMovieById(movieId);
+        if (selectedMovie.isPresent()) {
+          printMovieDetails(selectedMovie.get());
         } else {
           System.out.println("Movie with ID " + movieId + " not found.");
         }
@@ -589,7 +593,7 @@ public class MovieController {
         int movieId = scanner.nextInt();
         scanner.nextLine();
         ArrayList<Movie> aux = new ArrayList<>();
-        aux.add(MovieService.searchMovie(movieId));
+        aux.add(movieService.searchMovieById(movieId).get());
         displayMovieTitleSearchResult(aux);
       } else {
         System.out.println("Returning to the main menu...");

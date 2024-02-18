@@ -1,6 +1,11 @@
 package com.imdb.model;
 
-public class Person {
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+public class Person implements Serializable {
 
   private int id;
   private String name;
@@ -33,5 +38,15 @@ public class Person {
 
   public void setNationality(String nationality) {
     this.nationality = nationality;
+  }
+
+  private void writeObject(ObjectOutputStream out) throws IOException {
+    out.defaultWriteObject();
+    // Personalize a serialização aqui, se necessário
+  }
+
+  private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+    in.defaultReadObject();
+    // Personalize a desserialização aqui, se necessário
   }
 }

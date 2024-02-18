@@ -2,16 +2,17 @@ package com.imdb.controller;
 
 import com.imdb.appServices.ActorService;
 import com.imdb.model.Actor;
-import com.imdb.model.Movie;
+
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class ActorController {
 
-  private static ActorService actorService;
+  private final ActorService actorService;
 
-  public ActorController(ActorService actorService) {
-    this.actorService = actorService;
+  public ActorController() {
+    actorService = new ActorService();
   }
 
   public void start() {
@@ -43,31 +44,32 @@ public class ActorController {
     } while (choice != 0);
   }
 
-  public static Actor createActor(Scanner scanner, int qnt) {
+  public void createActor(Scanner scanner, int qnt) {
     System.out.print("Enter the name of actor " + (qnt + 1) + ": ");
     String name = scanner.nextLine();
-    Actor actor = actorService.searchActor(name);
+    Optional<Actor> actor = actorService.searchActor(name);
 
-    if (actor == null) {
+    if (actor.isEmpty()) {
       System.out.print("Actor not found, add nationality: ");
       String nationality = scanner.nextLine();
-      actor = new Actor(name, nationality);
+      Actor newactor = new Actor(name, nationality);
+      actorService.addActor(newactor);
+      System.out.println("successfully");
     }
-    actorService.addActor(actor);
-    return actor;
+    System.out.println("Error...");
   }
 
   private void viewActor(Scanner scanner) {
     System.out.print("Enter Actor Name: ");
     String name = scanner.nextLine();
 
-    Actor actor = actorService.searchActor(name);
+    Optional<Actor> actor = actorService.searchActor(name);
 
-    if (actor != null) {
+    if (actor.isPresent()) {
       System.out.println("Actor Details:");
-      System.out.println("ID: " + actor.getId());
-      System.out.println("Name: " + actor.getName());
-      System.out.println("Nationality: " + actor.getNationality());
+      System.out.println("ID: " + actor.get().getId());
+      System.out.println("Name: " + actor.get().getName());
+      System.out.println("Nationality: " + actor.get().getNationality());
     } else {
       System.out.println("Actor not found.");
     }
@@ -85,9 +87,9 @@ public class ActorController {
   private void updateActor(Scanner scanner) {
     System.out.print("Enter Actor Name: ");
     String name = scanner.nextLine();
-    Actor existingActor = actorService.searchActor(name);
+    Optional<Actor> existingActor = actorService.searchActor(name);
 
-    if (existingActor != null) {
+    if (existingActor.isPresent()) {
       System.out.print("Enter New Actor Name: ");
       String newName = scanner.nextLine();
 
@@ -102,9 +104,9 @@ public class ActorController {
   }
 
   private void deleteActor(Scanner scanner) {
-    System.out.print("Enter Actor ID: ");
+    System.out.print("Enter Actor name: ");
     String name = scanner.nextLine();
-    actorService.removeActor(name);
+    actorService.removeActor(actorService.searchActor(name).get());
   }
 
 /* public void editActors(Movie selectedMovie, Scanner scanner) {

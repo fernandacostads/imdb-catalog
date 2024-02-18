@@ -3,46 +3,36 @@ package com.imdb.appServices;
 import com.imdb.model.Movie;
 import com.imdb.repository.impl.MovieRepository;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class MovieService {
+  private final MovieRepository movieRepository;
 
-  private static MovieRepository movieRepository = null;
-
-  public MovieService(MovieRepository movieRepository) {
-    this.movieRepository = movieRepository;
+  public MovieService() {
+    movieRepository = MovieRepository.getInstance();
   }
 
   public void addMovie(Movie movie) {
     movieRepository.addMovie(movie);
   }
-
-  public static Movie searchMovie(int id) {
-    return movieRepository.search(id);
+  public void removeMovie(Movie movie) {
+    movieRepository.removeMovie(movie);
   }
+
+  public Movie updateMovie(Movie movie) {
+    return movieRepository.updateMovie(movie);
+  }
+
+  public Optional<Movie> searchMovie(String Title) {
+    return movieRepository.searchMovie(Title);
+  }
+  public Optional<Movie> searchMovieById(int id) {
+    return getAllMovies().stream().filter(movie -> movie.getId() == id).findFirst();
+  }
+
 
   public List<Movie> getAllMovies() {
     return movieRepository.getAllMovies();
-  }
-
-  public void updateMovie(Movie movie) {
-    movieRepository.updateMovie(movie);
-  }
-
-  public void removeMovie(int id) {
-    movieRepository.removeMovie(id);
-  }
-
-  public Movie getMovieByName(String name) {
-    List<Movie> movieList = getAllMovies();
-
-    for (Movie movie : movieList) {
-      if (movie.getTitle().equalsIgnoreCase(name)) {
-        return movie;
-      }
-    }
-    // Se nenhum filme for encontrado com o nome especificado
-    return null;
   }
 }

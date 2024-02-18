@@ -1,12 +1,17 @@
 package com.imdb.controller;
 
+import com.imdb.appServices.ActorService;
+import com.imdb.appServices.DirectorService;
+import com.imdb.appServices.MovieService;
 import com.imdb.model.Movie;
 import com.imdb.repository.impl.MovieRepository;
 import java.io.IOException;
 
 public class TesteController {
-/*
-  public static void teste() throws IOException {
+  private final MovieService movieService;
+  public TesteController() {
+    movieService = new MovieService();
+  }
     Movie movie1 = new Movie(
       "Rambo I",
       1990,
@@ -98,16 +103,16 @@ public class TesteController {
       null
     );
 
-    // Adicionando filmes ao repositório
-    MovieRepository.addMovie(movie1);
-    MovieRepository.addMovie(movie2);
-    MovieRepository.addMovie(movie3);
-    MovieRepository.addMovie(movie4);
-    MovieRepository.addMovie(movie5);
-    MovieRepository.addMovie(movie6);
-    MovieRepository.addMovie(movie7);
-    MovieRepository.addMovie(movie8);
-    MovieRepository.addMovie(movie9);
-    MovieRepository.addMovie(movie10);
-  }*/
+    public void teste () {
+      movieService.addMovie(movie1);
+      movieService.addMovie(movie2);
+      movieService.addMovie(movie3);
+      movieService.addMovie(movie4);
+      movieService.addMovie(movie5);
+      movieService.addMovie(movie6);
+      movieService.addMovie(movie7);
+      movieService.addMovie(movie8);
+      movieService.addMovie(movie9);
+      movieService.addMovie(movie10);
+    }
 }

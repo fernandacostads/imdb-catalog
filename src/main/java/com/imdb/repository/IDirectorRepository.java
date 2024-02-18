@@ -3,13 +3,13 @@ package com.imdb.repository;
 import com.imdb.model.Director;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IDirectorRepository{
   void addDirector(Director director);
-  Director search(String name) throws NullPointerException;
+  void removeDirector(Director director);
+  Director updateDirector(Director director);
+  Optional<Director> searchDirector(String name);
   List<Director> getAllDirectors();
-  void updateDirector(Director director);
-  void removeDirector(String name);
   void updateFile();
-  List<Director> loadData();
 }

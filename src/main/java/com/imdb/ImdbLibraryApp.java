@@ -3,20 +3,21 @@ package com.imdb;
 import com.imdb.appServices.ValidationService;
 import com.imdb.controller.MovieController;
 import com.imdb.controller.TesteController;
-
 import java.util.Scanner;
 
 public class ImdbLibraryApp {
-     public static void main(String[] args) {
-       MovieController movieController = new MovieController();
-       TesteController testeController = new TesteController();
-       testeController.teste();
-    try (var scanner = new Scanner(System.in)) {
 
+  public static void main(String[] args) {
+    MovieController movieController = new MovieController();
+    TesteController testeController = new TesteController();
+    testeController.teste();
+    try (var scanner = new Scanner(System.in)) {
       int choice;
 
       do {
-        System.out.println("Main Menu - CRUD (Create, Read, Update, Delete) + Search");
+        System.out.println(
+          "Main Menu - CRUD (Create, Read, Update, Delete) + Search"
+        );
         System.out.println("1 - Show list of movies");
         System.out.println("2 - Register a new movie");
         System.out.println("3 - Edit movie");
@@ -34,7 +35,9 @@ public class ImdbLibraryApp {
           case 4 -> movieController.deleteMovie();
           case 5 -> movieController.searchMovie();
           case 6 -> System.out.println("Closing the program...");
-          default -> System.out.println("Invalid choice. Please enter a number between 1 and 6.");
+          default -> System.out.println(
+            "Invalid choice. Please enter a number between 1 and 6."
+          );
         }
       } while (choice != 6);
     }

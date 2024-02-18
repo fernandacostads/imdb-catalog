@@ -6,25 +6,24 @@ import com.imdb.appServices.MovieService;
 import com.imdb.model.Actor;
 import com.imdb.model.Director;
 import com.imdb.model.Movie;
-
 import java.util.*;
 
-
 public class MovieController {
+
   //Verificar
   private final MovieService movieService;
   private final ActorService actorService;
   private final DirectorService directorService;
 
   public MovieController() {
-   movieService = new MovieService();
-   actorService = new ActorService();
-   directorService = new DirectorService();
+    movieService = new MovieService();
+    actorService = new ActorService();
+    directorService = new DirectorService();
   }
 
   private static final Scanner scanner = new Scanner(System.in);
 
-  public void registerNewMovie(){
+  public void registerNewMovie() {
     System.out.print("Enter the name of the movie: ");
     String name = scanner.nextLine();
 
@@ -47,7 +46,15 @@ public class MovieController {
     List<Actor> actors = enterActors();
     List<Director> directors = enterDirectors();
 
-    Movie newMovie = new Movie(name, releaseDate, budget, currency, description, actors, directors);
+    Movie newMovie = new Movie(
+      name,
+      releaseDate,
+      budget,
+      currency,
+      description,
+      actors,
+      directors
+    );
     movieService.addMovie(newMovie);
 
     System.out.print("Do you want to add a new movie? (Yes or No): ");
@@ -377,7 +384,9 @@ public class MovieController {
     int movieIdToDelete = scanner.nextInt();
     scanner.nextLine();
 
-      movieService.removeMovie(movieService.searchMovieById(movieIdToDelete).get());
+    movieService.removeMovie(
+      movieService.searchMovieById(movieIdToDelete).get()
+    );
   }
 
   private int safeNextInt() {

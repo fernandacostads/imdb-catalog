@@ -10,5 +10,4 @@ public interface IMovieRepository {
   Movie updateMovie(Movie movie);
   Optional<Movie> searchMovie(String title);
   List<Movie> getAllMovies();
-  void updateFile();
 }

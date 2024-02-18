@@ -2,7 +2,6 @@ package com.imdb.controller;
 
 import com.imdb.appServices.ActorService;
 import com.imdb.model.Actor;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -32,7 +31,7 @@ public class ActorController {
       scanner.nextLine(); // Consume newline
 
       switch (choice) {
-        case 1 -> createActor(scanner,1);
+        case 1 -> createActor(scanner, 1);
         case 2 -> viewActor(scanner);
         case 3 -> viewAllActors();
         case 4 -> updateActor(scanner);
@@ -40,7 +39,6 @@ public class ActorController {
         case 0 -> System.out.println("Exiting...");
         default -> System.out.println("Invalid choice. Please try again.");
       }
-
     } while (choice != 0);
   }
 
@@ -80,7 +78,14 @@ public class ActorController {
     System.out.println("All Actors:");
 
     for (Actor actor : actors) {
-      System.out.println("ID: " + actor.getId() + ", Name: " + actor.getName() + ", Nationality: " + actor.getNationality());
+      System.out.println(
+        "ID: " +
+        actor.getId() +
+        ", Name: " +
+        actor.getName() +
+        ", Nationality: " +
+        actor.getNationality()
+      );
     }
   }
 
@@ -108,8 +113,7 @@ public class ActorController {
     String name = scanner.nextLine();
     actorService.removeActor(actorService.searchActor(name).get());
   }
-
-/* public void editActors(Movie selectedMovie, Scanner scanner) {
+  /* public void editActors(Movie selectedMovie, Scanner scanner) {
     List<Actor> actors = selectedMovie.getActors();
     if (actors.isEmpty()) {
       System.out.println("No actors available to edit.");

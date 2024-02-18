@@ -1,7 +1,5 @@
 package com.imdb.model;
 
-import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Movie {

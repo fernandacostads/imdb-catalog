@@ -55,7 +55,11 @@ public class MovieRepository implements IMovieRepository {
       throw new IllegalArgumentException("The movie does not exist!");
     }
     moviesList.remove(optionalMovie.get());
-    //updateFile();
+    try {
+      DataCollector.updateFile(moviesList, FILE_PATH);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
@@ -66,7 +70,11 @@ public class MovieRepository implements IMovieRepository {
     }
     moviesList.remove(optionalMovie.get());
     moviesList.add(movie);
-    //updateFile();
+    try {
+      DataCollector.updateFile(moviesList, FILE_PATH);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
     return movie;
   }
 

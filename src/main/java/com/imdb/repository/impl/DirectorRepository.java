@@ -2,6 +2,8 @@ package com.imdb.repository.impl;
 
 import com.imdb.model.Director;
 import com.imdb.repository.IDirectorRepository;
+import com.imdb.resources.DataCollector;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +37,11 @@ public class DirectorRepository implements IDirectorRepository {
     }
     director.setId(idGenerator++);
     directorsList.add(director);
-    // updateFile();
+    try {
+      DataCollector.updateFileD(directorsList, FILE_PATH);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
@@ -45,7 +51,11 @@ public class DirectorRepository implements IDirectorRepository {
       throw new IllegalArgumentException("The director does not exist!");
     }
     directorsList.remove(optionalDirector.get());
-    //updateFile();
+    try {
+      DataCollector.updateFileD(directorsList, FILE_PATH);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
@@ -56,7 +66,11 @@ public class DirectorRepository implements IDirectorRepository {
     }
     directorsList.remove(optionalDirector.get());
     directorsList.add(director);
-    //updateFile();
+    try {
+      DataCollector.updateFileD(directorsList, FILE_PATH);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
     return director;
   }
 

@@ -8,7 +8,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DataCollector {
@@ -21,16 +20,14 @@ public class DataCollector {
     throws IOException {
     try (FileWriter writer = new FileWriter(FILE_NAME, false)) {
       for (Movie movie : moviesList) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Id: ").append(movie.getId()).append(SEPARATOR);
-        sb.append("Title: ").append(movie.getTitle()).append(SEPARATOR);
-        sb
-          .append("Release Date: ")
-          .append(movie.getReleaseDate())
-          .append(SEPARATOR);
-        sb.append("Budget: ").append(movie.getBudget()).append(SEPARATOR);
-        sb.append("Currency: ").append(movie.getCurrency()).append(SEPARATOR);
-        writer.write(sb.toString());
+        String sb = "Id: " + movie.getId() + SEPARATOR +
+                    "Title: " + movie.getTitle() + SEPARATOR +
+                    "Release Date: " +
+                    movie.getReleaseDate() +
+                    SEPARATOR +
+                    "Budget: " + movie.getBudget() + SEPARATOR +
+                    "Currency: " + movie.getCurrency() + SEPARATOR;
+        writer.write(sb);
 
         updateFileA(movie.getActors(), writer);
         updateFileD(movie.getDirectors(), writer);
@@ -44,20 +41,31 @@ public class DataCollector {
 
   public static void updateFileA(List<Actor> actorsList, FileWriter writer)
     throws IOException {
+    mainString(actorsList, writer);
+  }
+
+  public static void updateFileD(
+    List<Director> directorsList,
+    FileWriter writer
+  ) throws IOException {
+    MainString(directorsList, writer);
+  }
+
+  private static void mainString(List<Actor> actorsList, FileWriter writer) throws IOException {
     StringBuilder sb = new StringBuilder();
     try {
       sb.append("Actors: ").append(SEPARATOR);
       for (Actor actor : actorsList) {
         sb
-          .append("Id: ")
-          .append(actor.getId())
-          .append(", ")
-          .append("Name: ")
-          .append(actor.getName())
-          .append(", ")
-          .append("Nationality: ")
-          .append(actor.getNationality())
-          .append(SEPARATOR);
+                .append("Id: ")
+                .append(actor.getId())
+                .append(", ")
+                .append("Name: ")
+                .append(actor.getName())
+                .append(", ")
+                .append("Nationality: ")
+                .append(actor.getNationality())
+                .append(SEPARATOR);
       }
     } catch (NullPointerException e) {
       System.out.println("Null List");
@@ -65,10 +73,7 @@ public class DataCollector {
     writer.write(sb.toString());
   }
 
-  public static void updateFileD(
-    List<Director> directorsList,
-    FileWriter writer
-  ) throws IOException {
+  private static void MainString(List<Director> directorsList, FileWriter writer) throws IOException {
     StringBuilder sb = new StringBuilder();
     try {
       sb.append("Directors: ").append(SEPARATOR);
@@ -88,6 +93,23 @@ public class DataCollector {
       System.out.println("Null List");
     }
     writer.write(sb.toString());
+  }
+
+  public static void updateFileA(List<Actor> actorsList, String FILE_NAME)
+          throws IOException {
+
+    try (FileWriter writer = new FileWriter(FILE_NAME, true)) {
+      mainString(actorsList, writer);
+    }
+  }
+
+  public static void updateFileD(
+          List<Director> directorsList,
+          String FILE_NAME
+  ) throws IOException {
+    try (FileWriter writer = new FileWriter(FILE_NAME, true)) {
+      MainString(directorsList, writer);
+    }
   }
 
   public static List<Movie> loadFile(String fileName) throws IOException {
@@ -121,7 +143,7 @@ public class DataCollector {
         }
       }
     } catch (IOException e) {
-      e.printStackTrace();
+     e.printStackTrace();
     }
 
     return movies;
@@ -146,10 +168,10 @@ public class DataCollector {
     while ((line = br.readLine()) != null) {
       if (line.startsWith("Directors:")) {
         currentDirector = new Director(null, null);
-      } else if (line.startsWith("Id:") && currentDirector != null) {
+      } else if (line.startsWith("Id:") && (currentDirector != null)) {
         String[] parts = line.split(": ");
         currentDirector.setId(Integer.parseInt(parts[1].trim()));
-      } else if (line.startsWith("Name:") && currentDirector != null) {
+      } else if (line.startsWith("Name:") && (currentDirector != null)) {
         String[] parts = line.split(": ");
         currentDirector.setName(parts[1].trim());
       } else if (line.startsWith("Nationality:") && currentDirector != null) {

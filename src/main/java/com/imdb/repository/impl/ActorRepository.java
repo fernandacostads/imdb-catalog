@@ -2,6 +2,8 @@ package com.imdb.repository.impl;
 
 import com.imdb.model.Actor;
 import com.imdb.repository.IActorRepository;
+import com.imdb.resources.DataCollector;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +38,11 @@ public class ActorRepository implements IActorRepository {
     }
     actor.setId(idGenerator++);
     actorsList.add(actor);
-    // updateFile();
+    try {
+      DataCollector.updateFileA(actorsList, FILE_PATH);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
@@ -46,7 +52,11 @@ public class ActorRepository implements IActorRepository {
       throw new IllegalArgumentException("The actor does not exist!");
     }
     actorsList.remove(optionalActor.get());
-    //updateFile();
+    try {
+      DataCollector.updateFileA(actorsList, FILE_PATH);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
@@ -57,7 +67,11 @@ public class ActorRepository implements IActorRepository {
     }
     actorsList.remove(optionalActor.get());
     actorsList.add(actor);
-    //updateFile();
+    try {
+      DataCollector.updateFileA(actorsList, FILE_PATH);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
     return actor;
   }
 

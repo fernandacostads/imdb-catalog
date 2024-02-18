@@ -122,3 +122,23 @@ Directors:
 Id: 0, Name: joão, Nationality: BR
 Id: 0, Name: beto, Nationality: Pl
 
+Id: 11
+Title: teste
+Release Date: 1754
+Budget: 1548.0
+Currency: Euro
+Actors: 
+Id: 1, Name: name, Nationality: br
+Directors: 
+Id: 1, Name: name, Nationality: pl
+
+Id: 12
+Title: 0
+Release Date: 1234
+Budget: 1245.0
+Currency: Euro
+Actors: 
+Id: 2, Name: sa, Nationality: sa
+Directors: 
+Id: 2, Name: sa, Nationality: sa
+

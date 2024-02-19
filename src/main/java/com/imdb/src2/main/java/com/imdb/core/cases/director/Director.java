@@ -1,8 +1,10 @@
-package com.imdb.core.cases.director;
+package com.imdb.src2.main.java.com.imdb.core.cases.director;
 
-import java.util.Date;
+import com.imdb.src2.main.java.com.imdb.core.cases.Person;
 
-public class Director {
-    private String name;
-    private Date dataDeNascimento;
+public class Director extends Person {
+
+  public Director(String name, String nationality) {
+    super(name, nationality);
+  }
 }

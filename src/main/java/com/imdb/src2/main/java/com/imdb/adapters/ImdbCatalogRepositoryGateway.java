@@ -1,8 +1,5 @@
 package com.imdb.adapters;
 
-import com.imdb.core.cases.actor.Actor;
-import com.imdb.core.cases.director.Director;
-import com.imdb.core.cases.movie.Movie;
 import com.imdb.infra.repository.ImdbCatalogRepository;
 
 import java.util.List;

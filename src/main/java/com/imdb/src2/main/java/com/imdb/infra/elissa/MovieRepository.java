@@ -1,8 +1,7 @@
 package com.imdb.infra.repository;
 
 
-import com.imdb.core.cases.movie.Movie;
-import com.imdb.infra.database.ImdbCatalog;
+import com.imdb.src2.main.java.com.imdb.infra.elissa.ImdbCatalog;
 
 import java.util.Objects;
 

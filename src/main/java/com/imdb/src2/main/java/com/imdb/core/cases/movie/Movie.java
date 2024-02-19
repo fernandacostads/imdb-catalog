@@ -1,31 +1,92 @@
-package com.imdb.core.cases.movie;
+package com.imdb.src2.main.java.com.imdb.core.cases.movie;
+
+import com.imdb.src2.main.java.com.imdb.core.cases.actor.Actor;
+import com.imdb.src2.main.java.com.imdb.core.cases.director.Director;
+
+import java.util.List;
 
 public class Movie {
-    private String name;
-    private String dataDeLancamento;
-    private String descricao;
 
-    public String getName() {
-        return name;
-    }
+  private int id;
+  private String title;
+  private int releaseDate;
+  private double budget;
+  private String currency;
+  private String description;
+  private final List<Director> directors;
+  private final List<Actor> actors;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public Movie(
+    String title,
+    int releaseDate,
+    double budget,
+    String currency,
+    String description,
+    List<Actor> actors,
+    List<Director> directors
+  ) {
+    this.title = title;
+    this.releaseDate = releaseDate;
+    this.budget = budget;
+    this.currency = currency;
+    this.description = description;
+    this.actors = actors;
+    this.directors = directors;
+  }
 
-    public String getDataDeLancamento() {
-        return dataDeLancamento;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public void setDataDeLancamento(String dataDeLancamento) {
-        this.dataDeLancamento = dataDeLancamento;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public String getDescricao() {
-        return descricao;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public int getReleaseDate() {
+    return releaseDate;
+  }
+
+  public void setReleaseDate(int releaseDate) {
+    this.releaseDate = releaseDate;
+  }
+
+  public double getBudget() {
+    return budget;
+  }
+
+  public void setBudget(double budget) {
+    this.budget = budget;
+  }
+
+  public String getCurrency() {
+    return currency;
+  }
+
+  public void setCurrency(String currency) {
+    this.currency = currency;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public List<Actor> getActors() {
+    return actors;
+  }
+
+  public List<Director> getDirectors() {
+    return directors;
+  }
 }

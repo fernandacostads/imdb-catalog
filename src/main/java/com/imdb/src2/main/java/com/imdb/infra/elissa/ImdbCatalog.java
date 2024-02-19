@@ -1,6 +1,4 @@
-package com.imdb.infra.database;
-
-import com.imdb.infra.repository.ActorRepository;
+package com.imdb.src2.main.java.com.imdb.infra.elissa;
 
 import java.util.*;
 

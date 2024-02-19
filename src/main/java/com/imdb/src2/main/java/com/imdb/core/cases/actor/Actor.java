@@ -1,8 +1,10 @@
-package com.imdb.core.cases.actor;
+package com.imdb.src2.main.java.com.imdb.core.cases.actor;
 
-import java.util.Date;
+import com.imdb.src2.main.java.com.imdb.core.cases.Person;
 
-public class Actor {
-    private String name;
-    private Date dataDeNascimento;
+public class Actor extends Person {
+
+  public Actor(String name, String nationality) {
+    super(name, nationality);
+  }
 }

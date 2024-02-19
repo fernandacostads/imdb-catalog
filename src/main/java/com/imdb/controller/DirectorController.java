@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.Scanner;
 
 public class DirectorController {
+  //mesma lógica do actorController
 
   private final DirectorService directorService;
 

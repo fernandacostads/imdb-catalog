@@ -1,11 +1,13 @@
 package com.imdb.dto;
 
+import java.util.List;
+
 public record MovieDTO(
         String title,
         int releaseDate,
         double budget,
         String currency,
         String description,
-        List<ActorDto> actors,
-        List<DirectorDto> directors
+        List<ActorDTO> actors,
+        List<DirectorDTO> directors
 ) { }

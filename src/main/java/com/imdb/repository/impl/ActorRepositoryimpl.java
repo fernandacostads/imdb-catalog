@@ -2,33 +2,32 @@ package com.imdb.repository.impl;
 
 import com.imdb.model.Actor;
 import com.imdb.repository.IActorRepository;
-import com.imdb.resources.DataCollector;
-
-import java.io.*;
+import com.imdb.util.FileHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ActorRepository implements IActorRepository {
+public class ActorRepositoryimpl implements IActorRepository {
 
   private static final String FILE_PATH =
-    "src/main/java/com/imdb/resources/actors.txt";
-  private static ActorRepository instance;
+          "src/main/java/com/imdb/util/resources/actors.txt";
+  private static ActorRepositoryimpl instance;
   private static List<Actor> actorsList;
+  private int idGenerator;
 
-  private ActorRepository() {
+  private ActorRepositoryimpl() {
     actorsList = new ArrayList<>(10);
-    //actorsList = loadData();
+    actorsList = FileHandler.loadActorsFromFile(FILE_PATH);
+    idGenerator = actorsList.isEmpty() ? 1 : actorsList.getLast().getId() + 1;
   }
 
-  public static synchronized ActorRepository getInstance() {
+  public static synchronized ActorRepositoryimpl getInstance() {
     if (instance == null) {
-      instance = new ActorRepository();
+      instance = new ActorRepositoryimpl();
     }
     return instance;
   }
 
-  private int idGenerator = 1;
 
   @Override
   public void addActor(Actor actor) {
@@ -38,11 +37,7 @@ public class ActorRepository implements IActorRepository {
     }
     actor.setId(idGenerator++);
     actorsList.add(actor);
-    try {
-      DataCollector.updateFileA(actorsList, FILE_PATH);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    FileHandler.updateFileA(actorsList, FILE_PATH);
   }
 
   @Override
@@ -52,11 +47,9 @@ public class ActorRepository implements IActorRepository {
       throw new IllegalArgumentException("The actor does not exist!");
     }
     actorsList.remove(optionalActor.get());
-    try {
-      DataCollector.updateFileA(actorsList, FILE_PATH);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+
+    FileHandler.updateFileA(actorsList, FILE_PATH);
+
   }
 
   @Override
@@ -67,20 +60,16 @@ public class ActorRepository implements IActorRepository {
     }
     actorsList.remove(optionalActor.get());
     actorsList.add(actor);
-    try {
-      DataCollector.updateFileA(actorsList, FILE_PATH);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    FileHandler.updateFileA(actorsList, FILE_PATH);
     return actor;
   }
 
   @Override
   public Optional<Actor> searchActor(String name) {
     return actorsList
-      .stream()
-      .filter(aux -> aux.getName().equalsIgnoreCase(name))
-      .findFirst();
+            .stream()
+            .filter(aux -> aux.getName().equalsIgnoreCase(name))
+            .findFirst();
   }
 
   @Override

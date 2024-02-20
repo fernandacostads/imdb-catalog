@@ -1,22 +1,19 @@
-package com.imdb.controller;
+package com.imdb.util;
 
-import com.imdb.appServices.ActorService;
-import com.imdb.appServices.DirectorService;
-import com.imdb.appServices.MovieService;
 import com.imdb.model.Actor;
 import com.imdb.model.Director;
 import com.imdb.model.Movie;
-import com.imdb.repository.impl.MovieRepository;
-import java.io.IOException;
+import com.imdb.repository.impl.MovieRepositoryimpl;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class TesteController {
 
-  private final MovieService movieService;
+  private final MovieRepositoryimpl movieRepository;
 
   public TesteController() {
-    movieService = new MovieService();
+    movieRepository = MovieRepositoryimpl.getInstance();
   }
 
   Movie movie1 = new Movie(
@@ -161,15 +158,15 @@ public class TesteController {
   );
 
   public void teste() {
-    movieService.addMovie(movie1);
-    movieService.addMovie(movie2);
-    movieService.addMovie(movie3);
-    movieService.addMovie(movie4);
-    movieService.addMovie(movie5);
-    movieService.addMovie(movie6);
-    movieService.addMovie(movie7);
-    movieService.addMovie(movie8);
-    movieService.addMovie(movie9);
-    movieService.addMovie(movie10);
+    movieRepository.addMovie(movie1);
+    movieRepository.addMovie(movie2);
+    movieRepository.addMovie(movie3);
+    movieRepository.addMovie(movie4);
+    movieRepository.addMovie(movie5);
+    movieRepository.addMovie(movie6);
+    movieRepository.addMovie(movie7);
+    movieRepository.addMovie(movie8);
+    movieRepository.addMovie(movie9);
+    movieRepository.addMovie(movie10);
   }
 }

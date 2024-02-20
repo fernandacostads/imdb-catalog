@@ -1,7 +1,9 @@
 package com.imdb.controller;
 
-import com.imdb.appServices.DirectorService;
+
 import com.imdb.model.Director;
+import com.imdb.repository.impl.DirectorRepositoryimpl;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -9,10 +11,10 @@ import java.util.Scanner;
 public class DirectorController {
   //mesma lógica do actorController
 
-  private final DirectorService directorService;
+  private final DirectorRepositoryimpl directorRepository;
 
   public DirectorController() {
-    directorService = new DirectorService();
+    directorRepository = DirectorRepositoryimpl.getInstance();
   }
 
   public void start() {
@@ -46,13 +48,13 @@ public class DirectorController {
   public void createDirector(Scanner scanner, int qnt) {
     System.out.print("Enter the name of director " + (qnt + 1) + ": ");
     String name = scanner.nextLine();
-    Optional<Director> director = directorService.searchDirector(name);
+    Optional<Director> director = directorRepository.searchDirector(name);
 
     if (director.isEmpty()) {
       System.out.print("Director not found, add nationality: ");
       String nationality = scanner.nextLine();
       Director newdirector = new Director(name, nationality);
-      directorService.addDirector(newdirector);
+      directorRepository.addDirector(newdirector);
       System.out.println("successfully");
     }
     System.out.println("Error...");
@@ -62,7 +64,7 @@ public class DirectorController {
     System.out.print("Enter Director Name: ");
     String name = scanner.nextLine();
 
-    Optional<Director> director = directorService.searchDirector(name);
+    Optional<Director> director = directorRepository.searchDirector(name);
 
     if (director.isPresent()) {
       System.out.println("Director Details:");
@@ -75,17 +77,17 @@ public class DirectorController {
   }
 
   private void viewAllDirectors() {
-    List<Director> directors = directorService.getAllDirectors();
+    List<Director> directors = directorRepository.getAllDirectors();
     System.out.println("All Directors:");
 
     for (Director director : directors) {
       System.out.println(
-        "ID: " +
-        director.getId() +
-        ", Name: " +
-        director.getName() +
-        ", Nationality: " +
-        director.getNationality()
+              "ID: " +
+              director.getId() +
+              ", Name: " +
+              director.getName() +
+              ", Nationality: " +
+              director.getNationality()
       );
     }
   }
@@ -93,7 +95,7 @@ public class DirectorController {
   private void updateDirector(Scanner scanner) {
     System.out.print("Enter Director Name: ");
     String name = scanner.nextLine();
-    Optional<Director> existingDirector = directorService.searchDirector(name);
+    Optional<Director> existingDirector = directorRepository.searchDirector(name);
 
     if (existingDirector.isPresent()) {
       System.out.print("Enter New Director Name: ");
@@ -104,7 +106,7 @@ public class DirectorController {
 
       Director updatedDirector = new Director(newName, newNationality);
       updatedDirector.setId(existingDirector.get().getId());
-      directorService.updateDirector(updatedDirector);
+      directorRepository.updateDirector(updatedDirector);
     } else {
       System.out.println("Director not found.");
     }
@@ -113,122 +115,6 @@ public class DirectorController {
   private void deleteDirector(Scanner scanner) {
     System.out.print("Enter Director ID: ");
     String name = scanner.nextLine();
-    directorService.removeDirector(directorService.searchDirector(name).get());
+    directorRepository.removeDirector(directorRepository.searchDirector(name).get());
   }
-  /* private final DirectorService directorService;
-  private final Scanner scanner;
-  private final MovieController movieController;
-
-  public DirectorController(
-    DirectorService directorService,
-    Scanner scanner,
-    MovieController movieController
-  ) {
-    this.directorService = directorService;
-    this.scanner = scanner;
-    this.movieController = movieController;
-  }
-
-  public void editDirectors(Movie selectedMovie) {
-    List<Director> directors = selectedMovie.getDirectors();
-    if (directors.isEmpty()) {
-      System.out.println("No directors available to edit.");
-      return;
-    } else {
-      System.out.println("List of Directors:");
-      for (int i = 0; i < directors.size(); i++) {
-        System.out.println((i + 1) + " - " + directors.get(i).getName());
-      }
-    }
-
-    System.out.println("Do you want to edit or remove?");
-    System.out.println("1 - Edit");
-    System.out.println("2 - Remove");
-    System.out.print("Enter your choice: ");
-    int choice = scanner.nextInt();
-    scanner.nextLine();
-
-    switch (choice) {
-      case 1:
-        editDirectorDetails(selectedMovie);
-        break;
-      case 2:
-        removeDirector(selectedMovie);
-        break;
-      default:
-        System.out.println("Invalid choice. Please enter either 1 or 2.");
-    }
-  }
-
-  private void editDirectorDetails(Movie selectedMovie) {
-    System.out.println("List of Directors:");
-    List<Director> directors = selectedMovie.getDirectors();
-    for (int i = 0; i < directors.size(); i++) {
-      System.out.println(
-        (i + 1) +
-        " - " +
-        directors.get(i).getName() +
-        " (ID: " +
-        directors.get(i).getId() +
-        ")"
-      );
-    }
-
-    System.out.print("Which director do you want to edit? Enter the ID: ");
-    int directorId = scanner.nextInt();
-    scanner.nextLine();
-
-    Director directorToUpdate = directorService.findDirectorById(directorId);
-    if (directorToUpdate == null) {
-      System.out.println("Director with ID " + directorId + " not found.");
-      return;
-    }
-
-    System.out.print("Add new name: ");
-    String newName = scanner.nextLine();
-    System.out.print("Add new nationality: ");
-    String newNationality = scanner.nextLine();
-
-    if (
-      directorService.findDirectorByName(newName) != null &&
-      directorService.findDirectorByNationality(newNationality) != null
-    ) {
-      System.out.println(
-        "Director with the same name and nationality already exists."
-      );
-      return;
-    }
-
-    directorToUpdate.setName(newName);
-    directorToUpdate.setNationality(newNationality);
-
-    if (directorService.updateDirector(directorToUpdate)) {
-      System.out.println("Director updated successfully!");
-    } else {
-      System.out.println("Failed to update director.");
-    }
-  }
-
-  private void removeDirector(Movie selectedMovie) {
-    if (selectedMovie.getDirectors().size() == 1) {
-      System.out.println(
-        "You cannot remove the only director of the movie. The movie must have at least one director."
-      );
-      return;
-    }
-
-    System.out.print("Which director do you want to remove? Enter the ID: ");
-    int directorIdToRemove = scanner.nextInt();
-    scanner.nextLine();
-
-    if (directorService.deleteDirector(directorIdToRemove)) {
-      System.out.println("Director removed successfully!");
-    } else {
-      System.out.println("Failed to remove director.");
-    }
-  }
-
-  public MovieController getMovieController() {
-    return movieController;
-  }*/
 }

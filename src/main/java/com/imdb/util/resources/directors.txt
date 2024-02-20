@@ -1,2 +1,2 @@
-Actors: 
+Directors: 
 Id: 1, Name: Daniel, Nationality: br

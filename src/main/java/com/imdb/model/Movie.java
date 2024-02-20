@@ -14,13 +14,13 @@ public class Movie {
   private final List<Actor> actors;
 
   public Movie(
-    String title,
-    int releaseDate,
-    double budget,
-    String currency,
-    String description,
-    List<Actor> actors,
-    List<Director> directors
+          String title,
+          int releaseDate,
+          double budget,
+          String currency,
+          String description,
+          List<Actor> actors,
+          List<Director> directors
   ) {
     this.title = title;
     this.releaseDate = releaseDate;

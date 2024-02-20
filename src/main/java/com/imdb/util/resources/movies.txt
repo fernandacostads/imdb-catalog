@@ -122,3 +122,23 @@ Directors:
 Id: 0, Name: joão, Nationality: BR
 Id: 0, Name: beto, Nationality: Pl
 
+Id: 11
+Title: teste1
+Release Date: 1991
+Budget: 145.0
+Currency: Dollar
+Actors: 
+Id: 1, Name: paulo, Nationality: br
+Directors: 
+Id: 1, Name: Daniel, Nationality: br
+
+Id: 12
+Title: As tranças de um careca
+Release Date: 1234
+Budget: 1234.0
+Currency: Euro
+Actors: 
+Id: 1, Name: paulo, Nationality: br
+Directors: 
+Id: 1, Name: Daniel, Nationality: br
+

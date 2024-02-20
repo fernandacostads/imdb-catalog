@@ -1,23 +1,23 @@
 package com.imdb;
 
-import com.imdb.appServices.ValidationService;
+import com.imdb.util.ValidationService;
 import com.imdb.controller.MovieController;
-import com.imdb.controller.TesteController;
+import com.imdb.util.TesteController;
 
 import java.util.Scanner;
 
-public class ImdbLibraryApp {
+public class IMDBApplication {
 
     public static void main(String[] args) {
         MovieController movieController = new MovieController();
-        TesteController testeController = new TesteController();
-        testeController.teste();
+       // TesteController testeController = new TesteController();
+        //testeController.teste();
         try (var scanner = new Scanner(System.in)) {
             int choice;
 
             do {
                 System.out.println(
-                        "Main Menu - CRUD (Create, Read, Update, Delete) + Search"
+                        "IMDBApplication Menu - CRUD (Create, Read, Update, Delete) + Search"
                 );
                 System.out.println("1 - Show list of movies");
                 System.out.println("2 - Register a new movie");

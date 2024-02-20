@@ -2,29 +2,29 @@ package com.imdb.repository.impl;
 
 import com.imdb.model.Director;
 import com.imdb.repository.IDirectorRepository;
-import com.imdb.resources.DataCollector;
-
-import java.io.*;
+import com.imdb.util.FileHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class DirectorRepository implements IDirectorRepository {
+public class DirectorRepositoryimpl implements IDirectorRepository {
 
   private static final String FILE_PATH =
-    "src/main/java/com/imdb/resources/directors.txt";
-  private int idGenerator = 1;
-  private static DirectorRepository instance;
+          "src/main/java/com/imdb/util/resources/directors.txt";
+  private static DirectorRepositoryimpl instance;
   private static List<Director> directorsList;
 
-  private DirectorRepository() {
+  private int idGenerator;
+
+  private DirectorRepositoryimpl() {
     directorsList = new ArrayList<>(10);
+    directorsList = FileHandler.loadDirectorsFromFile(FILE_PATH);
+    idGenerator = directorsList.isEmpty() ? 1 : directorsList.getLast().getId() + 1;
   }
 
-  public static synchronized DirectorRepository getInstance() {
+  public static synchronized DirectorRepositoryimpl getInstance() {
     if (instance == null) {
-      instance = new DirectorRepository();
-      // directorsList = loadData();
+      instance = new DirectorRepositoryimpl();
     }
     return instance;
   }
@@ -37,11 +37,7 @@ public class DirectorRepository implements IDirectorRepository {
     }
     director.setId(idGenerator++);
     directorsList.add(director);
-    try {
-      DataCollector.updateFileD(directorsList, FILE_PATH);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    FileHandler.updateFileD(directorsList, FILE_PATH);
   }
 
   @Override
@@ -51,11 +47,8 @@ public class DirectorRepository implements IDirectorRepository {
       throw new IllegalArgumentException("The director does not exist!");
     }
     directorsList.remove(optionalDirector.get());
-    try {
-      DataCollector.updateFileD(directorsList, FILE_PATH);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    FileHandler.updateFileD(directorsList, FILE_PATH);
+
   }
 
   @Override
@@ -66,20 +59,16 @@ public class DirectorRepository implements IDirectorRepository {
     }
     directorsList.remove(optionalDirector.get());
     directorsList.add(director);
-    try {
-      DataCollector.updateFileD(directorsList, FILE_PATH);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    FileHandler.updateFileD(directorsList, FILE_PATH);
     return director;
   }
 
   @Override
   public Optional<Director> searchDirector(String name) {
     return directorsList
-      .stream()
-      .filter(aux -> aux.getName().equalsIgnoreCase(name))
-      .findFirst();
+            .stream()
+            .filter(aux -> aux.getName().equalsIgnoreCase(name))
+            .findFirst();
   }
 
   @Override
@@ -88,9 +77,6 @@ public class DirectorRepository implements IDirectorRepository {
   }
 
   private Optional<Director> getDirector(Director director) {
-    return directorsList
-      .stream()
-      .filter(aux -> aux.equals(director))
-      .findFirst();
+    return directorsList.stream().filter(aux -> aux.equals(director)).findFirst();
   }
 }

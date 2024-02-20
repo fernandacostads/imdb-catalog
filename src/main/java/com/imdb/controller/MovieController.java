@@ -3,25 +3,26 @@ package com.imdb.controller;
 import com.imdb.model.Actor;
 import com.imdb.model.Director;
 import com.imdb.model.Movie;
-import com.imdb.repository.impl.ActorRepositoryimpl;
-import com.imdb.repository.impl.DirectorRepositoryimpl;
-import com.imdb.repository.impl.MovieRepositoryimpl;
+import com.imdb.repository.IActorRepository;
+import com.imdb.repository.IDirectorRepository;
+import com.imdb.repository.IMovieRepository;
 
 import java.util.*;
 
 public class MovieController {
 
-  private final MovieRepositoryimpl movieRepository;
-  private final ActorRepositoryimpl actorRepository;
-  private final DirectorRepositoryimpl directorRepository;
+  private final IMovieRepository movieRepository;
+  private final IActorRepository actorRepository;
+  private final IDirectorRepository directorRepository;
 
-  public MovieController() {
-    movieRepository = MovieRepositoryimpl.getInstance();
-    actorRepository = ActorRepositoryimpl.getInstance();
-    directorRepository = DirectorRepositoryimpl.getInstance();
+  private final Scanner scanner;
+
+  public MovieController(IMovieRepository movieRepository, IDirectorRepository directorRepository, IActorRepository actorRepository, Scanner scanner) {
+    this.actorRepository = actorRepository;
+    this.directorRepository = directorRepository;
+    this.movieRepository = movieRepository;
+    this.scanner = scanner;
   }
-
-  private static final Scanner scanner = new Scanner(System.in);
 
   public void registerNewMovie() {
     System.out.print("Enter the name of the movie: ");
@@ -552,8 +553,7 @@ public class MovieController {
       String choice = scanner.nextLine();
       if (choice.equalsIgnoreCase("Yes")) {
         System.out.print("Enter the movie ID: ");
-        int movieId = scanner.nextInt();
-        scanner.nextLine();
+        int movieId = safeNextInt();
         ArrayList<Movie> aux = new ArrayList<>();
         aux.add(movieRepository.searchMovieById(movieId).get());
         displayMovieTitleSearchResult(aux);

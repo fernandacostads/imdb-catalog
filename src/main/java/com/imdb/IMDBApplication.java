@@ -1,20 +1,32 @@
 package com.imdb;
 
+import com.imdb.repository.IActorRepository;
+import com.imdb.repository.IDirectorRepository;
+import com.imdb.repository.IMovieRepository;
+import com.imdb.repository.impl.ActorRepositoryimpl;
+import com.imdb.repository.impl.DirectorRepositoryimpl;
+import com.imdb.repository.impl.MovieRepositoryimpl;
 import com.imdb.util.ValidationService;
 import com.imdb.controller.MovieController;
-import com.imdb.util.TesteController;
 
 import java.util.Scanner;
 
 public class IMDBApplication {
 
     public static void main(String[] args) {
-        MovieController movieController = new MovieController();
-       // TesteController testeController = new TesteController();
-        //testeController.teste();
-        try (var scanner = new Scanner(System.in)) {
-            int choice;
 
+        IActorRepository actorRepository = ActorRepositoryimpl.getInstance();
+        IDirectorRepository directorRepository = DirectorRepositoryimpl.getInstance();
+        IMovieRepository movieRepository = MovieRepositoryimpl.getInstance();
+        Scanner scanner = new Scanner(System.in);
+
+        MovieController movieController = new MovieController(
+                movieRepository,
+                directorRepository,
+                actorRepository,
+                scanner);
+
+            int choice;
             do {
                 System.out.println(
                         "IMDBApplication Menu - CRUD (Create, Read, Update, Delete) + Search"
@@ -41,6 +53,6 @@ public class IMDBApplication {
                     );
                 }
             } while (choice != 6);
-        }
+        scanner.close();
     }
 }

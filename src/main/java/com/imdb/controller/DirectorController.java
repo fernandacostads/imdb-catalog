@@ -2,6 +2,7 @@ package com.imdb.controller;
 
 
 import com.imdb.model.Director;
+import com.imdb.repository.IDirectorRepository;
 import com.imdb.repository.impl.DirectorRepositoryimpl;
 
 import java.util.List;
@@ -11,10 +12,10 @@ import java.util.Scanner;
 public class DirectorController {
   //mesma lógica do actorController
 
-  private final DirectorRepositoryimpl directorRepository;
+  private IDirectorRepository directorRepository;
 
   public DirectorController() {
-    directorRepository = DirectorRepositoryimpl.getInstance();
+    directorRepository = new IDirectorRepository;
   }
 
   public void start() {

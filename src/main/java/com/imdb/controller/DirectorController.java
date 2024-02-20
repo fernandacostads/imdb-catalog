@@ -3,8 +3,6 @@ package com.imdb.controller;
 
 import com.imdb.model.Director;
 import com.imdb.repository.IDirectorRepository;
-import com.imdb.repository.impl.DirectorRepositoryimpl;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -12,10 +10,13 @@ import java.util.Scanner;
 public class DirectorController {
   //mesma lógica do actorController
 
-  private IDirectorRepository directorRepository;
+  private final IDirectorRepository directorRepository;
 
-  public DirectorController() {
-    directorRepository = new IDirectorRepository;
+  private final Scanner scanner;
+
+  public DirectorController(IDirectorRepository directorRepository, Scanner scanner) {
+    this.directorRepository = directorRepository;
+    this.scanner = scanner;
   }
 
   public void start() {

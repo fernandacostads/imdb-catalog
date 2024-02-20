@@ -2,16 +2,21 @@ package com.imdb.controller;
 
 import com.imdb.model.Actor;
 import com.imdb.repository.IActorRepository;
+import com.imdb.repository.IDirectorRepository;
+import com.imdb.repository.IMovieRepository;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
 public final class ActorController {
-  private IActorRepository actorRepository;
+  private final IActorRepository actorRepository;
+  private final Scanner scanner;
 
-  public ActorController() {
-    actorRepository = new IActorRepository;
-}
+  public ActorController(IActorRepository actorRepository, Scanner scanner) {
+    this.actorRepository = actorRepository;
+    this.scanner = scanner;
+  }
 
   public void start() {
     Scanner scanner = new Scanner(System.in);

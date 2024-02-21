@@ -1,2 +1,11 @@
 Actors: 
-Id: 1, Name: paulo, Nationality: br
+Id: 1, Name: ator1, Nationality: American
+Id: 2, Name: actor2, Nationality: American
+Id: 3, Name: actor3, Nationality: American
+Id: 4, Name: actor4, Nationality: American
+Id: 5, Name: actor5, Nationality: American
+Id: 6, Name: actor6, Nationality: American
+Id: 7, Name: actor7, Nationality: American
+Id: 8, Name: actor8, Nationality: American
+Id: 9, Name: actor9, Nationality: American
+Id: 10, Name: actor10, Nationality: American

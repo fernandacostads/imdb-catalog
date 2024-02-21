@@ -1,5 +1,6 @@
 package com.imdb.controller;
 
+import com.imdb.dto.ActorDTO;
 import com.imdb.model.Actor;
 import com.imdb.repository.IActorRepository;
 import com.imdb.repository.IDirectorRepository;
@@ -11,11 +12,9 @@ import java.util.Scanner;
 
 public final class ActorController {
   private final IActorRepository actorRepository;
-  private final Scanner scanner;
 
   public ActorController(IActorRepository actorRepository, Scanner scanner) {
     this.actorRepository = actorRepository;
-    this.scanner = scanner;
   }
 
   public void start() {
@@ -60,7 +59,7 @@ public final class ActorController {
         /*iria chamar uma função de impl que pega o nome e
         verifica pra saber se o nome já existe retornando true ou false.*/
 
-    Optional<Actor> actor = actorRepository.searchActor(name);
+    Optional<Actor> actor = actorRepository.searchActorByName(name);
 
     //se ator não foi encontrado, ou seja, é um ator que ainda não esta na base de dados
     if (actor.isEmpty()) {
@@ -71,7 +70,7 @@ public final class ActorController {
           isso iria garantir que aqui eu só recebo inputs.
           poderia aqui chamar as funções de ValidationService para verificar os inputs
           */
-      Actor newactor = new Actor(name, nationality);
+      ActorDTO newactor = new ActorDTO(name, nationality);
       actorRepository.addActor(newactor);
       System.out.println("successfully");
     }
@@ -97,7 +96,7 @@ public final class ActorController {
     System.out.print("Enter Actor Name: ");
     String name = scanner.nextLine();
 
-    Optional<Actor> actor = actorRepository.searchActor(name);
+    Optional<Actor> actor = actorRepository.searchActorByName(name);
 
     if (actor.isPresent()) {
       System.out.println("Actor Details:");
@@ -135,7 +134,7 @@ public final class ActorController {
         */
     System.out.print("Enter Actor name: ");
     String name = scanner.nextLine();
-    actorRepository.removeActor(actorRepository.searchActor(name).get());
+    actorRepository.removeActor(actorRepository.searchActorByName(name).get());
   }
 
   private void updateActor(Scanner scanner) {
@@ -144,7 +143,7 @@ public final class ActorController {
         */
     System.out.print("Enter Actor Name: ");
     String name = scanner.nextLine();
-    Optional<Actor> existingActor = actorRepository.searchActor(name);
+    Optional<Actor> existingActor = actorRepository.searchActorByName(name);
 
     if (existingActor.isPresent()) {
             /*recebe a string novo nome e nova nacinalidade

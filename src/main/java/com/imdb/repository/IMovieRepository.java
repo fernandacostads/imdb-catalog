@@ -1,12 +1,14 @@
 package com.imdb.repository;
 
+import com.imdb.dto.ShowMovieDTO;
 import com.imdb.model.Movie;
+import com.imdb.dto.MovieDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface IMovieRepository {
-  void addMovie(Movie movie);
+  boolean addMovie(MovieDTO movie);
 
   void removeMovie(Movie movie);
 
@@ -14,7 +16,7 @@ public interface IMovieRepository {
 
   Optional<Movie> searchMovie(String title);
 
-  List<Movie> getAllMovies();
+  List<ShowMovieDTO> getAllMovies();
 
-  Optional<Movie> searchMovieById(int id);
+  Optional<MovieDTO> searchMovieById(int id);
 }

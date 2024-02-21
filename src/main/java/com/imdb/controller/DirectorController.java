@@ -1,6 +1,7 @@
 package com.imdb.controller;
 
 
+import com.imdb.dto.DirectorDTO;
 import com.imdb.model.Director;
 import com.imdb.repository.IDirectorRepository;
 import java.util.List;
@@ -12,11 +13,10 @@ public class DirectorController {
 
   private final IDirectorRepository directorRepository;
 
-  private final Scanner scanner;
 
-  public DirectorController(IDirectorRepository directorRepository, Scanner scanner) {
+
+  public DirectorController(IDirectorRepository directorRepository) {
     this.directorRepository = directorRepository;
-    this.scanner = scanner;
   }
 
   public void start() {
@@ -55,7 +55,7 @@ public class DirectorController {
     if (director.isEmpty()) {
       System.out.print("Director not found, add nationality: ");
       String nationality = scanner.nextLine();
-      Director newdirector = new Director(name, nationality);
+      DirectorDTO newdirector = new DirectorDTO(name, nationality);
       directorRepository.addDirector(newdirector);
       System.out.println("successfully");
     }

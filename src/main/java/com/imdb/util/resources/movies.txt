@@ -142,3 +142,22 @@ Id: 1, Name: paulo, Nationality: br
 Directors: 
 Id: 1, Name: Daniel, Nationality: br
 
+Id: 13
+Title: Batman
+Release Date: 2010
+Budget: 20000.0
+Currency: Dollar
+Actors: 
+Id: 0, Name: ator1, Nationality: American
+Id: 0, Name: actor2, Nationality: American
+Id: 0, Name: actor3, Nationality: American
+Id: 0, Name: actor4, Nationality: American
+Id: 0, Name: actor5, Nationality: American
+Id: 0, Name: actor6, Nationality: American
+Id: 0, Name: actor7, Nationality: American
+Id: 0, Name: actor8, Nationality: American
+Id: 0, Name: actor9, Nationality: American
+Id: 0, Name: actor10, Nationality: American
+Directors: 
+Id: 0, Name: Daniel Andrade, Nationality: Brazilian
+

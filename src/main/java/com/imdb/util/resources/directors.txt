@@ -1,2 +1,2 @@
 Directors: 
-Id: 1, Name: Daniel, Nationality: br
+Id: 1, Name: Daniel Andrade, Nationality: Brazilian

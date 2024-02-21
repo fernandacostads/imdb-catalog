@@ -2,7 +2,8 @@ package com.imdb.dto;
 
 import java.util.List;
 
-public record MovieDTO(
+public record ShowMovieDTO(
+        int id,
         String title,
         int releaseDate,
         double budget,
@@ -16,12 +17,10 @@ public record MovieDTO(
         return "\nMovie Details:\n" +
                 "\ntitle= " + title +
                 "\nreleaseDate= " + releaseDate +
-                "\nbudget= " + budget + " " + currency +
+                "\nbudget= " + budget +
+                "\ncurrency= " + currency +
                 "\ndescription= " + description +
                 "\nactors= " + actors +
                 "\ndirectors= " + directors + "\n";
     }
 }
-
-
-

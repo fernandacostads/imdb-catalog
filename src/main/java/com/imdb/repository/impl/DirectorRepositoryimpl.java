@@ -1,8 +1,11 @@
 package com.imdb.repository.impl;
 
+import com.imdb.dto.DirectorDTO;
 import com.imdb.model.Director;
 import com.imdb.repository.IDirectorRepository;
 import com.imdb.util.FileHandler;
+import com.imdb.util.ModelConvertUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +16,7 @@ public class DirectorRepositoryimpl implements IDirectorRepository {
           "src/main/java/com/imdb/util/resources/directors.txt";
   private static DirectorRepositoryimpl instance;
   private static List<Director> directorsList;
-
+  private final ModelConvertUtil converter = new ModelConvertUtil();
   private int idGenerator;
 
   private DirectorRepositoryimpl() {
@@ -30,7 +33,8 @@ public class DirectorRepositoryimpl implements IDirectorRepository {
   }
 
   @Override
-  public void addDirector(Director director) {
+  public void addDirector(DirectorDTO directorDTO) {
+    Director director = converter.convertDTOToObjt(directorDTO);
     Optional<Director> optionalDirector = getDirector(director);
     if (optionalDirector.isPresent()) {
       throw new IllegalArgumentException("Director had already exist!");

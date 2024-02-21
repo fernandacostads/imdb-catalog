@@ -1,8 +1,12 @@
 package com.imdb.repository.impl;
 
+import com.imdb.dto.MovieDTO;
+import com.imdb.dto.ShowMovieDTO;
 import com.imdb.model.Movie;
 import com.imdb.repository.IMovieRepository;
 import com.imdb.util.FileHandler;
+import com.imdb.util.ModelConvertUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +17,7 @@ public class MovieRepositoryimpl implements IMovieRepository {
           "src/main/java/com/imdb/util/resources/movies.txt";
   private static MovieRepositoryimpl instance;
   private static List<Movie> moviesList;
+  private final ModelConvertUtil converter = new ModelConvertUtil();
   private int idGenerator;
 
   private MovieRepositoryimpl() {
@@ -29,7 +34,8 @@ public class MovieRepositoryimpl implements IMovieRepository {
   }
 
   @Override
-  public void addMovie(Movie movie) {
+  public boolean addMovie(MovieDTO movieDTO) {
+    Movie movie = converter.convertDTOToObjt(movieDTO);
     Optional<Movie> optionalMovie = getMovie(movie);
     if (optionalMovie.isPresent()) {
       throw new IllegalArgumentException("Movie had already exist!");
@@ -37,6 +43,7 @@ public class MovieRepositoryimpl implements IMovieRepository {
     movie.setId(idGenerator++);
     moviesList.add(movie);
     FileHandler.updateFile(moviesList, FILE_PATH);
+    return  true;
   }
 
   @Override
@@ -74,15 +81,15 @@ public class MovieRepositoryimpl implements IMovieRepository {
   }
 
   @Override
-  public List<Movie> getAllMovies() {
-    return moviesList;
+  public List<ShowMovieDTO> getAllMovies() {
+    return converter.convertObjToDTO(moviesList);
   }
 
   @Override
-  public Optional<Movie> searchMovieById(int id) {
-    return moviesList.stream().filter(movie -> movie.getId() == id).findFirst();
+  public Optional<MovieDTO> searchMovieById(int id) {
+    Optional<Movie> movie = moviesList.stream().filter(m -> m.getId() == id).findFirst();
+    return movie.map(converter::convertObjToDTO);
   }
-
   private Optional<Movie> getMovie(Movie movie) {
     return moviesList.stream().filter(aux -> aux.equals(movie)).findFirst();
   }

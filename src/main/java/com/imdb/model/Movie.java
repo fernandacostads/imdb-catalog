@@ -3,25 +3,17 @@ package com.imdb.model;
 import java.util.List;
 
 public class Movie {
-
     private int id;
     private String title;
     private int releaseDate;
     private double budget;
     private String currency;
     private String description;
-    private final List<Director> directors;
-    private final List<Actor> actors;
+    private List<Actor> actors;
+    private List<Director> directors;
 
-    public Movie(
-            String title,
-            int releaseDate,
-            double budget,
-            String currency,
-            String description,
-            List<Actor> actors,
-            List<Director> directors
-    ) {
+    public Movie(int id, String title, int releaseDate, double budget, String currency, String description, List<Actor> actors, List<Director> directors) {
+        this.id = id;
         this.title = title;
         this.releaseDate = releaseDate;
         this.budget = budget;
@@ -85,5 +77,19 @@ public class Movie {
 
     public List<Director> getDirectors() {
         return directors;
+    }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", releaseDate=" + releaseDate +
+                ", budget=" + budget +
+                ", currency='" + currency + '\'' +
+                ", description='" + description + '\'' +
+                ", actors=" + actors +
+                ", directors=" + directors +
+                '}';
     }
 }

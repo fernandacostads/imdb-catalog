@@ -1,3 +1,4 @@
+/*
 package com.imdb.model;
 
 public abstract class Person {
@@ -6,7 +7,7 @@ public abstract class Person {
     private String name;
     private String nationality;
 
-    public Person(String name, String nationality) {
+    public Person(int id, String name, String nationality) {
         this.name = name;
         this.nationality = nationality;
     }
@@ -44,3 +45,4 @@ public abstract class Person {
                 '}';
     }
 }
+*/

@@ -1,9 +1,8 @@
-package com.imdb.controller;
+/*package com.imdb.controller;
 
 import com.imdb.dto.ActorDTO;
 import com.imdb.dto.DirectorDTO;
 import com.imdb.dto.MovieDTO;
-import com.imdb.dto.ShowMovieDTO;
 import com.imdb.model.Director;
 import com.imdb.model.Movie;
 import com.imdb.repository.IActorRepository;
@@ -26,19 +25,42 @@ public class MovieController {
     public MovieController(
             IMovieRepository movieRepository,
             IDirectorRepository directorRepository,
-            IActorRepository actorRepository,
-            ValidationInputService textValidation) {
+            IActorRepository actorRepository
+  ) {
 
         this.actorRepository = actorRepository;
         this.directorRepository = directorRepository;
         this.movieRepository = movieRepository;
-        this.inputValidation = textValidation;
 
     }
 
+    public void showListOfMovies() {
+        try {
+            List<MovieDTO> movies = movieRepository.getAll();
+            movies.forEach(movie -> System.out.println("ID " + movie.id() + ": " + movie.title()));
+
+            System.out.print("Enter your choice: ");
+            int movieId = inputValidation.isInputInt();
+
+            Optional<MovieDTO> selectedMovie = movieRepository.searchMovieById(movieId);
+            if (selectedMovie.isPresent()) {
+                System.out.println(selectedMovie);
+                System.out.print("Enter your choice: ");
+                if (inputValidation.yesOrNoValidation()) {
+                    editMovie(selectedMovie);
+                }
+            } else {
+                System.out.println("Invalid ID. Type it again.");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("This option is invalid, must be an integer number.");
+        }
+    }
+
+
     public void registerNewMovie() {
         try {
-            String name = inputValidation.isValidMovieName();
+            String name = inputValidation.isValidTitle();
             int releaseDate = inputValidation.isValidReleaseDate();
             double budget = inputValidation.isValidBudget();
             String currency = inputValidation.enterCurrency();
@@ -55,7 +77,7 @@ public class MovieController {
                     actors,
                     directors
             );
-            movieRepository.addMovie(newMovie);
+            movieRepository.create(newMovie);
         } catch (IllegalArgumentException e) {
             System.out.println("This movie title already exists.");
             System.out.print("Do you want to edit it? (Yes or No): ");
@@ -69,7 +91,7 @@ public class MovieController {
         if (inputValidation.yesOrNoValidation()) {
             registerNewMovie();
         } else {
-            System.out.println("Returning to main menu...");
+            System.out.println("Returning to main view...");
         }
     }
 
@@ -94,7 +116,7 @@ public class MovieController {
                     );
 
                     try {
-                        actorRepository.addActor(newActor);
+                        actorRepository.create(newActor);
                         actors.add(newActor);
                     } catch (IllegalArgumentException e) {
                         actors.add(newActor);
@@ -105,14 +127,14 @@ public class MovieController {
         }
     }
 
-    private List<DirectorDTO> enterDirectors() {
+    private static List<DirectorDTO> enterDirectors() {
         List<DirectorDTO> directors = new ArrayList<>();
         int numberOfDirectors;
         String nationality;
 
         while (true) {
             System.out.print("How many directors do you want to add? (Up to 15 directors): ");
-            numberOfDirectors = inputValidation.isInputInt();
+            numberOfDirectors = ValidationInputService.isInputInt();
 
             if (numberOfDirectors < 1 || numberOfDirectors > 15) {
                 System.err.println("You can enter up to 15 directors.");
@@ -121,8 +143,8 @@ public class MovieController {
                     System.out.print("Enter the name of director " + i + ": ");
 
                     DirectorDTO newDirector = new DirectorDTO(
-                            inputValidation.isValidPersonName(),
-                            inputValidation.isValidNationality()
+                            ValidationInputService.isValidPersonName(),
+                            ValidationInputService.isValidNationality()
                     );
 
                     try {
@@ -137,78 +159,7 @@ public class MovieController {
         }
     }
 
-
-    public void showListOfMovies() {
-
-        List<ShowMovieDTO> movies = movieRepository.getAllMovies();
-
-        if (movies.isEmpty()) {
-            System.out.println("No movies available.");
-            return;
-        }else{
-            System.out.println("Movies List:");
-            movies.forEach(movie ->
-                    System.out.println("ID " + movie.id() + ": " + movie.title())
-            );
-
-            System.out.println(
-                    "Choose a movie ID to show all movie details or enter 0 to return:"
-            );
-
-            int movieId = inputValidation.isValidOption(movies.size(),0);
-            if (movieId == 0) {
-                return;
-            }else {
-                Optional<MovieDTO> selectedMovie = movieRepository.searchMovieById(movieId);
-                if (selectedMovie.isEmpty()) {
-                    System.out.println("Movie with ID " + movieId + " not found.");
-                    return;
-                }
-                System.out.println(selectedMovie);
-            }
-        }
-    }
-
-    /*private void printMovieDetails(Movie selectedMovie) {
-        System.out.println("Movie title: " + selectedMovie.getTitle());
-        System.out.println("Release Date: " + selectedMovie.getReleaseDate());
-        System.out.println(
-                "Budget: " + selectedMovie.getBudget() + " " + selectedMovie.getCurrency()
-        );
-        System.out.println("Description: " + selectedMovie.getDescription());
-        System.out.println("List of Actors: ");
-        List<Actor> actors = selectedMovie.getActors();
-        for (int i = 0; i < actors.size(); i++) {
-            System.out.println(
-                    (i + 1) +
-                            " - " +
-                            actors.get(i).getName() +
-                            "\t" +
-                            actors.get(i).getNationality()
-            );
-        }
-        System.out.println("List of Directors: ");
-        List<Director> directors = selectedMovie.getDirectors();
-        for (int i = 0; i < directors.size(); i++) {
-            System.out.println(
-                    (i + 1) +
-                            " - " +
-                            directors.get(i).getName() +
-                            "\t" +
-                            directors.get(i).getNationality()
-            );
-        }
-
-        System.out.print("Do you want to edit this movie? (Yes or No): ");
-        if (inputValidation.yesOrNoValidation()) {
-            editMovie();
-        } else {
-            System.out.println("Returning to the main menu...");
-        }
-    }*/
-
-
-   /* public void editMovie() {
+    public void editMovie(Optional<MovieDTO> selectedMovie) {
         showListOfMovies();
         System.out.println("Which movie do you want to edit?");
         int movieIdToEdit = safeNextInt();
@@ -232,13 +183,13 @@ public class MovieController {
                     editTitle(movieToEdit.get());
                     break;
                 case 2:
-                    editReleaseDate(movieToEdit.get());
+                  //  editReleaseDate(movieToEdit.get());
                     break;
                 case 3:
-                    editBudget(movieToEdit.get());
+                   // editBudget(movieToEdit.get());
                     break;
                 case 4:
-                    editDescription(movieToEdit.get());
+                   // editDescription(movieToEdit.get());
                     break;
                 case 5:
                     //actorService.updateActor(movieToEdit.get().getActors());
@@ -256,55 +207,55 @@ public class MovieController {
         } else {
             System.out.println("Movie with ID " + movieIdToEdit + " not found.");
         }
-    }*/
+    }
 
     public void editTitle(MovieDTO movie) {
-        /*System.out.print("Enter the new title: ");
-        String newTitle = inputValidation.isValidMovieName();
+        System.out.print("Enter the new title: ");
+        String newTitle = inputValidation.isValidTitle();
         movie.setTitle(newTitle);
-        movieRepository.updateMovie(movie);
-        System.out.println("Title updated successfully!");*/
+        movieRepository.updatee(movie);
+        System.out.println("Title updated successfully!");
     }
 
     public void editReleaseDate(Movie movie) {
-       /* System.out.print("Enter the new release date: ");
+        System.out.print("Enter the new release date: ");
         int newReleaseDate = inputValidation.isValidReleaseDate();
         movie.setReleaseDate(newReleaseDate);
-        System.out.println("Release date updated successfully!");*/
+        System.out.println("Release date updated successfully!");
     }
 
     public void editBudget(Movie movie) {
-       /* System.out.print("Enter the new budget: ");
+        System.out.print("Enter the new budget: ");
         double newBudget = inputValidation.isValidBudget();
         movie.setBudget(newBudget);
-        System.out.println("Budget updated successfully!");*/
+        System.out.println("Budget updated successfully!");
     }
 
     public void editDescription(Movie movie) {
-       /* System.out.print("Enter the new description: ");
+        System.out.print("Enter the new description: ");
         String newDescription = inputValidation.isValidDescription();
         movie.setDescription(newDescription);
-        System.out.println("Description updated successfully!");*/
+        System.out.println("Description updated successfully!");
     }
 
     public void deleteMovie() {
-       /* List<ShowMovieDTO> movies = movieRepository.getAllMovies();
+        List<MovieDTO> movies = movieRepository.getAll();
         if (movies.isEmpty()) {
             System.out.println("No movies available for deletion.");
             return;
         }
 
         System.out.println("Movie List:");
-        for (ShowMovieDTO movie : movies) {
+        for (MovieDTO movie : movies) {
             System.out.println("ID " + movie.id() + ": " + movie.title());
         }
 
         System.out.print("Enter the ID of the movie you want to delete: ");
         int movieIdToDelete = inputValidation.isInputInt();
 
-        /*movieRepository.removeMovie (
+        movieRepository.remove(
                 movieRepository.searchMovieById(movieIdToDelete).get()
-        );*/
+        );
     }
 
     private int safeNextInt() {
@@ -344,7 +295,7 @@ public class MovieController {
                 searchByReleaseDate();
                 break;
             default:
-                System.out.println("Invalid choice. Returning to main menu...");
+                System.out.println("Invalid choice. Returning to main view...");
         }
     }
 
@@ -352,12 +303,12 @@ public class MovieController {
         System.out.print("What is the title of the movie you want to search for? ");
         String title = inputValidation.isValidMovieName();
         ArrayList<Movie> foundMovies = new ArrayList<>();
-        /*for (MovieDTO movie : movieRepository.getAllMovies()) {
+        for (MovieDTO movie : movieRepository.getAll()) {
             if (movie.title().equalsIgnoreCase(title)) {
                 foundMovies.add(movie);
             }
         }
-        displayMovieTitleSearchResult(foundMovies);*/
+        displayMovieTitleSearchResult(foundMovies);
     }
 
     private void displayMovieTitleSearchResult(List<MovieDTO> movies) {
@@ -384,7 +335,7 @@ public class MovieController {
                 );
 
                 if (inputValidation.yesOrNoValidation()) {
-                    System.out.println("Returning to the main menu...");
+                    System.out.println("Returning to the main view...");
                     break;
                 }
             }
@@ -392,10 +343,10 @@ public class MovieController {
     }
 
     private void searchByActor() {
-        /*System.out.print("Which actor do you want to look for? ");
+        System.out.print("Which actor do you want to look for? ");
         String actorName = inputValidation.isValidPersonName();
         List<MovieDTO> foundMovies = new ArrayList<>();
-        for (MovieDTO movie : movieRepository.getAllMovies()) {
+        for (MovieDTO movie : movieRepository.getAll()) {
             for (ActorDTO actor : movie.actors()) {
                 if (actor.name().equalsIgnoreCase(actorName)) {
                     foundMovies.add(movie);
@@ -403,7 +354,7 @@ public class MovieController {
                 }
             }
         }
-        displayActorSearchResult(foundMovies);*/
+        displayActorSearchResult(foundMovies);
     }
 
     public void searchByDirector() {
@@ -414,11 +365,11 @@ public class MovieController {
             System.out.println("Director not found.");
             return;
         }
-        searchByDirector(movieRepository.getAllMovies(), director.get());
+        searchByDirector(movieRepository.getAll(), director.get());
     }
 
-    private void searchByDirector(List<ShowMovieDTO> allMovies, Director director) {
-        /*List<MovieDTO> foundMovies = new ArrayList<>();
+    private void searchByDirector(List<MovieDTO> allMovies, Director director) {
+        List<MovieDTO> foundMovies = new ArrayList<>();
         for (MovieDTO movie : allMovies) {
             for (Director dir : movie.directors()) {
                 if (dir.getName().equalsIgnoreCase(director.getName())) {
@@ -427,19 +378,19 @@ public class MovieController {
                 }
             }
         }
-        displayDirectorSearchResult(foundMovies);*/
+        displayDirectorSearchResult(foundMovies);
     }
 
     private void searchByReleaseDate() {
-       /* System.out.print("What release year are you looking for? ");
+       System.out.print("What release year are you looking for? ");
         int releaseDate = inputValidation.isValidReleaseDate();
         List<MovieDTO> foundMovies = new ArrayList<>();
-        for (MovieDTO movie : movieRepository.getAllMovies()) {
+        for (MovieDTO movie : movieRepository.getAll()) {
             if (String.valueOf(movie.getReleaseDate()).equals(releaseDate)) {
                 foundMovies.add(movie);
             }
         }
-        displayReleaseDateSearchResult(foundMovies);*/
+        displayReleaseDateSearchResult(foundMovies);
     }
 
     private void displayActorSearchResult(List<Movie> movies) {
@@ -464,7 +415,7 @@ public class MovieController {
                 aux.add(movieRepository.searchMovieById(movieId).get());
                 displayMovieTitleSearchResult(aux);
             } else {
-                System.out.println("Returning to the main menu...");
+                System.out.println("Returning to the main view...");
             }
         }
     }
@@ -495,7 +446,7 @@ public class MovieController {
                     System.out.println("Movie with ID " + movieId + " not found.");
                 }
             } else {
-                System.out.println("Returning to the main menu...");
+                System.out.println("Returning to the main view...");
             }
         }
     }
@@ -519,8 +470,100 @@ public class MovieController {
                 aux.add(movieRepository.searchMovieById(movieId).get());
                 displayMovieTitleSearchResult(aux);
             } else {
-                System.out.println("Returning to the main menu...");
+                System.out.println("Returning to the main view...");
             }
         }
+    }*/
+
+package com.imdb.controller;
+
+import com.imdb.dto.ActorDTO;
+import com.imdb.dto.DirectorDTO;
+import com.imdb.dto.MovieDTO;
+import com.imdb.repository.IMovieRepository;
+
+import java.util.List;
+import java.util.Scanner;
+
+public class MovieController {
+    private final IMovieRepository movieRepository;
+
+
+    public MovieController(IMovieRepository movieRepository) {
+
+        this.movieRepository = movieRepository;
+    }
+    private Scanner scanner = new Scanner(System.in);
+
+    public void showListOfMovies() {
+        movieRepository.getAll().forEach(System.out::println);
+    }
+
+    public void registerMovie() {
+        System.out.println("Enter the details of the movie (id, title, releaseDate, budget, currency, description):");
+        int id = scanner.nextInt();
+        String title = scanner.next();
+        int releaseDate = scanner.nextInt();
+        double budget = scanner.nextDouble();
+        String currency = scanner.next();
+        scanner.nextLine();
+        String description = scanner.nextLine();
+        MovieDTO newMovie = new MovieDTO(id, title, releaseDate, budget, currency, description, null, null);
+        movieRepository.create(newMovie);
+    }
+
+    public void updateMovie() {
+        System.out.println("Enter the ID of the movie to update:");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        MovieDTO movieToUpdate = movieRepository.readById(id);
+        if (movieToUpdate != null) {
+            System.out.println("Enter the new title:");
+            String title = scanner.nextLine();
+
+            System.out.println("Enter the new release date:");
+            int releaseDate = scanner.nextInt();
+
+            System.out.println("Enter the new budget:");
+            double budget = scanner.nextDouble();
+
+            scanner.nextLine();
+            System.out.println("Enter the new currency:");
+            String currency = scanner.nextLine();
+
+            System.out.println("Enter the new description:");
+            String description = scanner.nextLine();
+
+            List<ActorDTO> actors = movieToUpdate.actors();
+            List<DirectorDTO> directors = movieToUpdate.directors();
+
+            MovieDTO updatedMovie = new MovieDTO(
+                    movieToUpdate.id(),
+                    title,
+                    releaseDate,
+                    budget,
+                    currency,
+                    description,
+                    actors,
+                    directors
+            );
+
+            movieRepository.update(movieToUpdate, updatedMovie);
+            System.out.println("Movie updated successfully.");
+        } else {
+            System.out.println("Movie not found.");
+        }
+    }
+
+    public void delete() {
+        System.out.println("Enter the ID of the movie to delete:");
+        int id = scanner.nextInt();
+        movieRepository.delete(id);
+    }
+
+    public void searchMovies() {
+        System.out.println("Enter the title keyword to search for:");
+        String keyword = scanner.next();
+        movieRepository.searchByTitle(keyword).forEach(System.out::println);
     }
 }

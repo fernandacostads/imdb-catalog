@@ -1,122 +1,110 @@
 package com.imdb.controller;
 
-
 import com.imdb.dto.DirectorDTO;
-import com.imdb.model.Director;
 import com.imdb.repository.IDirectorRepository;
+import com.imdb.util.ValidationInputService;
+
 import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
 
-public class DirectorController {
-  //mesma lógica do actorController
 
+public final class DirectorController {
   private final IDirectorRepository directorRepository;
+  private final ValidationInputService inputValidation;
 
 
-
-  public DirectorController(IDirectorRepository directorRepository) {
+  public DirectorController(IDirectorRepository directorRepository, ValidationInputService textValidation) {
     this.directorRepository = directorRepository;
+    this.inputValidation = textValidation;
   }
 
-  public void start() {
+  /*public void start() {
     Scanner scanner = new Scanner(System.in);
     int choice;
 
     do {
-      System.out.println("1. Create Director");
-      System.out.println("2. View Director");
-      System.out.println("3. View All Directors");
-      System.out.println("4. Update Director");
-      System.out.println("5. Delete Director");
-      System.out.println("0. Exit");
-      System.out.print("Enter your choice: ");
-
-      choice = scanner.nextInt();
-      scanner.nextLine();
+      Menu.directorMenu();
+      choice = inputValidation.isInputInt();
+      //scanner.nextLine(); // Consume newline
 
       switch (choice) {
         case 1 -> createDirector(scanner, 1);
-        case 2 -> viewDirector(scanner);
-        case 3 -> viewAllDirectors();
-        case 4 -> updateDirector(scanner);
-        case 5 -> deleteDirector(scanner);
+        case 2 -> viewDirector();
+        case 3 -> viewAllDirector();
+        case 4 -> updateDirector();
+        case 5 -> deleteDirector();
         case 0 -> System.out.println("Exiting...");
         default -> System.out.println("Invalid choice. Please try again.");
       }
     } while (choice != 0);
-  }
+  }*/
 
-  public void createDirector(Scanner scanner, int qnt) {
+  public DirectorDTO createDirector(int qnt) {
     System.out.print("Enter the name of director " + (qnt + 1) + ": ");
-    String name = scanner.nextLine();
-    Optional<Director> director = directorRepository.searchDirector(name);
+    String name = inputValidation.isValidPersonName();
+    System.out.print("add nationality: ");
+    String nationality = inputValidation.isValidNationality();
+    DirectorDTO newDirectorDTO = new DirectorDTO(name, nationality);
 
-    if (director.isEmpty()) {
-      System.out.print("Director not found, add nationality: ");
-      String nationality = scanner.nextLine();
-      DirectorDTO newdirector = new DirectorDTO(name, nationality);
-      directorRepository.addDirector(newdirector);
+    try {
+      directorRepository.create(newDirectorDTO);
       System.out.println("successfully");
+      return newDirectorDTO;
+    } catch (IllegalArgumentException e) {
+      return newDirectorDTO;
     }
-    System.out.println("Error...");
   }
 
-  private void viewDirector(Scanner scanner) {
+  private void viewDirector() {
     System.out.print("Enter Director Name: ");
-    String name = scanner.nextLine();
+    String name = inputValidation.isValidPersonName();
 
-    Optional<Director> director = directorRepository.searchDirector(name);
-
-    if (director.isPresent()) {
-      System.out.println("Director Details:");
-      System.out.println("ID: " + director.get().getId());
-      System.out.println("Name: " + director.get().getName());
-      System.out.println("Nationality: " + director.get().getNationality());
-    } else {
-      System.out.println("Director not found.");
+    try {
+      DirectorDTO directorDTO = directorRepository.readByName(name);
+      System.out.println(directorDTO);
+    } catch (Exception e) {
+      System.err.println("Actor not found!");
     }
   }
 
-  private void viewAllDirectors() {
-    List<Director> directors = directorRepository.getAllDirectors();
-    System.out.println("All Directors:");
-
-    for (Director director : directors) {
-      System.out.println(
-              "ID: " +
-              director.getId() +
-              ", Name: " +
-              director.getName() +
-              ", Nationality: " +
-              director.getNationality()
-      );
-    }
+  private void viewAllDirector() {
+    List<DirectorDTO> directorDTOList = directorRepository.getAll();
+    System.out.println("Director list\n");
+    directorDTOList.forEach(System.out::println);
   }
 
-  private void updateDirector(Scanner scanner) {
+  private void deleteDirector() {
+    System.out.print("Enter Director name: ");
+    String name = inputValidation.isValidPersonName();
+
+    try {
+      DirectorDTO directorDTO = directorRepository.readByName(name);
+      directorRepository.delete(directorDTO);
+      System.out.println("successfully");
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+
+  }
+
+  private void updateDirector() {
+
     System.out.print("Enter Director Name: ");
-    String name = scanner.nextLine();
-    Optional<Director> existingDirector = directorRepository.searchDirector(name);
+    String name = inputValidation.isValidPersonName();
 
-    if (existingDirector.isPresent()) {
+    try {
+      DirectorDTO directorDTO = directorRepository.readByName(name);
+
       System.out.print("Enter New Director Name: ");
-      String newName = scanner.nextLine();
+      String newName = inputValidation.isValidPersonName();
 
       System.out.print("Enter New Director Nationality: ");
-      String newNationality = scanner.nextLine();
+      String newNationality = inputValidation.isValidDescription();
+      DirectorDTO newDirectorDTO = new DirectorDTO(newName, newNationality);
 
-      Director updatedDirector = new Director(newName, newNationality);
-      updatedDirector.setId(existingDirector.get().getId());
-      directorRepository.updateDirector(updatedDirector);
-    } else {
-      System.out.println("Director not found.");
+      directorRepository.update(directorDTO, newDirectorDTO);
+      System.out.println("successfully");
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
-  }
-
-  private void deleteDirector(Scanner scanner) {
-    System.out.print("Enter Director ID: ");
-    String name = scanner.nextLine();
-    directorRepository.removeDirector(directorRepository.searchDirector(name).get());
   }
 }

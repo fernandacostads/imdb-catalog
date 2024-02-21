@@ -3,6 +3,7 @@ package com.imdb.dto;
 import java.util.List;
 
 public record MovieDTO(
+        int id,
         String title,
         int releaseDate,
         double budget,
@@ -10,18 +11,4 @@ public record MovieDTO(
         String description,
         List<ActorDTO> actors,
         List<DirectorDTO> directors
-) {
-    @Override
-    public String toString () {
-        return "\nMovie Details:\n" +
-                "\ntitle= " + title +
-                "\nreleaseDate= " + releaseDate +
-                "\nbudget= " + budget + " " + currency +
-                "\ndescription= " + description +
-                "\nactors= " + actors +
-                "\ndirectors= " + directors + "\n";
-    }
-}
-
-
-
+) {}

@@ -1,6 +1,8 @@
 package com.imdb.util;
 
-import com.imdb.model.Actor;
+import com.imdb.dto.ActorDTO;
+import com.imdb.dto.DirectorDTO;
+import com.imdb.dto.MovieDTO;
 import com.imdb.model.Director;
 import com.imdb.model.Movie;
 
@@ -10,33 +12,109 @@ import java.util.List;
 
 public class FileHandler {
 
-  private static final String SEPARATOR = System.lineSeparator();
+  public static List<MovieDTO> loadMoviesFromFile(String filePath) {
+    List<MovieDTO> movies = new ArrayList<>();
+    File file = new File(filePath);
 
-  public FileHandler() {
+    if (!file.exists()) {
+      System.out.println("File not found: " + filePath);
+      return movies;
+    }
+
+    try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+      String line;
+      while ((line = reader.readLine()) != null) {
+        MovieDTO movie = parseMovieFromCsvLine(line);
+        if (movie != null) {
+          movies.add(movie);
+        }
+      }
+    } catch (IOException e) {
+      System.err.println("Error reading movies from file: " + filePath);
+      e.printStackTrace();
+    }
+    return movies;
+  }
+
+  public static void saveMoviesToFile(List<MovieDTO> movies, String filePath) {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+      for (MovieDTO movie : movies) {
+        String movieLine = convertMovieToCsvLine(movie);
+        writer.write(movieLine);
+        writer.newLine();
+      }
+    } catch (IOException e) {
+      System.err.println("Error saving movies to file: " + filePath);
+      e.printStackTrace();
+    }
+  }
+
+  private static MovieDTO parseMovieFromCsvLine(String line) {
+    String[] data = line.split(",");
+    if (data.length < 6) {
+      System.out.println("Invalid movie data: " + line);
+      return null;
+    }
+
+    int id = Integer.parseInt(data[0].trim());
+    String title = data[1].trim();
+    int releaseDate = Integer.parseInt(data[2].trim());
+    double budget = Double.parseDouble(data[3].trim());
+    String currency = data[4].trim();
+    String description = data[5].trim();
+
+    List<ActorDTO> actors = new ArrayList<>();
+    List<DirectorDTO> directors = new ArrayList<>();
+
+    return new MovieDTO(id, title, releaseDate, budget, currency, description, actors, directors);
+  }
+
+  private static String convertMovieToCsvLine(MovieDTO movie) {
+    return String.format("%d,%s,%d,%.2f,%s,%s",
+            movie.id(), movie.title(), movie.releaseDate(), movie.budget(), movie.currency(), movie.description());
   }
 
   public static void updateFile(List<Movie> moviesList, String FILE_NAME) {
-    try (FileWriter writer = new FileWriter(FILE_NAME, false)) {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME, false))) {
       for (Movie movie : moviesList) {
         String movieInfo = createMovieInfo(movie);
         writer.write(movieInfo);
-
-        updateActorsFile(movie.getActors(), writer);
-        updateDirectorsFile(movie.getDirectors(), writer);
-
         writer.write(SEPARATOR);
       }
-    } catch (Exception e) {
+    } catch (IOException e) {
       System.err.println("Error updating file: " + e.getMessage());
     }
   }
 
   private static String createMovieInfo(Movie movie) {
+    return String.format("%d,%s,%d,%.2f,%s,%s",
+            movie.getId(), movie.getTitle(), movie.getReleaseDate(),
+            movie.getBudget(), movie.getCurrency(), movie.getDescription());
+  }
+
+  private static void updateActorsFile(List<Actor> actors, BufferedWriter writer) throws IOException {
+    for (Actor actor : actors) {
+      String actorInfo = String.format("%d,%s,%s", actor.getId(), actor.getName(), actor.getNationality());
+      writer.write(actorInfo);
+      writer.write(SEPARATOR);
+    }
+  }
+
+  private static void updateDirectorsFile(List<Director> directors, BufferedWriter writer) throws IOException {
+    for (Director director : directors) {
+      String directorInfo = String.format("%d,%s,%s", director.getId(), director.getName(), director.getNationality());
+      writer.write(directorInfo);
+      writer.write(SEPARATOR);
+    }
+  }
+
+  /*private static String createMovieInfo(Movie movie) {
     return "Id: " + movie.getId() + SEPARATOR +
            "Title: " + movie.getTitle() + SEPARATOR +
            "Release Date: " + movie.getReleaseDate() + SEPARATOR +
            "Budget: " + movie.getBudget() + SEPARATOR +
-           "Currency: " + movie.getCurrency() + SEPARATOR;
+           "Currency: " + movie.getCurrency() + SEPARATOR +
+           "Description: " + movie.getDescription() + SEPARATOR;
   }
 
   private static void updateActorsFile(List<Actor> actorsList, FileWriter writer) throws IOException {
@@ -124,6 +202,7 @@ public class FileHandler {
   }
 
   private static Movie createMovieFromLines(BufferedReader reader) throws IOException {
+    int id = Integer.parseInt(getValue(reader.readLine()));
     String title = getValue(reader.readLine());
     int year = Integer.parseInt(getValue(reader.readLine()));
     double rating = Double.parseDouble(getValue(reader.readLine()));
@@ -132,7 +211,7 @@ public class FileHandler {
     List<Actor> actors = readActors(reader);
     List<Director> directors = readDirectors(reader);
 
-    return new Movie(title, year, rating, genre, director, actors, directors);
+    return new Movie(id, title, year, rating, genre, director, actors, directors);
   }
 
   private static String getValue(String line) {
@@ -150,7 +229,7 @@ public class FileHandler {
       int id = Integer.parseInt(tokens[0].split(": ")[1]);
       String name = tokens[1].split(": ")[1];
       String nationality = tokens[2].split(": ")[1];
-      Actor actor = new Actor(name, nationality);
+      Actor actor = new Actor(id, name, nationality);
       actor.setId(id);
       actorsList.add(actor);
     }
@@ -167,7 +246,7 @@ public class FileHandler {
       int id = Integer.parseInt(tokens[0].split(": ")[1]);
       String name = tokens[1].split(": ")[1];
       String nationality = tokens[2].split(": ")[1];
-      Director director = new Director(name, nationality);
+      Director director = new Director(id, name, nationality);
       director.setId(id);
       directorsList.add(director);
     }
@@ -182,13 +261,12 @@ public class FileHandler {
     try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
       while ((line = br.readLine()) != null && line.startsWith("Id:")) {
         String[] tokens = line.split(", ");
-        int id = Integer.parseInt(tokens[0].split(": ")[1]);
         Actor actor = new Actor(
+                Integer.parseInt(tokens[0].split(": ")[1]),
                 tokens[1].split(": ")[1],
                 tokens[2].split(": ")[1]
         );
 
-        actor.setId(id);
         actorsList.add(actor);
       }
     } catch (FileNotFoundException e) {
@@ -207,12 +285,11 @@ public class FileHandler {
     try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
       while ((line = reader.readLine()) != null && line.startsWith("Id:")) {
         String[] tokens = line.split(", ");
-        int id = Integer.parseInt(tokens[0].split(": ")[1]);
         Director director = new Director(
+                Integer.parseInt(tokens[0].split(": ")[1]),
                 tokens[1].split(": ")[1],
                 tokens[2].split(": ")[1]
         );
-        director.setId(id);
         directorsList.add(director);
       }
     } catch (FileNotFoundException e) {
@@ -222,6 +299,6 @@ public class FileHandler {
     }
 
     return directorsList;
-  }
+  }*/
 }
 

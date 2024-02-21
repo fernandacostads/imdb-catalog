@@ -1,16 +1,22 @@
 package com.imdb.util;
 
+import com.imdb.util.view.ErrorMessagesRegisterUpdateMovie;
+import com.imdb.util.view.RegisterUpdateMovie;
+
 import java.util.Scanner;
+import java.util.Set;
+import java.util.regex.Pattern;
+
 
 public class ValidationInputService {
-    private Scanner sc;
+    private final Scanner scanner;
 
     public ValidationInputService(Scanner scanner) {
-        this.sc = scanner;
+        this.scanner = scanner;
     }
 
     private String getInput() {
-        return sc.nextLine();
+        return scanner.nextLine();
     }
 
     public int isInputInt() {
@@ -22,6 +28,12 @@ public class ValidationInputService {
         }
     }
 
+    public static final Pattern DATE_PATTERN = Pattern.compile("^[1-9]\\d{3}$");
+    public static final int MAX_ACTORS = 15;
+    public static final int MAX_DIRECTORS = 10;
+    public static final int MAX_DESCRIPTION_WORDS = 500;
+
+
     public double isValidBudget() {
         System.out.print("Budget: ");
         try {
@@ -31,6 +43,7 @@ public class ValidationInputService {
             return -1;
         }
     }
+
 
     public String enterCurrency() {
         System.out.println(
@@ -73,7 +86,7 @@ public class ValidationInputService {
             return userInput;
         } else {
             System.out.println("Invalid Description! The description name must be at most 500 characters long.");
-            return isValidMovieName();
+            return isValidTitle();
         }
     }
 
@@ -84,7 +97,7 @@ public class ValidationInputService {
             return userInput;
         } else {
             System.out.println("Invalid name!");
-            return isValidMovieName();
+            return isValidPersonName();
         }
     }
 
@@ -96,35 +109,19 @@ public class ValidationInputService {
             return userInput;
         } else {
             System.out.println("Invalid nationality! The nationality must have the full name");
-            return isValidMovieName();
+            return isValidNationality();
         }
     }
 
-    public int isValidReleaseDate() {
-        System.out.print(
-                "Enter Movie Release Date (Year of release that must accept a number with only 4 digits and must not start with 0): "
-        );
-        while (true) {
-            try {
-                int releaseDate = Integer.parseInt(getInput());
-                if (String.valueOf(releaseDate).length() != 4) {
-                    throw new IllegalArgumentException(
-                            "The year of release must contain only 4 digits. Type it again!"
-                    );
-                } else if (String.valueOf(releaseDate).startsWith("0")) {
-                    throw new IllegalArgumentException(
-                            "Release year must not start with 0. Enter again!"
-                    );
-                }
-                return releaseDate;
-            } catch (NumberFormatException e) {
-                System.out.println(
-                        "The year of release must not contain letters. Type it again!"
-                );
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
+    public boolean isValidReleaseDate(String errorMessage, String invalidReleaseDateLength, String invalidReleaseDateStart) {
+        System.out.println(RegisterUpdateMovie.ENTER_RELEASE_DATE);
+        String releaseDate = getInput();
+
+        if (!DATE_PATTERN.matcher(releaseDate).matches()) {
+            System.out.println(errorMessage);
+            return false;
         }
+        return true;
     }
 
     public boolean yesOrNoValidation() {
@@ -145,7 +142,7 @@ public class ValidationInputService {
         //se for -1, ou seja, se não foi um inteiro válido
         if (userChoice == -1) {
             return -1;
-            //verifica se é alguma das opções do menu
+            //verifica se é alguma das opções do view
         } else if (userChoice >= rangeMin && userChoice <= rangeMax) {
             //retorna a opção caso ela esteja no intervalo
             return userChoice;
@@ -155,18 +152,71 @@ public class ValidationInputService {
             return -1;
         }
     }
-
-    public String isValidMovieName() {
-        System.out.print("Enter the name of the movie: ");
+    public String isValidTitle() {
+        System.out.println(RegisterUpdateMovie.ENTER_MOVIE_NAME);
         final String userInput = getInput();
 
-        if (userInput != null && !userInput.trim().isEmpty() && userInput.length() >= 3) {
+            if (userInput != null && !userInput.trim().isEmpty() && userInput.length() >= 3) {
             return userInput;
         } else {
             System.out.println("Invalid title! The movie name must be at least 3 characters long.");
-            return isValidMovieName();
+            return isValidTitle();
         }
     }
 
 
+//    public static class ErrorMessagesGeneral {
+//        public static final String ERROR_INVALID_OPTION = "This option is invalid, you must choose a number from %d to %d.";
+//        public static final String ERROR_NOT_INTEGER = "This option is invalid, must be an integer number.";
+//        public static final String ERROR_ID_NOT_EXIST = "This ID does not exist.";
+//        public static final String ERROR_RETRIEVING_MOVIES = "Failed to retrieve movies: ";
+//        public static final String FAILED_TO_SAVE_MOVIE = "Failed to save movie: ";
+//    }
+//
+//
+//
+//    public static class ErrorMessagesRegisterUpdateMovie {
+//        public static final String MOVIE_TITLE_ALREADY_EXISTS = "Movie title already exists. Do you want to edit this movie? (yes/no):";
+//        public static final String INVALID_RELEASE_DATE_LETTERS = "Invalid release year: must contain only digits.";
+//        public static final String INVALID_RELEASE_DATE_LENGTH = "Invalid release year: must have exactly 4 digits.";
+//        public static final String INVALID_RELEASE_DATE_START = "Invalid release year: cannot start with 0.";
+//        public static final String INVALID_CURRENCY = "Invalid currency option. Please choose from the available options.";
+//        public static final String INVALID_DESCRIPTION_LENGTH = "Invalid description length: must not exceed " + MAX_DESCRIPTION_WORDS + " words.";
+//        public static final String ACTOR_ALREADY_EXISTS = "Actor already exists.";
+//        public static final String DIRECTOR_ALREADY_EXISTS = "Director already exists.";
+//        public static final String MAX_DIRECTORS_EXCEEDED = "Cannot add more than " + MAX_DIRECTORS + " directors.";
+//        public static final String MAX_ACTORS_EXCEEDED = "Cannot add more than " + MAX_ACTORS + " actors.";
+//    }
+
+    public static boolean isActorNameValid(String actorName, Set<String> existingActors) {
+        if (existingActors.contains(actorName)) {
+            System.out.println(ErrorMessagesRegisterUpdateMovie.ACTOR_ALREADY_EXISTS);
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isDirectorNameValid(String directorName, Set<String> existingDirectors) {
+        if (existingDirectors.contains(directorName)) {
+            System.out.println(ErrorMessagesRegisterUpdateMovie.DIRECTOR_ALREADY_EXISTS);
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isNumberOfDirectorsValid(int numberOfDirectors) {
+        if (numberOfDirectors > MAX_DIRECTORS) {
+            System.out.println(ErrorMessagesRegisterUpdateMovie.MAX_DIRECTORS_EXCEEDED);
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isNumberOfActorsValid(int numberOfActors) {
+        if (numberOfActors > MAX_ACTORS) {
+            System.out.println(ErrorMessagesRegisterUpdateMovie.MAX_ACTORS_EXCEEDED);
+            return false;
+        }
+        return true;
+    }
 }

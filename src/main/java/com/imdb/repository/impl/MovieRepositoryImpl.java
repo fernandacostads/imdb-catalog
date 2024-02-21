@@ -2,6 +2,8 @@ package com.imdb.repository.impl;
 
 import com.imdb.dto.MovieDTO;
 import com.imdb.dto.ShowMovieDTO;
+import com.imdb.model.Actor;
+import com.imdb.model.Director;
 import com.imdb.model.Movie;
 import com.imdb.repository.IMovieRepository;
 import com.imdb.util.FileHandler;
@@ -13,84 +15,123 @@ import java.util.Optional;
 
 public class MovieRepositoryImpl implements IMovieRepository {
 
-  private static final String FILE_PATH =
-          "src/main/java/com/imdb/util/resources/movies.txt";
-  private static MovieRepositoryImpl instance;
-  private static List<Movie> moviesList;
-  private final ModelConvertUtil converter = new ModelConvertUtil();
-  private int idGenerator;
+    private static final String FILE_PATH =
+            "src/main/java/com/imdb/util/resources/movies.txt";
+    private static MovieRepositoryImpl instance;
+    private static List<Movie> moviesList;
+    private final ModelConvertUtil converter = new ModelConvertUtil();
+    private int idGenerator;
 
-  private MovieRepositoryImpl() {
-    moviesList = new ArrayList<>(10);
-    moviesList = FileHandler.loadMoviesFromFile(FILE_PATH);
-    idGenerator = moviesList.isEmpty() ? 1 : moviesList.getLast().getId() + 1;
-  }
-
-  public static synchronized MovieRepositoryImpl getInstance() {
-    if (instance == null) {
-      instance = new MovieRepositoryImpl();
+    private MovieRepositoryImpl() {
+        moviesList = new ArrayList<>(10);
+        moviesList = FileHandler.loadMoviesFromFile(FILE_PATH);
+        idGenerator = moviesList.isEmpty() ? 1 : moviesList.getLast().getId() + 1;
     }
-    return instance;
-  }
+
+    public static synchronized MovieRepositoryImpl getInstance() {
+        if (instance == null) {
+            instance = new MovieRepositoryImpl();
+        }
+        return instance;
+    }
+
+    @Override
+    public boolean addMovie(MovieDTO movieDTO) {
+        Movie movie = converter.convertDTOToObjt(movieDTO);
+        Optional<Movie> optionalMovie = getMovie(movie);
+        if (optionalMovie.isPresent()) {
+            throw new IllegalArgumentException("Movie had already exist!");
+        }
+        movie.setId(idGenerator++);
+        moviesList.add(movie);
+        FileHandler.updateFile(moviesList, FILE_PATH);
+        return true;
+    }
+
+    @Override
+    public void removeMovie(Movie movie) {
+        Optional<Movie> optionalMovie = getMovie(movie);
+        if (optionalMovie.isEmpty()) {
+            throw new IllegalArgumentException("The movie does not exist!");
+        }
+        moviesList.remove(optionalMovie.get());
+        FileHandler.updateFile(moviesList, FILE_PATH);
+    }
+
+    @Override
+    public Movie updateMovie(Movie movie) {
+        Optional<Movie> optionalMovie = getMovie(movie);
+        if (optionalMovie.isEmpty()) {
+            throw new IllegalArgumentException("The movie does not exist!");
+        }
+        optionalMovie.get().setTitle(movie.getTitle());
+        optionalMovie.get().setReleaseDate(movie.getReleaseDate());
+        optionalMovie.get().setBudget(movie.getBudget());
+        optionalMovie.get().setCurrency(movie.getCurrency());
+        optionalMovie.get().setDescription(movie.getDescription());
+
+        FileHandler.updateFile(moviesList, FILE_PATH);
+        return movie;
+    }
+
+    @Override
+    public Optional<Movie> searchMovie(String title) {
+        return moviesList
+                .stream()
+                .filter(aux -> aux.getTitle().equalsIgnoreCase(title))
+                .findFirst();
+    }
+
+    @Override
+    public List<ShowMovieDTO> getAllMovies() {
+        return converter.convertObjToDTO(moviesList);
+    }
+
+    @Override
+    public String printAllMovies() {
+        StringBuilder allActorsBuilder = new StringBuilder();
+        allActorsBuilder.append("Movies List");
+        allActorsBuilder.append("\n");
+        for (Movie movie : moviesList) {
+            allActorsBuilder.append(movie.getId());
+            allActorsBuilder.append(" - ");
+            allActorsBuilder.append(movie.getTitle());
+            allActorsBuilder.append("\n"); // Adiciona uma quebra de linha entre cada representação de ator
+        }
+        return allActorsBuilder.toString();
+    }
 
   @Override
-  public boolean addMovie(MovieDTO movieDTO) {
+  public String detailsMovie(MovieDTO movieDTO) {
     Movie movie = converter.convertDTOToObjt(movieDTO);
-    Optional<Movie> optionalMovie = getMovie(movie);
-    if (optionalMovie.isPresent()) {
-      throw new IllegalArgumentException("Movie had already exist!");
+    StringBuilder allActorsBuilder = new StringBuilder();
+    allActorsBuilder.append("Movie Details");
+    allActorsBuilder.append("\n");
+    allActorsBuilder.append(movie);
+
+    allActorsBuilder.append("\n");
+    allActorsBuilder.append("Actors list");
+    allActorsBuilder.append("\n");
+    for (Actor actor : movie.getActors()) {
+      allActorsBuilder.append(actor);
+      allActorsBuilder.append("\n");
     }
-    movie.setId(idGenerator++);
-    moviesList.add(movie);
-    FileHandler.updateFile(moviesList, FILE_PATH);
-    return  true;
-  }
-
-  @Override
-  public void removeMovie(Movie movie) {
-    Optional<Movie> optionalMovie = getMovie(movie);
-    if (optionalMovie.isEmpty()) {
-      throw new IllegalArgumentException("The movie does not exist!");
+    allActorsBuilder.append("Directors list");
+    allActorsBuilder.append("\n");
+    for (Director director : movie.getDirectors()) {
+      allActorsBuilder.append(director);
+      allActorsBuilder.append("\n");
     }
-    moviesList.remove(optionalMovie.get());
-    FileHandler.updateFile(moviesList, FILE_PATH);
+    return allActorsBuilder.toString();
   }
 
-  @Override
-  public Movie updateMovie(Movie movie) {
-    Optional<Movie> optionalMovie = getMovie(movie);
-    if (optionalMovie.isEmpty()) {
-      throw new IllegalArgumentException("The movie does not exist!");
+    @Override
+    public Optional<MovieDTO> searchMovieById(int id) {
+        Optional<Movie> movie = moviesList.stream().filter(m -> m.getId() == id).findFirst();
+        return movie.map(converter::convertObjToDTO);
     }
-    optionalMovie.get().setTitle(movie.getTitle());
-    optionalMovie.get().setReleaseDate(movie.getReleaseDate());
-    optionalMovie.get().setBudget(movie.getBudget());
-    optionalMovie.get().setCurrency(movie.getCurrency());
-    optionalMovie.get().setDescription(movie.getDescription());
 
-    FileHandler.updateFile(moviesList, FILE_PATH);
-    return movie;
-  }
-
-  @Override
-  public Optional<Movie> searchMovie(String title) {
-    return moviesList
-            .stream()
-            .filter(aux -> aux.getTitle().equalsIgnoreCase(title))
-            .findFirst();
-  }
-
-  @Override
-  public List<ShowMovieDTO> getAllMovies() {
-    return converter.convertObjToDTO(moviesList);
-  }
-
-  @Override
-  public Optional<MovieDTO> searchMovieById(int id) {
-    Optional<Movie> movie = moviesList.stream().filter(m -> m.getId() == id).findFirst();
-    return movie.map(converter::convertObjToDTO);
-  }
-  private Optional<Movie> getMovie(Movie movie) {
-    return moviesList.stream().filter(aux -> aux.equals(movie)).findFirst();
-  }
+    private Optional<Movie> getMovie(Movie movie) {
+        return moviesList.stream().filter(aux -> aux.equals(movie)).findFirst();
+    }
 }

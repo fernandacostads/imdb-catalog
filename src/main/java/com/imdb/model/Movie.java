@@ -13,6 +13,15 @@ public class Movie {
     private final List<Director> directors;
     private final List<Actor> actors;
 
+    @Override
+    public String toString() {
+        return "Title: " + title +
+                ", Release date: " + releaseDate +
+                ", Budget: " + budget +
+                ", Currency: " + currency +
+                ", Description: " + description;
+    }
+
     public Movie(
             String title,
             int releaseDate,

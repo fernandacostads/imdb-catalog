@@ -17,6 +17,8 @@ public interface IMovieRepository {
   Optional<Movie> searchMovie(String title);
 
   List<ShowMovieDTO> getAllMovies();
+  String printAllMovies();
+  String detailsMovie(MovieDTO movieDTO);
 
   Optional<MovieDTO> searchMovieById(int id);
 }

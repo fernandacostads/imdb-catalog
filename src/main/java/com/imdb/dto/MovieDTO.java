@@ -13,13 +13,14 @@ public record MovieDTO(
 ) {
     @Override
     public String toString () {
-        return "\nMovie Details:\n" +
-                "\ntitle= " + title +
-                "\nreleaseDate= " + releaseDate +
-                "\nbudget= " + budget + " " + currency +
-                "\ndescription= " + description +
-                "\nactors= " + actors +
-                "\ndirectors= " + directors + "\n";
+        return "\nMovie Details\n" +
+                "Title: " + title +
+                ", Release date: " + releaseDate +
+                ", Budget: " + budget +
+                ", Currency: " + currency +
+                ", Description: " + description +
+                "\nActors List\n " + actors +
+                "\nDirectors List\n" + directors + "\n";
     }
 }
 

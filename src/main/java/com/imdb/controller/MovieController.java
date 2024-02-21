@@ -144,10 +144,7 @@ public class MovieController {
             System.out.println("No movies available.");
             return;
         }else{
-            System.out.println("Movies List:");
-            movies.forEach(movie ->
-                    System.out.println("ID " + movie.id() + ": " + movie.title())
-            );
+            System.out.println(movieRepository.printAllMovies());
 
             System.out.println(
                     "Choose a movie ID to show all movie details or enter 0 to return:"
@@ -162,7 +159,9 @@ public class MovieController {
                     System.out.println("Movie with ID " + movieId + " not found.");
                     return;
                 }
-                System.out.println(selectedMovie);
+                //mostrar o conflito
+                //System.out.println(selectedMovie.get());
+                System.out.println(movieRepository.detailsMovie(selectedMovie.get()));
             }
         }
     }
@@ -363,20 +362,7 @@ public class MovieController {
             System.out.println("No movies found.");
         } else {
             for (MovieDTO movie : movies) {
-                System.out.println("Movie title: " + movie.title());
-                System.out.println("Release Date: " + movie.releaseDate());
-                System.out.println(
-                        "Budget: " + movie.budget() + " " + movie.currency()
-                );
-                System.out.println("Description: " + movie.description());
-                System.out.println("List of Actors:");
-                for (ActorDTO actor : movie.actors()) {
-                    System.out.println(actor.name());
-                }
-                System.out.println("List of Directors:");
-                for (DirectorDTO director : movie.directors()) {
-                    System.out.println(director.name());
-                }
+                System.out.println(movieRepository.detailsMovie(movie));
                 System.out.println(
                         "Do you want to look for another movie? (Yes or No): "
                 );

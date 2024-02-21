@@ -15,7 +15,7 @@ public class ValidationService {
   }
 
   //vefica se a entrada é um int
-  private static int isInputInt(Scanner sc) {
+  public static int isInputInt(Scanner sc) {
     // Checks if the entered input is an integer number
 
     //converte a entrada string em um int; permite a entrada de numeros negativos.

@@ -76,7 +76,6 @@ public class MovieController {
     private List<ActorDTO> enterActors() {
         List<ActorDTO> actors = new ArrayList<>();
         int numberOfActors;
-        String nationality;
 
         while (true) {
             System.out.print("How many actors do you want to add? (Up to 15 actors): ");
@@ -108,7 +107,6 @@ public class MovieController {
     private List<DirectorDTO> enterDirectors() {
         List<DirectorDTO> directors = new ArrayList<>();
         int numberOfDirectors;
-        String nationality;
 
         while (true) {
             System.out.print("How many directors do you want to add? (Up to 15 directors): ");

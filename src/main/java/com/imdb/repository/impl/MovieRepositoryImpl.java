@@ -11,24 +11,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class MovieRepositoryimpl implements IMovieRepository {
+public class MovieRepositoryImpl implements IMovieRepository {
 
   private static final String FILE_PATH =
           "src/main/java/com/imdb/util/resources/movies.txt";
-  private static MovieRepositoryimpl instance;
+  private static MovieRepositoryImpl instance;
   private static List<Movie> moviesList;
   private final ModelConvertUtil converter = new ModelConvertUtil();
   private int idGenerator;
 
-  private MovieRepositoryimpl() {
+  private MovieRepositoryImpl() {
     moviesList = new ArrayList<>(10);
     moviesList = FileHandler.loadMoviesFromFile(FILE_PATH);
     idGenerator = moviesList.isEmpty() ? 1 : moviesList.getLast().getId() + 1;
   }
 
-  public static synchronized MovieRepositoryimpl getInstance() {
+  public static synchronized MovieRepositoryImpl getInstance() {
     if (instance == null) {
-      instance = new MovieRepositoryimpl();
+      instance = new MovieRepositoryImpl();
     }
     return instance;
   }

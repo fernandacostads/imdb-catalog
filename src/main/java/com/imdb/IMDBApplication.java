@@ -4,9 +4,9 @@ import com.imdb.controller.MovieController;
 import com.imdb.repository.IActorRepository;
 import com.imdb.repository.IDirectorRepository;
 import com.imdb.repository.IMovieRepository;
-import com.imdb.repository.impl.ActorRepositoryimpl;
-import com.imdb.repository.impl.DirectorRepositoryimpl;
-import com.imdb.repository.impl.MovieRepositoryimpl;
+import com.imdb.repository.impl.ActorRepositoryImpl;
+import com.imdb.repository.impl.DirectorRepositoryImpl;
+import com.imdb.repository.impl.MovieRepositoryImpl;
 import com.imdb.util.ValidationInputService;
 import java.util.Scanner;
 
@@ -14,9 +14,9 @@ public class IMDBApplication {
 
     public static void main(String[] args) {
 
-        IActorRepository actorRepository = ActorRepositoryimpl.getInstance();
-        IDirectorRepository directorRepository = DirectorRepositoryimpl.getInstance();
-        IMovieRepository movieRepository = MovieRepositoryimpl.getInstance();
+        IActorRepository actorRepository = ActorRepositoryImpl.getInstance();
+        IDirectorRepository directorRepository = DirectorRepositoryImpl.getInstance();
+        IMovieRepository movieRepository = MovieRepositoryImpl.getInstance();
         Scanner scanner = new Scanner(System.in);
         ValidationInputService validation = new ValidationInputService(scanner);
 

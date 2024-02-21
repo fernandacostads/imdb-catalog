@@ -10,23 +10,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ActorRepositoryimpl implements IActorRepository {
+public class ActorRepositoryImpl implements IActorRepository {
 
     private static final String FILE_PATH = "src/main/java/com/imdb/util/resources/actors.txt";
-    private static ActorRepositoryimpl instance;
+    private static ActorRepositoryImpl instance;
     private static List<Actor> actorsList;
     private final ModelConvertUtil converter = new ModelConvertUtil();
     private int idGenerator;
 
-    private ActorRepositoryimpl() {
+    private ActorRepositoryImpl() {
         actorsList = new ArrayList<>(10);
         actorsList = FileHandler.loadActorsFromFile(FILE_PATH);
         idGenerator = actorsList.isEmpty() ? 1 : actorsList.getLast().getId() + 1;
     }
 
-    public static synchronized ActorRepositoryimpl getInstance() {
+    public static synchronized ActorRepositoryImpl getInstance() {
         if (instance == null) {
-            instance = new ActorRepositoryimpl();
+            instance = new ActorRepositoryImpl();
         }
         return instance;
     }
@@ -74,6 +74,8 @@ public class ActorRepositoryimpl implements IActorRepository {
             throw new IllegalArgumentException("A lista de atores está vazia");
         }
         StringBuilder allActorsBuilder = new StringBuilder();
+        allActorsBuilder.append("Actors list");
+        allActorsBuilder.append("\n");
         for (Actor actor : actorsList) {
             allActorsBuilder.append(actor);
             allActorsBuilder.append("\n"); // Adiciona uma quebra de linha entre cada representação de ator

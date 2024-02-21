@@ -1,7 +1,7 @@
 package com.imdb.controller;
 
 
-import com.imdb.controller.menu.Menu;
+import com.imdb.util.Menu;
 import com.imdb.dto.DirectorDTO;
 import com.imdb.model.Director;
 import com.imdb.repository.IDirectorRepository;

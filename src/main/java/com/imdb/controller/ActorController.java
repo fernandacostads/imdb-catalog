@@ -1,21 +1,24 @@
 package com.imdb.controller;
 
-import com.imdb.controller.menu.Menu;
+import com.imdb.util.Menu;
 import com.imdb.dto.ActorDTO;
 import com.imdb.model.Actor;
 import com.imdb.repository.IActorRepository;
-import com.imdb.util.ValidationService;
+import com.imdb.util.ValidationInputService;
 
 import java.util.Optional;
 import java.util.Scanner;
 
 public final class ActorController {
   private final IActorRepository actorRepository;
+  private final ValidationInputService inputValidation;
   private final Scanner scanner;
 
-  public ActorController(IActorRepository actorRepository, Scanner scanner) {
+
+  public ActorController(IActorRepository actorRepository, ValidationInputService textValidation, Scanner scanner) {
     this.actorRepository = actorRepository;
     this.scanner = scanner;
+    this.inputValidation = textValidation;
   }
 
   public void start() {
@@ -24,7 +27,7 @@ public final class ActorController {
 
     do {
       Menu.actorMenu();
-      choice = ValidationService.isInputInt(scanner);
+      choice = inputValidation.isInputInt();
       //scanner.nextLine(); // Consume newline
 
       switch (choice) {

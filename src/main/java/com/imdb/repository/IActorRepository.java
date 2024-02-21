@@ -1,19 +1,22 @@
 package com.imdb.repository;
 
-import com.imdb.model.Actor;
 import com.imdb.dto.ActorDTO;
+import com.imdb.model.Actor;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface IActorRepository {
-  void addActor(ActorDTO actor);
+    void addActor(ActorDTO actorDTO);
 
-  void removeActor(Actor actor);
+    void actorPresent(String name);
 
-  Actor updateActor(Actor actor);
+    void actorNotFound(String name);
 
-  Optional<Actor> searchActorByName(String name);
+    void removeActor(Actor actor);
 
-  List<Actor> getAllActors();
+    void updateActor(Actor actor, String name, String nationality);
+
+    Optional<Actor> searchActor(String name);
+
+    String getAllActors();
 }

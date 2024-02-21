@@ -9,7 +9,7 @@ Desenvolver um Sistema de Gerenciamento de Banco de Dados (DBMS) para um catálo
 1. ... (a preencher)
 2. Daniel Martins de Andrade
 3. Paulo Henrique S. Felipe
-4. ... (a preencher)
+4. Yasmin Barcelos Pires
 5. ... (a preencher)
 
 ## Classes

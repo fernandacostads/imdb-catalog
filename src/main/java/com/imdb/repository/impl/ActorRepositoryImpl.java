@@ -74,6 +74,8 @@ public class ActorRepositoryImpl implements IActorRepository {
             throw new IllegalArgumentException("A lista de atores está vazia");
         }
         StringBuilder allActorsBuilder = new StringBuilder();
+        allActorsBuilder.append("Actors list");
+        allActorsBuilder.append("\n");
         for (Actor actor : actorsList) {
             allActorsBuilder.append(actor);
             allActorsBuilder.append("\n"); // Adiciona uma quebra de linha entre cada representação de ator

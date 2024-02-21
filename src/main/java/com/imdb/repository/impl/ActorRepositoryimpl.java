@@ -12,8 +12,7 @@ import java.util.Optional;
 
 public class ActorRepositoryimpl implements IActorRepository {
 
-    private static final String FILE_PATH =
-            "src/main/java/com/imdb/util/resources/actors.txt";
+    private static final String FILE_PATH = "src/main/java/com/imdb/util/resources/actors.txt";
     private static ActorRepositoryimpl instance;
     private static List<Actor> actorsList;
     private final ModelConvertUtil converter = new ModelConvertUtil();
@@ -32,57 +31,53 @@ public class ActorRepositoryimpl implements IActorRepository {
         return instance;
     }
 
-
     @Override
     public void addActor(ActorDTO actorDTO) {
         Actor actor = converter.convertDTOToObjt(actorDTO);
-        Optional<Actor> optionalActor = getActor(actor);
-        if (optionalActor.isPresent()) {
-            throw new IllegalArgumentException("Actor had already exist!");
-        }
         actor.setId(idGenerator++);
         actorsList.add(actor);
         FileHandler.updateFileA(actorsList, FILE_PATH);
     }
 
     @Override
+    public void actorNotFound(String name) {
+        throw new IllegalArgumentException("O Ator " + name + " não existe");
+
+    }
+
+    @Override
+    public void actorPresent(String name) {
+        throw new IllegalArgumentException("O Ator " + name + " já existe");
+    }
+
+    @Override
     public void removeActor(Actor actor) {
-        Optional<Actor> optionalActor = getActor(actor);
-        if (optionalActor.isEmpty()) {
-            throw new IllegalArgumentException("The actor does not exist!");
-        }
-        actorsList.remove(optionalActor.get());
-
+        actorsList.remove(actor);
         FileHandler.updateFileA(actorsList, FILE_PATH);
-
     }
 
     @Override
-    public Actor updateActor(Actor actor) {
-        Optional<Actor> optionalActor = getActor(actor);
-        if (optionalActor.isEmpty()) {
-            throw new IllegalArgumentException("The actor does not exist");
-        }
-        actorsList.remove(optionalActor.get());
-        actorsList.add(actor);
+    public void updateActor(Actor actor, String newName, String nationality) {
+        actor.setName(newName);
+        actor.setNationality(nationality);
         FileHandler.updateFileA(actorsList, FILE_PATH);
-        return actor;
     }
 
     @Override
-    public Optional<Actor> searchActorByName(String name) {
-        return actorsList
-                .stream()
-                .filter(aux -> aux.getName().equalsIgnoreCase(name))
-                .findFirst();
+    public Optional<Actor> searchActor(String name) {
+        return actorsList.stream().filter(aux -> aux.getName().equalsIgnoreCase(name)).findFirst();
     }
 
     @Override
-    public List<Actor> getAllActors() {
-        return actorsList;
-    }
-
-    private Optional<Actor> getActor(Actor actor) {
-        return actorsList.stream().filter(aux -> aux.equals(actor)).findFirst();
+    public String getAllActors() {
+        if (actorsList.isEmpty()) {
+            throw new IllegalArgumentException("A lista de atores está vazia");
+        }
+        StringBuilder allActorsBuilder = new StringBuilder();
+        for (Actor actor : actorsList) {
+            allActorsBuilder.append(actor);
+            allActorsBuilder.append("\n"); // Adiciona uma quebra de linha entre cada representação de ator
+        }
+        return allActorsBuilder.toString();
     }
 }

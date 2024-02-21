@@ -11,6 +11,13 @@ public abstract class Person {
         this.nationality = nationality;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + id +
+                ", Name: " + name +
+                ", Nationality: " + nationality;
+    }
+
     public int getId() {
         return id;
     }
@@ -35,12 +42,4 @@ public abstract class Person {
         this.nationality = nationality;
     }
 
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", nationality='" + nationality + '\'' +
-                '}';
-    }
 }

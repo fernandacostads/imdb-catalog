@@ -1,6 +1,7 @@
 package com.imdb.controller;
 
 import com.imdb.controller.menu.Menu;
+import com.imdb.dto.ActorDTO;
 import com.imdb.model.Actor;
 import com.imdb.repository.IActorRepository;
 import com.imdb.util.ValidationService;
@@ -49,7 +50,7 @@ public final class ActorController {
         } else {
             System.out.print("Actor not found, add nationality: ");
             String nationality = scanner.nextLine();
-            Actor newActor = new Actor(name, nationality);
+            ActorDTO newActor = new ActorDTO(name, nationality);
             actorRepository.addActor(newActor);
             System.out.println("successfully");
         }

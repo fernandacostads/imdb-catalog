@@ -1,18 +1,22 @@
 package com.imdb.repository;
 
+import com.imdb.dto.DirectorDTO;
 import com.imdb.model.Director;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface IDirectorRepository {
-  void addDirector(Director director);
+  void addDirector(DirectorDTO directorDTO);
+
+  void directorPresent(String name);
+
+  void directorNotFound(String name);
 
   void removeDirector(Director director);
 
-  Director updateDirector(Director director);
+  void updateDirector(Director director, String name, String nationality);
 
   Optional<Director> searchDirector(String name);
 
-  List<Director> getAllDirectors();
+  String getAllDirectors();
 }

@@ -1,11 +1,12 @@
 package com.imdb.repository;
 
+import com.imdb.dto.ActorDTO;
 import com.imdb.model.Actor;
 
 import java.util.Optional;
 
 public interface IActorRepository {
-    void addActor(Actor actor);
+    void addActor(ActorDTO actorDTO);
 
     void actorPresent(String name);
 
@@ -13,7 +14,7 @@ public interface IActorRepository {
 
     void removeActor(Actor actor);
 
-    Actor updateActor(Actor actor, String name, String nationality);
+    void updateActor(Actor actor, String name, String nationality);
 
     Optional<Actor> searchActor(String name);
 

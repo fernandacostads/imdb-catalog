@@ -4,86 +4,95 @@ import java.util.List;
 
 public class Movie {
 
-  private int id;
-  private String title;
-  private int releaseDate;
-  private double budget;
-  private String currency;
-  private String description;
-  private final List<Director> directors;
-  private final List<Actor> actors;
+    private int id;
+    private String title;
+    private int releaseDate;
+    private double budget;
+    private String currency;
+    private String description;
+    private final List<Director> directors;
+    private final List<Actor> actors;
 
-  public Movie(
-          String title,
-          int releaseDate,
-          double budget,
-          String currency,
-          String description,
-          List<Actor> actors,
-          List<Director> directors
-  ) {
-    this.title = title;
-    this.releaseDate = releaseDate;
-    this.budget = budget;
-    this.currency = currency;
-    this.description = description;
-    this.actors = actors;
-    this.directors = directors;
-  }
+    @Override
+    public String toString() {
+        return "Title: " + title +
+                ", Release date: " + releaseDate +
+                ", Budget: " + budget +
+                ", Currency: " + currency +
+                ", Description: " + description;
+    }
 
-  public int getId() {
-    return id;
-  }
+    public Movie(
+            String title,
+            int releaseDate,
+            double budget,
+            String currency,
+            String description,
+            List<Actor> actors,
+            List<Director> directors
+    ) {
+        this.title = title;
+        this.releaseDate = releaseDate;
+        this.budget = budget;
+        this.currency = currency;
+        this.description = description;
+        this.actors = actors;
+        this.directors = directors;
+    }
 
-  public void setId(int id) {
-    this.id = id;
-  }
+    public int getId() {
+        return id;
+    }
 
-  public String getTitle() {
-    return title;
-  }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-  public void setTitle(String title) {
-    this.title = title;
-  }
+    public String getTitle() {
+        return title;
+    }
 
-  public int getReleaseDate() {
-    return releaseDate;
-  }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-  public void setReleaseDate(int releaseDate) {
-    this.releaseDate = releaseDate;
-  }
+    public int getReleaseDate() {
+        return releaseDate;
+    }
 
-  public double getBudget() {
-    return budget;
-  }
+    public void setReleaseDate(int releaseDate) {
+        this.releaseDate = releaseDate;
+    }
 
-  public void setBudget(double budget) {
-    this.budget = budget;
-  }
+    public double getBudget() {
+        return budget;
+    }
 
-  public String getCurrency() {
-    return currency;
-  }
+    public void setBudget(double budget) {
+        this.budget = budget;
+    }
 
-  public void setCurrency(String currency) {
-    this.currency = currency;
-  }
+    public String getCurrency() {
+        return currency;
+    }
 
-  public String getDescription() {
-    return description;
-  }
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
+    public String getDescription() {
+        return description;
+    }
 
-  public List<Actor> getActors() {
-    return actors;
-  }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-  public List<Director> getDirectors() {
-    return directors;
-  }
+    public List<Actor> getActors() {
+        return actors;
+    }
+
+    public List<Director> getDirectors() {
+        return directors;
+    }
 }

@@ -4,7 +4,7 @@ import com.imdb.repository.IActorRepository;
 import com.imdb.repository.IDirectorRepository;
 import com.imdb.repository.IMovieRepository;
 import com.imdb.repository.impl.ActorRepositoryimpl;
-import com.imdb.repository.impl.DirectorRepositoryimpl;
+import com.imdb.repository.impl.DirectorRepositoryImpl;
 import com.imdb.repository.impl.MovieRepositoryimpl;
 import com.imdb.util.ValidationService;
 import com.imdb.controller.MovieController;
@@ -16,7 +16,7 @@ public class IMDBApplication {
     public static void main(String[] args) {
 
         IActorRepository actorRepository = ActorRepositoryimpl.getInstance();
-        IDirectorRepository directorRepository = DirectorRepositoryimpl.getInstance();
+        IDirectorRepository directorRepository = DirectorRepositoryImpl.getInstance();
         IMovieRepository movieRepository = MovieRepositoryimpl.getInstance();
         Scanner scanner = new Scanner(System.in);
 
@@ -44,9 +44,9 @@ public class IMDBApplication {
                 switch (choice) {
                     case 1 -> movieController.showListOfMovies();
                     case 2 -> movieController.registerNewMovie();
-                    case 3 -> movieController.editMovie();
-                    case 4 -> movieController.deleteMovie();
-                    case 5 -> movieController.searchMovie();
+//                    case 3 -> movieController.editMovie();
+//                    case 4 -> movieController.deleteMovie();
+//                    case 5 -> movieController.searchMovie();
                     case 6 -> System.out.println("Closing the program...");
                     default -> System.out.println(
                             "Invalid choice. Please enter a number between 1 and 6."

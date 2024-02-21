@@ -168,5 +168,19 @@ public class ValidationInputService {
         }
     }
 
+    public static class ErrorMessagesGeneral {
+        public static final String ERROR_INVALID_OPTION = "This option is invalid, you must choose a number from %d to %d.";
+        public static final String ERROR_NOT_INTEGER = "This option is invalid, must be an integer number.";
+        public static final String ERROR_ID_NOT_EXIST = "This ID does not exist.";
+        public static final String ERROR_RETRIEVING_MOVIES = "Failed to retrieve movies: ";
+        public static final String FAILED_TO_SAVE_MOVIE = "Failed to save movie: ";
+    }
+
+    public static class ErrorMessagesGeneral {
+        public static final String ERROR_INVALID_OPTION = "This option is invalid, you must choose a number from %d to %d.";
+        public static final String ERROR_NOT_INTEGER = "This option is invalid, must be an integer number.";
+        public static final String ERROR_ID_NOT_EXIST = "This ID does not exist.";
+    }
+
 
 }

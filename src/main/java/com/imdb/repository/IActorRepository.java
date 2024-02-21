@@ -15,5 +15,5 @@ public interface IActorRepository {
 
   Optional<Actor> searchActorByName(String name);
 
-  List<Actor> getAllActors();
+  List<ActorDTO> getAllActors();
 }

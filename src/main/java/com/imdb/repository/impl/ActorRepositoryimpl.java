@@ -78,11 +78,12 @@ public class ActorRepositoryimpl implements IActorRepository {
     }
 
     @Override
-    public List<Actor> getAllActors() {
-        return actorsList;
+    public List<ActorDTO> getAllActors() {
+        return converter.convertObjToDTO(actorsList);
     }
 
     private Optional<Actor> getActor(Actor actor) {
         return actorsList.stream().filter(aux -> aux.equals(actor)).findFirst();
     }
+
 }

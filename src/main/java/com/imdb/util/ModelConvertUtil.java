@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class ModelConvertUtil {
 
-    public List<ShowMovieDTO> convertObjToDTO(List<Movie> movies) {
+    public List<ShowMovieDTO> convertObjToDTOk(List<Movie> movies) {
         return movies.stream().map(
                 movie -> new ShowMovieDTO(movie.getId(),
                         movie.getTitle(),
@@ -21,11 +21,17 @@ public class ModelConvertUtil {
                         movie.getBudget(),
                         movie.getCurrency(),
                         movie.getDescription(),
-                        movie.getActors().stream().map(
-                                actor -> new ActorDTO(actor.getName(), actor.getNationality())).collect(Collectors.toList()),
-                        movie.getDirectors().stream().map(
-                                actor -> new DirectorDTO(actor.getName(), actor.getNationality())).collect(Collectors.toList())
+                        convertObjToDTO(movie.getActors()),
+                        convertObjToDTO(movie.getDirectors())
                 )).collect(Collectors.toList());
+    }
+
+    public List<ActorDTO> convertObjToDTO(List<Actor> actorsList) {
+        return actorsList.stream().map(actor -> new ActorDTO(actor.getName(), actor.getNationality())).collect(Collectors.toList());
+    }
+
+    public List<DirectorDTO> convertObjToDTO(List<Director> directorList) {
+        return directorList.stream().map(actor -> new DirectorDTO(actor.getName(), actor.getNationality())).collect(Collectors.toList());
     }
 
     public Movie convertDTOToObjt(MovieDTO movieDTO) {

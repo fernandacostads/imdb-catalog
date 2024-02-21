@@ -10,62 +10,62 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class DirectorRepositoryimpl implements IDirectorRepository {
+public class DirectorRepositoryImpl implements IDirectorRepository {
 
   private static final String FILE_PATH =
           "src/main/java/com/imdb/util/resources/directors.txt";
-  private static DirectorRepositoryimpl instance;
+  private static DirectorRepositoryImpl instance;
   private static List<Director> directorsList;
   private final ModelConvertUtil converter = new ModelConvertUtil();
+
   private int idGenerator;
 
-  private DirectorRepositoryimpl() {
+  private DirectorRepositoryImpl() {
     directorsList = new ArrayList<>(10);
     directorsList = FileHandler.loadDirectorsFromFile(FILE_PATH);
     idGenerator = directorsList.isEmpty() ? 1 : directorsList.getLast().getId() + 1;
   }
 
-  public static synchronized DirectorRepositoryimpl getInstance() {
+  public static synchronized DirectorRepositoryImpl getInstance() {
     if (instance == null) {
-      instance = new DirectorRepositoryimpl();
+      instance = new DirectorRepositoryImpl();
     }
     return instance;
   }
 
+
   @Override
   public void addDirector(DirectorDTO directorDTO) {
     Director director = converter.convertDTOToObjt(directorDTO);
-    Optional<Director> optionalDirector = getDirector(director);
-    if (optionalDirector.isPresent()) {
-      throw new IllegalArgumentException("Director had already exist!");
-    }
     director.setId(idGenerator++);
     directorsList.add(director);
     FileHandler.updateFileD(directorsList, FILE_PATH);
   }
 
   @Override
-  public void removeDirector(Director director) {
-    Optional<Director> optionalDirector = getDirector(director);
-    if (optionalDirector.isEmpty()) {
-      throw new IllegalArgumentException("The director does not exist!");
-    }
-    directorsList.remove(optionalDirector.get());
-    FileHandler.updateFileD(directorsList, FILE_PATH);
+  public void directorPresent(String name) {
+    throw new IllegalArgumentException("O Diretor " + name + " já existe");
 
   }
 
   @Override
-  public Director updateDirector(Director director) {
-    Optional<Director> optionalDirector = getDirector(director);
-    if (optionalDirector.isEmpty()) {
-      throw new IllegalArgumentException("The director does not exist");
-    }
-    directorsList.remove(optionalDirector.get());
-    directorsList.add(director);
-    FileHandler.updateFileD(directorsList, FILE_PATH);
-    return director;
+  public void directorNotFound(String name) {
+    throw new IllegalArgumentException("O Diretor " + name + " não existe");
   }
+
+  @Override
+  public void removeDirector(Director director) {
+    directorsList.remove(director);
+    FileHandler.updateFileD(directorsList, FILE_PATH);
+  }
+
+  @Override
+  public void updateDirector(Director director, String newName, String nationality) {
+    director.setName(newName);
+    director.setNationality(nationality);
+    FileHandler.updateFileD(directorsList, FILE_PATH);
+  }
+
 
   @Override
   public Optional<Director> searchDirector(String name) {
@@ -76,11 +76,16 @@ public class DirectorRepositoryimpl implements IDirectorRepository {
   }
 
   @Override
-  public List<Director> getAllDirectors() {
-    return directorsList;
+  public String getAllDirectors() {
+    if (directorsList.isEmpty()) {
+      throw new IllegalArgumentException("A lista de atores está vazia");
+    }
+    StringBuilder allActorsBuilder = new StringBuilder();
+    for (Director director : directorsList) {
+      allActorsBuilder.append(director);
+      allActorsBuilder.append("\n"); // Adiciona uma quebra de linha entre cada representação de ator
+    }
+    return allActorsBuilder.toString();
   }
 
-  private Optional<Director> getDirector(Director director) {
-    return directorsList.stream().filter(aux -> aux.equals(director)).findFirst();
-  }
 }

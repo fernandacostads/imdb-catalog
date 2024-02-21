@@ -6,6 +6,7 @@ public record DirectorDTO(
 ) {
     @Override
     public String toString () {
-        return "\nname= " + name + ", Nationality= " + nationality;
+        return "Name: " + name +
+                ", Nationality: " + nationality;
     }
 }

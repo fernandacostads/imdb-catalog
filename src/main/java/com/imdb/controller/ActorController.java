@@ -4,6 +4,8 @@ package com.imdb.controller;
 import com.imdb.dto.ActorDTO;
 import com.imdb.repository.IActorRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public final class ActorController {
@@ -15,13 +17,24 @@ public final class ActorController {
     this.scanner = scanner;
   }
 
-  public ActorDTO registerActor() {
-    System.out.println("Enter actor details (name, nationality):");
-    String name = scanner.nextLine();
-    String nationality = scanner.nextLine();
+  public List<ActorDTO> registerActor() {
+    System.out.println("How many actors would you like to register?");
+    int qntActors = scanner.nextInt(); scanner.nextLine();
+    List<ActorDTO> actors = new ArrayList<>(10);
+
+    for (int i = 1; i <= qntActors; i++) {
+      System.out.println("Enter the " + i +  " actor:");
+      System.out.print("name: ");
+      String name = scanner.nextLine();
+      System.out.print("Nationality: ");
+      String nationality = scanner.nextLine();
+
+      ActorDTO newactor = new ActorDTO(0,name,nationality);
+      actorRepository.create(newactor);
+      actors.add(newactor);
+    }
     // Você pode adicionar mais campos relevantes aqui, se necessário
 
-    return new ActorDTO(0, name, nationality);
+    return actors;
   }
-
 }

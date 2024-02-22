@@ -24,5 +24,9 @@ public record ActorDTO(
             // ... outros campos relevantes
     );
   }
-
+  @Override
+  public String toString() {
+    return "\nActor: " +
+            "\nName:"+ name +", Nationality: " + nationality ;
+  }
 }

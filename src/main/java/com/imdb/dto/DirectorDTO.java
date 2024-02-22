@@ -24,4 +24,9 @@ public record DirectorDTO(
             // ... outros campos relevantes
     );
   }
+  @Override
+  public String toString() {
+    return "\nDirector: " +
+            "\nName:"+ name +", Nationality: " + nationality ;
+  }
 }

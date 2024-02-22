@@ -39,12 +39,12 @@ public class MovieController {
         double budget = scanner.nextDouble();
         System.out.print("Currency: ");
         String currency = scanner.next();
-        scanner.nextLine(); // Consume the newline character
+        scanner.nextLine();
         System.out.print("Description: ");
         String description = scanner.nextLine();
 
         // Obtenha os atores e diretores chamando os controladores correspondentes
-        List<ActorDTO> actors = Arrays.asList(actorController.registerActor());
+        List<ActorDTO> actors = actorController.registerActor();
         List<DirectorDTO> directors = Arrays.asList(directorController.registerDirector());
 
         // Crie um novo MovieDTO com os detalhes fornecidos

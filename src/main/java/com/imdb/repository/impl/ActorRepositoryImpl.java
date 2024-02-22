@@ -1,84 +1,58 @@
 package com.imdb.repository.impl;
 
+import com.imdb.dto.ActorDTO;
 import com.imdb.model.Actor;
 import com.imdb.repository.IActorRepository;
-import com.imdb.util.FileHandler;
-import com.imdb.util.FileHandler.EntityConverter;
 
+import java.util.ArrayList;
 import java.util.List;
 
+
 public class ActorRepositoryImpl implements IActorRepository {
-    private static final String FILE_PATH = "actors.txt";
-    private List<Actor> actors;
+    private static ActorRepositoryImpl instance;
+    private static List<Actor> actorsList;
+    private int idGenerator;
 
-    public ActorRepositoryImpl() {
-        actors = FileHandler.loadFromFile(FILE_PATH, new ActorConverter());
+    private ActorRepositoryImpl() {
+        actorsList = new ArrayList<>(10);
+        idGenerator = actorsList.isEmpty() ? 1 : actorsList.get(actorsList.size() - 1).getId() + 1;
+    }
+
+    public static synchronized ActorRepositoryImpl getInstance() {
+        if (instance == null) {
+            instance = new ActorRepositoryImpl();
+        }
+        return instance;
     }
 
     @Override
-    public void create(Actor actor) {
-        actors.add(actor);
-        FileHandler.saveToFile(actors, FILE_PATH, new ActorConverter());
+    public void create(ActorDTO entry) {
+
     }
 
     @Override
-    public ActorDTO update(ActorDTO actorDTO, ActorDTO newActorDTO) {
-        Actor actor = converter.convertDTOToObjt(actorDTO);
-        actor.setName(newActorDTO.name());
-        actor.setNationality(newActorDTO.nationality());
-        FileHandler.updateFileA(actorsList, FILE_PATH);
-        return converter.convertObjToDTO(actor);
+    public ActorDTO update(ActorDTO entry, ActorDTO entry2) {
+        return null;
     }
 
     @Override
-    public void delete(ActorDTO actorDTO) {
-        actorsList.remove(converter.convertDTOToObjt(actorDTO));
-        FileHandler.updateFileA(actorsList, FILE_PATH);
+    public void delete(ActorDTO entry) {
+
     }
 
     @Override
     public List<ActorDTO> getAll() {
-        return converter.convertActorListObjToDTO(actorsList);
+        return null;
     }
 
     @Override
-    public ActorDTO readById(int id) {
-        Optional<Actor> actor = actorsList.stream()
-                .filter(aux -> aux.getId() == id)
-                .findFirst();
-
-        if (actor.isPresent()) {
-            return converter.convertObjToDTO(actor.get());
-        } else {
-            throw new IllegalStateException("Paulo");//paulo
-        }
+    public ActorDTO readById(ActorDTO id) {
+        return null;
     }
 
     @Override
-    public ActorDTO readByName(String name) {
-        Optional<Actor> optionalActor = actorsList
-                .stream()
-                .filter(aux -> aux.getName().equalsIgnoreCase(name))
-                .findFirst();
-        if (optionalActor.isPresent()) {
-            return converter.convertObjToDTO(optionalActor.get());
-        } else {
-            throw new ActorNotFoundException(name);//Paulo
-        }
-    }
-
-    private Actor isPresent(ActorDTO actorDTO) {
-        Actor actor = converter.convertDTOToObjt(actorDTO);
-        Optional<Actor> optionalActor = actorsList
-                .stream()
-                .filter(aux -> aux.equals(actor))
-                .findFirst();
-
-        if (optionalActor.isEmpty()) {
-            return actor;
-        } else {
-            throw new ActorAlreadyExist(actor);
-        }
+    public List<ActorDTO> readByName(ActorDTO entry) {
+        return null;
     }
 }
 

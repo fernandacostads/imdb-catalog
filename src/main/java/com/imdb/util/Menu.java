@@ -1,5 +1,7 @@
 package com.imdb.util;
 
+import com.imdb.controller.ActorController;
+import com.imdb.controller.DirectorController;
 import com.imdb.controller.MovieController;
 import com.imdb.repository.IActorRepository;
 import com.imdb.repository.IDirectorRepository;
@@ -14,11 +16,22 @@ public class Menu {
     IActorRepository actorRepository = ActorRepositoryImpl.getInstance();
     IDirectorRepository directorRepository = DirectorRepositoryImpl.getInstance();
     IMovieRepository movieRepository = MovieRepositoryImpl.getInstance();
+    Scanner scanner = new Scanner(System.in);
 
-    MovieController movieController = new MovieController(
-            movieRepository
+    ActorController actorController = new ActorController(
+            actorRepository,
+            scanner
     );
-    private Scanner scanner = new Scanner(System.in);
+    DirectorController directorController = new DirectorController(
+      directorRepository,
+      scanner
+    );
+    MovieController movieController = new MovieController(
+            movieRepository,
+            actorController,
+            directorController,
+            scanner
+    );
 
     public void displayMainMenu() {
         boolean exit = false;
@@ -56,6 +69,7 @@ public class Menu {
                 default:
                     System.out.println("Invalid choice. Please enter a number between 1 and 6.");
             }
+            scanner.close();
         }
     }
 }

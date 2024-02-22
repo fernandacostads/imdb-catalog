@@ -12,8 +12,8 @@ public interface CRUDRepository<T> {
 
     List<T> getAll();
 
-    T readById(int id);
+    T readById(T entry);
 
-    T readByName(String entry);
+    List<T> readByName(T entry);
 
 }

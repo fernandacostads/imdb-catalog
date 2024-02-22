@@ -105,23 +105,21 @@ public class MovieRepositoryImpl implements IMovieRepository {
   }
 
   private Movie findMovieById(int id) {
-    // Exemplo: percorra a lista de filmes e retorne o filme com o ID correspondente
-    for (Movie movie : moviesList) {
-      if (movie.getId() == id) {
-        return movie;
-      }
-    }
-    return null; // Retorne null se o filme não for encontrado
+    return moviesList.stream()
+            .filter(movie -> movie.getId() == id)
+            .findFirst()
+            .orElse(null);
   }
 
   private List<Movie> findMoviesByTitle(String title) {
-    // Exemplo: percorra a lista de filmes e retorne os filmes com o título correspondente
-    List<Movie> matchingMovies = new ArrayList<>();
-    for (Movie movie : moviesList) {
-      if (movie.getTitle().toLowerCase().contains(title.toLowerCase())) {
-        matchingMovies.add(movie);
-      }
-    }
-    return matchingMovies;
+    return moviesList.stream()
+            .filter(movie -> movie.getTitle().toLowerCase().contains(title.toLowerCase()))
+            .collect(Collectors.toList());
+  }
+
+  private List<Movie> findMoviesByReleaseData(int releaseDate) {
+    return moviesList.stream()
+            .filter(movie -> movie.getReleaseDate() == releaseDate)
+            .collect(Collectors.toList());
   }
 }

@@ -1,11 +1,13 @@
 package com.imdb.repository.impl;
 
 import com.imdb.dto.DirectorDTO;
+import com.imdb.model.Actor;
 import com.imdb.model.Director;
 import com.imdb.repository.IDirectorRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DirectorRepositoryImpl implements IDirectorRepository {
   private static DirectorRepositoryImpl instance;
@@ -52,5 +54,23 @@ public class DirectorRepositoryImpl implements IDirectorRepository {
   @Override
   public List<DirectorDTO> readByName(DirectorDTO entry) {
     return null;
+  }
+  private Director findActorById(int id) {
+    return directorsList.stream()
+            .filter(director -> director.getId() == id)
+            .findFirst()
+            .orElse(null);
+  }
+
+  private List<Director> findActorByName(String name) {
+    return directorsList.stream()
+            .filter(director -> director.getName().toLowerCase().contains(name.toLowerCase()))
+            .collect(Collectors.toList());
+  }
+
+  private List<Director> findActorByNationality(String nationality) {
+    return directorsList.stream()
+            .filter(director -> director.getNationality().toLowerCase().contains(nationality.toLowerCase()))
+            .collect(Collectors.toList());
   }
 }

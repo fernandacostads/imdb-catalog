@@ -17,8 +17,10 @@ public class Actor {
 
     public void setId(int id) { this.id = id; }
     public void setName(String name) { this.name = name; }
-    public void setNationality(String nationality) { this.nationality = nationality; }
-}
+    public void setNationality(String nationality) { this.nationality = nationality;
+
+    }
+
 
     @Override
     public String toString() {

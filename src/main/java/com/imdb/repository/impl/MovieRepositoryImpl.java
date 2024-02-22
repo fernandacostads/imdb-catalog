@@ -155,8 +155,8 @@ public static synchronized MovieRepositoryImpl getInstance() {
     return instance;
 }
     @Override
-    public void create(MovieDTO movieDto) {
-;       Movie movie = converter.
+    public void create(MovieDTO movie) {
+        MovieDTO newMovie = new MovieDTO(idGenerator.getAndIncrement(), movie.title(), movie.releaseDate(), movie.budget(), movie.currency(), movie.description(), movie.actors(), movie.directors());
         movies.add(newMovie);
         FileHandler.saveMoviesToFile(movies, FILE_PATH);
     }

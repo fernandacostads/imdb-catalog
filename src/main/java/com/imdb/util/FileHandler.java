@@ -1,8 +1,7 @@
 package com.imdb.util;
 
-import com.imdb.dto.ActorDTO;
-import com.imdb.dto.DirectorDTO;
 import com.imdb.dto.MovieDTO;
+import com.imdb.model.Actor;
 import com.imdb.model.Director;
 import com.imdb.model.Movie;
 
@@ -11,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileHandler {
+
+  private static final String SEPARATOR = System.lineSeparator();
 
   public static List<MovieDTO> loadMoviesFromFile(String filePath) {
     List<MovieDTO> movies = new ArrayList<>();
@@ -24,9 +25,14 @@ public class FileHandler {
     try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
       String line;
       while ((line = reader.readLine()) != null) {
-        MovieDTO movie = parseMovieFromCsvLine(line);
-        if (movie != null) {
-          movies.add(movie);
+        try {
+          MovieDTO movie = parseMovieFromCsvLine(line);
+          if (movie != null) {
+            movies.add(movie);
+          }
+        } catch (Exception e) {
+          System.out.println("Error parsing line: " + line);
+          e.printStackTrace();
         }
       }
     } catch (IOException e) {

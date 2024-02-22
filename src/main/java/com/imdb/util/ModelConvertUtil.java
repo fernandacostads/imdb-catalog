@@ -76,8 +76,6 @@ public static MovieDTO convertToMovieDTO(Movie movie) {
     }
 
 
-    //#######################
-
     /*public List<MovieDTO> convertObjToDTO(List<Movie> movies) {
         return movies.stream().map(
                 movie -> new MovieDTO(

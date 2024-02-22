@@ -1,3 +1,4 @@
+/*
 package com.imdb.model;
 
 public abstract class Person {
@@ -44,4 +45,4 @@ public abstract class Person {
                 '}';
     }
 }
-
+*/

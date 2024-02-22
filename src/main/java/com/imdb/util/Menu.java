@@ -46,6 +46,7 @@ public class Menu {
             System.out.print("Please enter your choice: ");
 
             int choice = scanner.nextInt();
+            scanner.nextLine();
             switch (choice) {
                 case 1:
                     movieController.showListOfMovies();
@@ -69,8 +70,8 @@ public class Menu {
                 default:
                     System.out.println("Invalid choice. Please enter a number between 1 and 6.");
             }
-            scanner.close();
         }
+        scanner.close();
     }
 }
 

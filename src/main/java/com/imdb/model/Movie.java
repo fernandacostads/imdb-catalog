@@ -9,8 +9,8 @@ public class Movie {
     private double budget;
     private String currency;
     private String description;
-    private List<Actor> actors;
-    private List<Director> directors;
+    private final List<Actor> actors;
+    private final List<Director> directors;
 
     public Movie(int id, String title, int releaseDate, double budget, String currency, String description, List<Actor> actors, List<Director> directors) {
         this.id = id;

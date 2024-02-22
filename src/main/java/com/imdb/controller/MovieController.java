@@ -44,7 +44,7 @@ public class MovieController {
         String description = scanner.nextLine();
 
         // Obtenha os atores e diretores chamando os controladores correspondentes
-           List<ActorDTO> actors = Arrays.asList(actorController.registerActor());
+        List<ActorDTO> actors = Arrays.asList(actorController.registerActor());
         List<DirectorDTO> directors = Arrays.asList(directorController.registerDirector());
 
         // Crie um novo MovieDTO com os detalhes fornecidos

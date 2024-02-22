@@ -58,6 +58,9 @@ public class MovieRepositoryImpl implements IMovieRepository {
       // Atualize os campos relevantes com os dados de entry2
       existingMovie.setTitle(entry2.title());
       existingMovie.setReleaseDate(entry2.releaseDate());
+      existingMovie.setBudget(entry2.budget());
+      existingMovie.setCurrency(entry2.currency());
+      existingMovie.setDescription(entry2.description());
       // ... (atualize outros campos)
 
       // Não é necessário salvar explicitamente, pois estamos trabalhando com a lista em memória
@@ -115,7 +118,7 @@ public class MovieRepositoryImpl implements IMovieRepository {
     // Exemplo: percorra a lista de filmes e retorne os filmes com o título correspondente
     List<Movie> matchingMovies = new ArrayList<>();
     for (Movie movie : moviesList) {
-      if (movie.getTitle().equalsIgnoreCase(title)) {
+      if (movie.getTitle().toLowerCase().contains(title.toLowerCase())) {
         matchingMovies.add(movie);
       }
     }

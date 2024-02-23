@@ -1,4 +1,6 @@
 Directors: 
-Id: 1, Name: SDAFADS, Nationality: DSAF
-Id: 2, Name: SDAFDSF, Nationality: SADFSDF
-Id: 3, Name: kjdfjks, Nationality: dfjahjsd
+Id: 1, Name: Sofia Rivera, Nationality: Mexican
+Id: 2, Name: Alex Johnson, Nationality: Canadian
+Id: 3, Name: Emilia Clarke, Nationality: Irish
+Id: 4, Name: Carlos Santos, Nationality: Portuguese
+Id: 5, Name: Mohammed Al Fayed, Nationality: Egyptian

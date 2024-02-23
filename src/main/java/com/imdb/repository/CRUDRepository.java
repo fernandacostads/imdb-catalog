@@ -11,58 +11,57 @@ import java.util.List;
 
 public interface CRUDRepository<T> {
 
-    /**
-     * Creates a new entity in the repository.
-     *
-     * @param entry the entity to be created
-     * @return the created entity
-     */
+  /**
+   * Creates a new entity in the repository.
+   *
+   * @param entry the entity to be created
+   * @return the created entity
+   */
 
-    T create(T entry);
+  T create(T entry);
 
-    /**
-     * Updates an existing entity in the repository.
-     *
-     * @param entry  the entity to be updated
-     * @param entry2 the entity containing the new values
-     * @return the updated entity
-     */
+  /**
+   * Retrieves all entities from the repository.
+   *
+   * @return a list of all entities
+   */
 
-    T update(T entry, T entry2);
+  List<T> read();
 
-    /**
-     * Deletes an entity from the repository.
-     *
-     * @param entry the entity to be deleted
-     */
+  /**
+   * Updates an existing entity in the repository.
+   *
+   * @param entry  the entity to be updated
+   * @param entry2 the entity containing the new values
+   * @return the updated entity
+   */
 
-    void delete(T entry);
+  T update(T entry, T entry2);
 
-    /**
-     * Retrieves all entities from the repository.
-     *
-     * @return a list of all entities
-     */
+  /**
+   * Deletes an entity from the repository.
+   *
+   * @param entry the entity to be deleted
+   */
 
-    List<T> getAll();
+  void delete(T entry);
 
-    /**
-     * Reads an entity by its identifier.
-     *
-     * @param entry the entity with its identifier set
-     * @return the entity with the given id or null if not found
-     */
+  /**
+   * Searches for entities based on a name or partial name.
+   * The exact search criteria are implementation-specific.
+   *
+   * @param entry an example entity containing the search criteria
+   * @return a list of entities matching the search criteria
+   */
 
-    T readById(T entry);
+  List<T> search(T entry);
 
-    /**
-     * Searches for entities based on a name or partial name.
-     * The exact search criteria are implementation-specific.
-     *
-     * @param entry an example entity containing the search criteria
-     * @return a list of entities matching the search criteria
-     */
+  /**
+   * Reads an entity by its identifier.
+   *
+   * @param entry the entity with its identifier set
+   * @return the entity with the given id or null if not found
+   */
 
-    List<T> readByName(T entry);
-
+  T readById(T entry);
 }

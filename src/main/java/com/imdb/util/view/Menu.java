@@ -13,67 +13,107 @@ import com.imdb.util.view.message.MenuMessage;
 
 import java.util.Scanner;
 
+/**
+ * This class represents the main menu of the IMDb application, providing a user interface
+ * for navigating through the application's functionalities. It allows users to interact
+ * with the system by performing operations such as listing, creating, updating, and deleting
+ * movies, actors, and directors, as well as conducting searches within these categories.
+ */
+
 public class Menu {
-    IActorRepository actorRepository = ActorRepositoryImpl.getInstance();
-    IDirectorRepository directorRepository = DirectorRepositoryImpl.getInstance();
-    IMovieRepository movieRepository = MovieRepositoryImpl.getInstance();
-    Scanner scanner = new Scanner(System.in);
+  IActorRepository actorRepository = ActorRepositoryImpl.getInstance();
+  IDirectorRepository directorRepository = DirectorRepositoryImpl.getInstance();
+  IMovieRepository movieRepository = MovieRepositoryImpl.getInstance();
+  Scanner scanner = new Scanner(System.in);
 
-    ActorController actorController = new ActorController(
-            actorRepository,
-            scanner
-    );
-    DirectorController directorController = new DirectorController(
-            directorRepository,
-            scanner
-    );
-    MovieController movieController = new MovieController(
-            movieRepository,
-            actorController,
-            directorController,
-            scanner
-    );
+  ActorController actorController = new ActorController(
+          actorRepository,
+          scanner
+  );
+  DirectorController directorController = new DirectorController(
+          directorRepository,
+          scanner
+  );
+  MovieController movieController = new MovieController(
+          movieRepository,
+          actorController,
+          directorController,
+          scanner
+  );
 
-    public void displayMainMenu() {
-        boolean exit = false;
-        while (!exit) {
-            System.out.println(MenuMessage.MAIN_MENU.get());
+  /**
+   * Displays the main menu to the user and processes the user's choice to navigate
+   * to various parts of the application. It loops continuously until the user chooses
+   * to exit the application.
+   */
 
-            int choice = scanner.nextInt();
-            scanner.nextLine();
-            switch (choice) {
-                case 1 -> displayLists();
-                case 2 -> movieController.registerMovie();
-                case 3 -> movieController.updateMovie();
-                case 4 -> movieController.deleteMovie();
-                case 5 -> movieController.searchMovies();
-                case 0 -> {
-                    exit = true;
-                    System.out.println("Exiting program...");
-                }
-                default -> System.out.println("Invalid choice. Please enter a number between 1 and 6.");
-            }
+  public void displayMainMenu() {
+    String choice;
+    while (true) {
+      System.out.println(MenuMessage.MAIN_MENU.get());
+      choice = scanner.nextLine();
+
+      switch (choice) {
+        case "1" -> movieController.createMovie();
+        case "2" -> readDisplay();
+        case "3" -> movieController.updateMovie();
+        case "4" -> movieController.deleteMovie();
+        case "5" -> searchDisplay();
+        case "0" -> {
+          System.out.println(MenuMessage.EXITING_PROGRAM.get());
+          return;
         }
-        scanner.close();
+        default -> System.out.println(MenuMessage.INVALID_CHOICE_MAIN.get());
+      }
     }
+  }
 
-    public void displayLists() {
-        {
-            while (true) {
-                System.out.println(MenuMessage.LIST_MENU.get());
-                int op = scanner.nextInt();
-                scanner.nextLine();
-                switch (op) {
-                    case 1 -> movieController.showListOfMovies();
-                    case 2 -> actorController.showListOfActors();
-                    case 3 -> directorController.showListOfDirectors();
-                    case 0 -> {
-                        return;
-                    }
-                    default -> System.out.println("Invalid choice. Please enter a number between 1 and 3.");
-                }
-            }
+  /**
+   * Displays a submenu for listing entities such as movies, actors, and directors.
+   * The user can choose which category of entities to list. This method continues
+   * to display the list menu and process choices until the user decides to exit.
+   */
+
+  public void readDisplay() {
+    String choice;
+    while (true) {
+      System.out.println(MenuMessage.LIST_MENU.get());
+      choice = scanner.nextLine();
+      switch (choice) {
+        case "1" -> movieController.readListOfMovies();
+        case "2" -> actorController.readListOfActors();
+        case "3" -> directorController.readListOfDirectors();
+        case "0" -> {
+          System.out.println(MenuMessage.EXITING_PROGRAM.get());
+          return;
         }
+        default -> System.out.println(MenuMessage.INVALID_CHOICE_MAIN.get());
+      }
     }
+  }
+
+  /**
+   * Displays a submenu for conducting searches within the application. Users can search
+   * for movies, actors, or directors based on specified criteria. This method continues
+   * to display the search menu and process choices until the user decides to exit.
+   */
+
+  public void searchDisplay() {
+    String choice;
+    while (true) {
+      System.out.println(MenuMessage.SEARCH_MENU.get());
+      choice = scanner.nextLine();
+      switch (choice) {
+        case "1" -> movieController.searchMovies();
+        case "2" -> actorController.searchActors();
+        case "3" -> directorController.searchDirectors();
+        case "0" -> {
+          System.out.println(MenuMessage.EXITING_PROGRAM.get());
+          return;
+        }
+        default -> System.out.println(MenuMessage.INVALID_CHOICE_LIST.get());
+      }
+    }
+  }
 }
 

@@ -1,29 +1,68 @@
 package com.imdb.util.exceptions;
 
-
-import java.util.Collections;
+/**
+ * Custom exception class for handling actor-related errors within the application.
+ * This class extends RuntimeException, allowing for unchecked exceptions tailored to
+ * specific actor operations and scenarios.
+ */
 
 public class ActorException extends RuntimeException {
-    public ActorException(String message) {
-        super(message);
-    }
 
-    public static class ActorAlreadyExist extends ActorException {
-        public ActorAlreadyExist(String name) {
-            super(name + " is already included on the list.");
-        }
-    }
+  /**
+   * Constructor for ActorException that takes a detailed error message.
+   *
+   * @param message Detailed error message explaining the cause of the exception.
+   */
 
-    public static class ActorListIsEmpty extends ActorException {
-        public ActorListIsEmpty() {
-            super("No actors found on the list.");
-        }
-    }
+  public ActorException(String message) {
+    super(message);
+  }
 
-    public static class ActorNotFoundException extends ActorException {
-        public ActorNotFoundException() {
-            super("Actor not found on the list.");
-        }
+  /**
+   * Subclass representing the situation where no actors are found in a list.
+   */
+
+  public static class ActorListIsEmpty extends ActorException {
+
+    /**
+     * Constructor for ActorListIsEmpty, indicating no actors were found.
+     */
+
+    public ActorListIsEmpty() {
+      super("No actors found on the list.");
     }
+  }
+
+  /**
+   * Subclass representing the situation where an actor already exists in a list.
+   */
+
+  public static class ActorAlreadyExist extends ActorException {
+
+    /**
+     * Constructor for ActorAlreadyExist, indicating an actor already exists.
+     *
+     * @param name The name of the actor that already exists.
+     */
+
+    public ActorAlreadyExist(String name) {
+      super(name + " is already included on the list.");
+    }
+  }
+
+  /**
+   * Subclass representing the situation where an actor is not found in a list.
+   */
+
+  public static class ActorNotFoundException extends ActorException {
+
+    /**
+     * Constructor for ActorNotFoundException, indicating an actor was not found.
+     */
+
+    public ActorNotFoundException() {
+      super("Actor not found on the list.");
+    }
+  }
 }
 

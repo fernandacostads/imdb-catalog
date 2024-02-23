@@ -1,6 +1,6 @@
 package com.imdb.model;
 
-public class Director {
+public class Director{
     private int id;
     private String name;
     private String nationality;
@@ -11,7 +11,6 @@ public class Director {
         this.nationality = nationality;
     }
 
-    // Getters and setters
     public int getId() {
         return id;
     }
@@ -34,14 +33,5 @@ public class Director {
 
     public void setNationality(String nationality) {
         this.nationality = nationality;
-    }
-
-    @Override
-    public String toString() {
-        return "Director{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", nationality='" + nationality + '\'' +
-                '}';
     }
 }

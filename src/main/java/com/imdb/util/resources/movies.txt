@@ -1,0 +1,102 @@
+Id: 1
+Title: "Echoes of the Past"
+Release Date: 2021
+Budget: 120000.0
+Currency: USD
+Actors: 
+Id: 1, Name: Marco Silva, Nationality: Brazilian
+Id: 2, Name: Elena Rodriguez, Nationality: Spanish
+Directors: 
+Id: 2, Name: Sofia Rivera, Nationality: Mexican
+
+Id: 2
+Title: "Lost in the Horizon"
+Release Date: 2023
+Budget: 5000000.0
+Currency: USD
+Actors: 
+Id: 3, Name: Aarav Patel, Nationality: Indian
+Id: 4, Name: Li Wei, Nationality: Chinese
+Directors: 
+Id: 3, Name: Alex Johnson, Nationality: Canadian
+
+Id: 3
+Title: "The Whispering Shadows"
+Release Date: 2022
+Budget: 8000000.0
+Currency: USD
+Actors: 
+Id: 5, Name: Natasha Ivanova, Nationality: Russian
+Id: 6, Name: David Smith, Nationality: British
+Directors: 
+Id: 4, Name: Emilia Clarke, Nationality: Irish
+
+Id: 4
+Title: "Beneath the Emerald Seas"
+Release Date: 2024
+Budget: 1000000.0
+Currency: USD
+Actors: 
+Id: 7, Name: Clara Müller, Nationality: German
+Id: 8, Name: Yuto Nakamura, Nationality: Japanese
+Directors: 
+Id: 5, Name: Carlos Santos, Nationality: Portuguese
+
+Id: 5
+Title: "The Last Symphony"
+Release Date: 2025
+Budget: 1000000.0
+Currency: USD
+Actors: 
+Id: 9, Name: Olivia Martin, Nationality: French
+Id: 10, Name: James O'Neil, Nationality: Irish
+Directors: 
+Id: 6, Name: Mohammed Al Fayed, Nationality: Egyptian
+
+Id: 6
+Title: Yasmin
+Release Date: 2020
+Budget: 49384.0
+Currency: Yasmin
+Actors: 
+Id: 1, Name: Yasmin, Nationality: Yasmin
+Id: 2, Name: Yasmin, Nationality: Yasmin
+Id: 3, Name: Yasmin, Nationality: Yasmin
+Directors: 
+Id: 8, Name: Mohammed Al Fayed, Nationality: Egyptian
+
+Id: 7
+Title: Daniel
+Release Date: 7888
+Budget: 6677.0
+Currency: daniel
+Actors: 
+Id: 1, Name: daniel, Nationality: daniel
+Id: 2, Name: daniel, Nationality: daniel
+Directors: 
+Id: 1, Name: maria, Nationality: maria
+Id: 2, Name: maria, Nationality: maria
+
+Id: 8
+Title: YAS
+Release Date: 3883
+Budget: 7777.0
+Currency: SDDD
+Actors: 
+Id: 1, Name: JSDJDSF, Nationality: DFADFAS
+Id: 2, Name: SDFAS, Nationality: SDFA
+Directors: 
+Id: 1, Name: SDAFADS, Nationality: DSAF
+Id: 2, Name: SDAFDSF, Nationality: SADFSDF
+
+Id: 9
+Title: Yasmin
+Release Date: 7667
+Budget: 55555.0
+Currency: yas
+Actors: 
+Id: 3, Name: kjndkfjndfdsgkn, Nationality: dfkjhjkfdjkfdfkdjs
+Id: 4, Name: dfklkfdkjmfdskfd, Nationality: jdkfhsjkdsfjkdfsjksdf
+Directors: 
+Id: 3, Name: kjdfjks, Nationality: dfjahjsd
+

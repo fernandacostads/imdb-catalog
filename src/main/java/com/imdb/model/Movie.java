@@ -78,18 +78,4 @@ public class Movie {
     public List<Director> getDirectors() {
         return directors;
     }
-
-    @Override
-    public String toString() {
-        return "Movie{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", releaseDate=" + releaseDate +
-                ", budget=" + budget +
-                ", currency='" + currency + '\'' +
-                ", description='" + description + '\'' +
-                ", actors=" + actors +
-                ", directors=" + directors +
-                '}';
-    }
 }

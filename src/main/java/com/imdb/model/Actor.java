@@ -1,6 +1,6 @@
 package com.imdb.model;
 
-public class Actor {
+public class Actor{
     private int id;
     private String name;
     private String nationality;
@@ -19,15 +19,5 @@ public class Actor {
     public void setName(String name) { this.name = name; }
     public void setNationality(String nationality) { this.nationality = nationality;
 
-    }
-
-
-    @Override
-    public String toString() {
-        return "Actor{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", nationality='" + nationality + '\'' +
-                '}';
     }
 }

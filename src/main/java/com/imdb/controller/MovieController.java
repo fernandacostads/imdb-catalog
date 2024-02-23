@@ -1,10 +1,10 @@
 package com.imdb.controller;
 
-import com.imdb.dto.ActorDTO;
-import com.imdb.dto.DirectorDTO;
-import com.imdb.dto.MovieDTO;
+import com.imdb.DTO.ActorDTO;
+import com.imdb.DTO.DirectorDTO;
+import com.imdb.DTO.MovieDTO;
 import com.imdb.repository.IMovieRepository;
-import java.util.Arrays;
+import com.imdb.util.view.message.MovieMessage;
 import java.util.List;
 import java.util.Scanner;
 
@@ -30,7 +30,7 @@ public class MovieController {
     }
 
     public void registerMovie() {
-        System.out.println("Enter the details of the movie:");
+        System.out.println("Creating a new movie.. Please enter all details here: ");
         System.out.print("Title: ");
         String title = scanner.nextLine();
         System.out.print("Release Date: ");
@@ -43,20 +43,19 @@ public class MovieController {
         System.out.print("Description: ");
         String description = scanner.nextLine();
 
-        // Obtenha os atores e diretores chamando os controladores correspondentes
         List<ActorDTO> actors = actorController.registerActor();
-        List<DirectorDTO> directors = Arrays.asList(directorController.registerDirector());
+        List<DirectorDTO> directors = directorController.registerDirector();
 
-        // Crie um novo MovieDTO com os detalhes fornecidos
         MovieDTO newMovie = new MovieDTO(0, title, releaseDate, budget, currency, description, actors, directors);
         movieRepository.create(newMovie);
+        System.out.println(MovieMessage.REGISTERED.get());
     }
 
     public void updateMovie() {
         System.out.println("Enter the ID of the movie to update:");
         int id = scanner.nextInt();
         scanner.nextLine();
-        MovieDTO movieId = new MovieDTO( id,null,0,0,null,null,null,null);
+        MovieDTO movieId = new MovieDTO(id, null, 0, 0, null, null, null, null);
         MovieDTO movieToUpdate = movieRepository.readById(movieId);
         if (movieToUpdate != null) {
             System.out.println("Enter the new title:");
@@ -90,25 +89,25 @@ public class MovieController {
             );
 
             movieRepository.update(movieToUpdate, updatedMovie);
-            System.out.println("Movie updated successfully.");
+            System.out.println(MovieMessage.UPDATED.get());
         } else {
-            System.out.println("Movie not found.");
+            System.out.println(MovieMessage.LIST_NOT_FOUND.get());
         }
     }
 
-    public void delete() {
+    public void deleteMovie() {
         System.out.println("Enter the ID of the movie to delete:");
         int id = scanner.nextInt();
         MovieDTO movieId = new MovieDTO(id, null, 0, 0, null, null, null, null);
         MovieDTO idMovie = movieRepository.readById(movieId);
         movieRepository.delete(idMovie);
+        System.out.println(MovieMessage.DELETED.get());
     }
 
     public void searchMovies() {
-        System.out.println("Enter the title keyword to search for:");
+        System.out.println("Enter the title keyword to search for a movie:");
         String keyword = scanner.next();
-        MovieDTO movieTitle = new MovieDTO( 0,keyword,0,0,null,null,null,null);
+        MovieDTO movieTitle = new MovieDTO(0, keyword, 0, 0, null, null, null, null);
         movieRepository.readByName(movieTitle).forEach(System.out::println);
-        //Reavaliar a questão do DTO de pesquisa, pois envia uma string ao invés de um DTO
     }
 }

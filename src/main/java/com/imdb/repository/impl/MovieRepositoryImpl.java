@@ -6,7 +6,6 @@ import com.imdb.DTO.MovieDTO;
 import com.imdb.model.Movie;
 import com.imdb.repository.IMovieRepository;
 import com.imdb.util.exceptions.MovieException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

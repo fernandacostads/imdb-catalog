@@ -14,7 +14,7 @@ public class Director {
   private String name;
   private String nationality;
   private LocalDate birthDate;
-  private List<Movie> movies;
+  private final List<Movie> movies;
 
   /**
    * Constructor for creating a director instance.
@@ -123,13 +123,4 @@ public class Director {
     return movies;
   }
 
-  /**
-   * Sets the list of movies the director has participated in.
-   *
-   * @param movies The new list of movies for the director.
-   */
-
-  public void setMovies(List<Movie> movies) {
-    this.movies = movies;
-  }
 }

@@ -121,8 +121,11 @@ MovieDTO(
     private int id;
     private String title;
     private int releaseDate;
+    private double budget;
+    private String currency;
     private String description;
-    private String query;
+    private List<ActorDTO> actors;
+    private List<DirectorDTO> director;
 
     /**
      * Sets the movie ID.
@@ -161,6 +164,25 @@ MovieDTO(
     }
 
     /**
+     * Sets a search query used for filtering movies based on certain criteria, such as title or release date.
+     * This method is particularly useful when constructing a MovieDTO for search operations where the query
+     * might not directly map to a specific movie property but is used to filter the list of movies.
+     *
+     * @param  budget search query string.
+     * @return The builder instance with the query set, allowing for fluent chaining of builder methods.
+     */
+
+    public MovieDTOBuilder budget(double budget) {
+      this.budget = budget;
+      return this;
+    }
+
+    public MovieDTOBuilder currency(String currency) {
+      this.currency = currency;
+      return this;
+    }
+
+    /**
      * Sets the movie release date.
      *
      * @param description The movie release date.
@@ -172,19 +194,7 @@ MovieDTO(
       return this;
     }
 
-    /**
-     * Sets a search query used for filtering movies based on certain criteria, such as title or release date.
-     * This method is particularly useful when constructing a MovieDTO for search operations where the query
-     * might not directly map to a specific movie property but is used to filter the list of movies.
-     *
-     * @param query The search query string.
-     * @return The builder instance with the query set, allowing for fluent chaining of builder methods.
-     */
 
-    public MovieDTOBuilder query(String query) {
-      this.query = query;
-      return this;
-    }
 
     /**
      * Builds and returns a MovieDTO instance based on the previously set properties.
@@ -193,7 +203,7 @@ MovieDTO(
      */
 
     public MovieDTO build() {
-      return new MovieDTO(id, title, releaseDate, 0, query, description, List.of(), List.of());
+      return new MovieDTO(id, title, releaseDate, budget, currency, description, List.of(), List.of());
     }
   }
 }

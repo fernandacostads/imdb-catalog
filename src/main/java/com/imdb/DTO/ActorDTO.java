@@ -1,7 +1,6 @@
 package com.imdb.DTO;
 
 import com.imdb.model.Actor;
-import com.imdb.model.Movie;
 import com.imdb.util.view.message.ActorMessage;
 import com.imdb.util.view.message.Colors;
 
@@ -18,8 +17,7 @@ public record ActorDTO(
         int id,
         String name,
         String nationality,
-        LocalDate birthDate,
-        List<Movie> movies
+        LocalDate birthDate
 ) {
 
   /**
@@ -34,8 +32,7 @@ public record ActorDTO(
             actorDTO.id(),
             actorDTO.name(),
             actorDTO.nationality(),
-            actorDTO.birthDate(),
-            actorDTO.movies()
+            actorDTO.birthDate()
     );
   }
 
@@ -51,8 +48,7 @@ public record ActorDTO(
             actor.getId(),
             actor.getName(),
             actor.getNationality(),
-            actor.getBirthDate(),
-            actor.getMovies()
+            actor.getBirthDate()
     );
   }
 

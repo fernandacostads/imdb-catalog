@@ -70,7 +70,7 @@ public final class ActorController {
     System.out.print(ActorMessage.ENTER_ACTOR_ID_UPDATE.get());
     int id = scanner.nextInt();
     scanner.nextLine();
-    ActorDTO actorDTOId = new ActorDTO(id, null, null, null, List.of());
+    ActorDTO actorDTOId = new ActorDTO(id, null, null, null);
     ActorDTO actorToUpdate = actorRepository.readById(actorDTOId);
 
     if (actorToUpdate == null) {
@@ -90,7 +90,7 @@ public final class ActorController {
     System.out.print(ActorMessage.ENTER_ACTOR_ID_DELETE.get());
     int id = scanner.nextInt();
     scanner.nextLine();
-    ActorDTO actorDTO = new ActorDTO(id, null, null, null, List.of());
+    ActorDTO actorDTO = new ActorDTO(id, null, null, null);
 
     ActorDTO actorToDelete = actorRepository.readById(actorDTO);
 
@@ -109,7 +109,7 @@ public final class ActorController {
   public void searchActors() {
     System.out.print(ActorMessage.ENTER_SEARCH_KEYWORD.get());
     String keyword = scanner.next();
-    ActorDTO actorName = new ActorDTO(0, keyword, null, null, List.of());
+    ActorDTO actorName = new ActorDTO(0, keyword, null, null);
     List<ActorDTO> actorDTOList = actorRepository.search(actorName);
     System.out.println(actorDTOList.isEmpty() ? ActorMessage.ACTOR_FOUND_NAME : actorDTOList);
   }
@@ -127,6 +127,6 @@ public final class ActorController {
     String nationality = scanner.nextLine();
     System.out.print(ActorMessage.ENTER_ACTOR_BIRTHDATE.get());
     LocalDate birthdate = LocalDate.parse(scanner.nextLine());
-    return new ActorDTO(0, name, nationality, birthdate, List.of());
+    return new ActorDTO(0, name, nationality, birthdate);
   }
 }

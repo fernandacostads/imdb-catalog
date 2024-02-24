@@ -34,7 +34,7 @@ public class DirectorRepositoryImpl implements IDirectorRepository {
 
   private DirectorRepositoryImpl() {
     directorsList = new ArrayList<>(10);
-    directorsList = FileHandler.readDirectorsFromFile(FILE_PATH);
+    //directorsList = FileHandler.readDirectorsFromFile(FILE_PATH);
     idGenerator = directorsList.isEmpty() ? 1 : directorsList.getLast().getId() + 1;
   }
 
@@ -53,197 +53,146 @@ public class DirectorRepositoryImpl implements IDirectorRepository {
   }
 
   /**
-   * Creates a new director record based on the provided information within DirectorDTO.
-   * Checks for existing directors to prevent duplicates. Updates the director list and persists
-   * it to the file.
-   *
-   * @param entry The DirectorDTO containing information for creating a new director.
-   * @return The DirectorDTO representing the created director.
-   * @throws DirectorException.DirectorAlreadyExist if a director with the same identifying information already exists.
+   * Creates a new director based on the provided information, adds it to the directors list, and returns a DTO representing the new director.
+   * @param entry The details of the director to be created.
+   * @return A DTO representing the newly created director.
    */
-
   @Override
   public DirectorDTO create(DirectorDTO entry) {
-    if (existingDirector(entry.name(), entry.nationality(), entry.birthDate())) {
-      System.out.println("The director is already on the list!");
-      return entry;
-    } else {
-      Director newDirector = new Director(
-              idGenerator++,
-              entry.name(),
-              entry.nationality(),
-              entry.birthDate(),
-              entry.movies()
-      );
-      directorsList.add(newDirector);
-      //     FileHandler.updateFileD(directorsList, FILE_PATH);
-      return DirectorDTO.fromDirector(newDirector);
-    }
+    checkDirectorAlreadyExist(entry.name(), entry.nationality(), String.valueOf(entry.birthDate()));
+
+    Director newDirector = new Director(
+            idGenerator++,
+            entry.name(),
+            entry.nationality(),
+            entry.birthDate()
+    );
+
+    directorsList.add(newDirector);
+
+    return DirectorDTO.fromDirector(newDirector);
   }
 
   /**
-   * Retrieves all director records as a list of DirectorDTOs.
-   *
-   * @return A list of all directors in DirectorDTO form.
+   * Returns a list of DTOs representing all existing directors.
+   * @return A list of DTOs representing all existing directors.
    */
-
   @Override
   public List<DirectorDTO> read() {
     List<DirectorDTO> directorDTOList = directorsList.stream()
             .map(DirectorDTO::fromDirector)
             .collect(Collectors.toList());
+
     checkEmptyListException(directorDTOList);
+
     return directorDTOList;
   }
 
   /**
-   * Updates an existing director record with new information provided in an DirectorDTO.
-   *
-   * @param entry  The original director details to identify the director to be updated.
-   * @param entry2 The new director details for the update.
-   * @return The updated DirectorDTO.
-   * @throws DirectorException.DirectorNotFoundException if no director is found with the provided ID.
+   * Updates the information of an existing director based on the provided information and returns a DTO representing the updated director.
+   * @param entry The DTO representing the director to be updated.
+   * @param entry2 The DTO with the new information of the director.
+   * @return A DTO representing the updated director.
    */
-
   @Override
   public DirectorDTO update(DirectorDTO entry, DirectorDTO entry2) {
     Director director = DirectorDTO.toDirector(entry);
+
+
     director.setName(entry2.name());
     director.setNationality(entry2.nationality());
     director.setBirthDate(entry2.birthDate());
-    director.setMovies(entry2.movies());
 
-    //    FileHandler.updateFileD(directorsList, FILE_PATH);
     return DirectorDTO.fromDirector(director);
   }
 
   /**
-   * Deletes a director based on the information provided in an DirectorDTO.
-   *
-   * @param entry The DirectorDTO identifying the director to be deleted.
-   * @throws DirectorException.DirectorNotFoundException if the director to be deleted cannot be found.
+   * Removes a director from the list based on the provided DTO.
+   * @param entry The DTO representing the director to be removed.
    */
-
-
   @Override
   public void delete(DirectorDTO entry) {
-    Director directorToDelete = foundDirectorId(entry.id());
+    Director director = foundDirectorId(entry.id());
 
-    if (directorToDelete != null) {
-      directorsList.remove(directorToDelete);
-      //   FileHandler.updateFileD(directorsList, FILE_PATH);
-    } else {
-      throw new ActorException(entry.name() + "Do not existe");
-    }
+    directorsList.remove(director);
   }
 
   /**
-   * Searches for directors matching a specific name.
-   *
-   * @param entry The DirectorDTO containing the name to search for.
-   * @return A list of DirectorDTOs matching the search criteria.
+   * Returns a list of directors that match the provided name.
+   * @param entry The DTO with the name of the director to be searched.
+   * @return A list of DTOs representing the found directors.
    */
-
   @Override
   public List<DirectorDTO> search(DirectorDTO entry) {
     List<DirectorDTO> list = directorsList.stream()
             .filter(director -> director.getName().equalsIgnoreCase(entry.name()))
             .map(DirectorDTO::fromDirector)
             .collect(Collectors.toList());
+
     checkEmptyListException(list);
     return list;
   }
 
   /**
-   * Finds a director by their unique ID and returns their details as an DirectorDTO.
-   *
-   * @param directorDTO The DirectorDTO containing the ID of the director to read.
-   * @return The DirectorDTO of the read director.
-   * @throws DirectorException.DirectorNotFoundException if no director is read with the specified ID.
+   * Returns a DTO representing the director with the provided ID.
+   * @param directorDTO The DTO with the ID of the director to be read.
+   * @return A DTO representing the found director.
    */
-
   @Override
   public DirectorDTO readById(DirectorDTO directorDTO) {
     Director director = foundDirectorId(directorDTO.id());
+
     checkDirectorNotFoundException(director);
+
     return DirectorDTO.fromDirector(director);
   }
 
   /**
-   * Searches for a director by ID within the list of directors.
-   *
-   * @param id The ID of the director to find.
-   * @return The director if found, or null otherwise.
+   * Finds a director in the list based on the provided ID.
+   * @param id The ID of the director to be found.
+   * @return The found director or null if not found.
    */
-
   private Director foundDirectorId(int id) {
     return directorsList.stream()
-            .filter(director -> director.getId() == id)
+            .filter(director1 -> director1.getId() == id)
             .findFirst()
             .orElse(null);
   }
 
   /**
-   * Searches for directors by their name.
-   * This method filters all directors whose names contain the specified name substring, ignoring case.
-   *
-   * @param name The name or partial name to search for.
-   * @return A list of directors whose names match the search criteria.
+   * Checks if the DTO list is empty and throws an exception if it is.
+   * @param list The list of DTOs to be checked.
    */
-
-  private List<DirectorDTO> searchDirectorName(String name) {
-    return directorsList.stream()
-            .filter(director -> director.getName().toLowerCase().contains(name.toLowerCase()))
-            .map(DirectorDTO::fromDirector)
-            .collect(Collectors.toList());
-  }
-
-  /**
-   * Checks if the provided list of DirectorDTOs is empty and throws an {@link DirectorException.DirectorListIsEmpty} exception if it is.
-   * This method is used to ensure that a list of directors is not empty before proceeding with further operations.
-   *
-   * @param list The list of DirectorDTOs to check for emptiness.
-   */
-
   private void checkEmptyListException(List<DirectorDTO> list) {
-    try {
-      if (list.isEmpty()) {
-        throw new DirectorException.DirectorListIsEmpty();
-      }
-    } catch (DirectorException.DirectorListIsEmpty e) {
-      throw new RuntimeException(e);
+    if (list.isEmpty()) {
+      throw new DirectorException.DirectorListIsEmpty();
     }
   }
 
   /**
-   * Checks if the provided director is null and throws an {@link DirectorException.DirectorNotFoundException} exception if it is.
-   * This method is used to ensure that a director is found before further processing.
-   *
-   * @param director The director object to check for null.
-   */
-  private void checkDirectorNotFoundException(Director director) {
-    try {
-      if (director == null) {
-        throw new DirectorException.DirectorNotFoundException();
-      }
-    } catch (DirectorException.DirectorNotFoundException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  /**
-   * Checks if a director already exists in the repository based on name, nationality, and birthdate.
-   *
-   * @param name        The name of the director.
+   * Checks if a director with the same name, nationality, and birthDate already exists and throws an exception if it does.
+   * @param name The name of the director.
    * @param nationality The nationality of the director.
-   * @param birthDate   The birthdate of the director.
-   * @return True if a director with the same name, nationality, and birthdate exists; false otherwise.
+   * @param birthDate The birthDate of the director.
    */
-
-  private boolean existingDirector(String name, String nationality, LocalDate birthDate) {
-    return directorsList.stream()
+  private void checkDirectorAlreadyExist(String name, String nationality, String birthDate) {
+    boolean exist = directorsList.stream()
             .anyMatch(director -> director.getName().equalsIgnoreCase(name) &&
                                   director.getNationality().equalsIgnoreCase(nationality) &&
                                   director.getBirthDate().equals(birthDate));
+    if (exist) {
+      throw new DirectorException.DirectorAlreadyExist(name);
+    }
   }
+
+  /**
+   * Checks if the director was found and throws an exception if not.
+   * @param director The director to be checked.
+   */
+  private void checkDirectorNotFoundException(Director director) {
+    if (director == null) {
+      throw new DirectorException.DirectorNotFoundException();
+    }
+  }
+
 }

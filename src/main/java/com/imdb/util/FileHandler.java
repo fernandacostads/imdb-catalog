@@ -94,7 +94,7 @@ public class FileHandler {
       int id = Integer.parseInt(tokens[0].split(": ")[1]);
       String name = tokens[1].split(": ")[1];
       String nationality = tokens[2].split(": ")[1];
-      Actor actor = new Actor(id, name, nationality, null, List.of());
+      Actor actor = new Actor(id, name, nationality, null);
       actor.setId(id);
       actorsList.add(actor);
     }
@@ -119,7 +119,7 @@ public class FileHandler {
       int id = Integer.parseInt(tokens[0].split(": ")[1]);
       String name = tokens[1].split(": ")[1];
       String nationality = tokens[2].split(": ")[1];
-      Director director = new Director(id, name, nationality, null, List.of());
+      Director director = new Director(id, name, nationality, null);
       director.setId(id);
       directorsList.add(director);
     }
@@ -146,7 +146,7 @@ public class FileHandler {
           int id = Integer.parseInt(parts[0].split(": ")[1].trim());
           String name = parts[1].split(": ")[1].trim();
           String nationality = parts[2].split(": ")[1].trim();
-          Actor actor = new Actor(id, name, nationality, null, List.of());//*/arrumar
+          Actor actor = new Actor(id, name, nationality, null);//*/arrumar
           actorsList.add(actor);
         }
       }
@@ -239,7 +239,7 @@ public class FileHandler {
           int id = Integer.parseInt(parts[0].split(": ")[1].trim());
           String name = parts[1].split(": ")[1].trim();
           String nationality = parts[2].split(": ")[1].trim();
-          Director director = new Director(id, name, nationality, null, List.of());//*/arrumar
+          Director director = new Director(id, name, nationality, null);//*/arrumar
           directorsList.add(director);
         }
       }

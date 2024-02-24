@@ -69,7 +69,7 @@ public final class DirectorController {
     System.out.print(DirectorMessage.ENTER_DIRECTOR_ID_UPDATE.get());
     int id = scanner.nextInt();
     scanner.nextLine();
-    DirectorDTO directorDTOId = new DirectorDTO(id, null, null, null, null);
+    DirectorDTO directorDTOId = new DirectorDTO(id, null, null, null);
     DirectorDTO directorToUpdate = directorRepository.readById(directorDTOId);
 
     if (directorToUpdate == null) {
@@ -89,7 +89,7 @@ public final class DirectorController {
     System.out.print(DirectorMessage.ENTER_DIRECTOR_ID_DELETE.get());
     int id = scanner.nextInt();
     scanner.nextLine();
-    DirectorDTO directorDTO = new DirectorDTO(id, null, null, null, null);
+    DirectorDTO directorDTO = new DirectorDTO(id, null, null, null);
 
     DirectorDTO directorToDelete = directorRepository.readById(directorDTO);
 
@@ -108,7 +108,7 @@ public final class DirectorController {
   public void searchDirectors() {
     System.out.print(DirectorMessage.ENTER_SEARCH_KEYWORD_DIRECTOR.get());
     String keyword = scanner.next();
-    DirectorDTO directorName = new DirectorDTO(0, keyword, null, null, List.of());
+    DirectorDTO directorName = new DirectorDTO(0, keyword, null, null);
     List<DirectorDTO> directorDTOList = directorRepository.search(directorName);
     System.out.println(directorDTOList.isEmpty() ? DirectorMessage.DIRECTOR_FOUND_NAME : directorDTOList);
   }
@@ -126,6 +126,6 @@ public final class DirectorController {
     String nationality = scanner.nextLine();
     System.out.print(DirectorMessage.ENTER_DIRECTOR_BIRTHDATE.get());
     LocalDate birthdate = LocalDate.parse(scanner.nextLine());
-    return new DirectorDTO(0, name, nationality, birthdate, List.of());
+    return new DirectorDTO(0, name, nationality, birthdate);
   }
 }

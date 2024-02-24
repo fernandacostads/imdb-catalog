@@ -1,6 +1,7 @@
 package com.imdb.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,15 +23,14 @@ public class Actor {
    * @param name        Name of the actor.
    * @param nationality Nationality of the actor.
    * @param birthDate   Birthdate of the actor.
-   * @param movies      List of movies the actor has participated in.
    */
 
-  public Actor(int id, String name, String nationality, LocalDate birthDate, List<Movie> movies) {
+  public Actor(int id, String name, String nationality, LocalDate birthDate) {
     this.id = id;
     this.name = name;
     this.nationality = nationality;
     this.birthDate = birthDate;
-    this.movies = movies;
+    this.movies = new ArrayList<>(10);
   }
 
   /**

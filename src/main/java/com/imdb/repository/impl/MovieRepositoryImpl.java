@@ -5,7 +5,6 @@ import com.imdb.DTO.DirectorDTO;
 import com.imdb.DTO.MovieDTO;
 import com.imdb.model.Movie;
 import com.imdb.repository.IMovieRepository;
-import com.imdb.util.FileHandler;
 import com.imdb.util.exceptions.MovieException;
 
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ public class MovieRepositoryImpl implements IMovieRepository {
 
   private MovieRepositoryImpl() {
     moviesList = new ArrayList<>(10);
-    moviesList = FileHandler.readMoviesFromFile(FILE_PATH);
+    //moviesList = FileHandler.readMoviesFromFile(FILE_PATH);
     idGenerator = moviesList.isEmpty() ? 1 : moviesList.getLast().getId() + 1;
   }
 
@@ -114,7 +113,6 @@ public class MovieRepositoryImpl implements IMovieRepository {
   public MovieDTO update(MovieDTO entry, MovieDTO entry2) {
     Movie existingMovie = foundMovieId(entry.id());
 
-    if (existingMovie != null) {
       existingMovie.setTitle(entry2.title());
       existingMovie.setReleaseDate(entry2.releaseDate());
       existingMovie.setBudget(entry2.budget());
@@ -123,8 +121,6 @@ public class MovieRepositoryImpl implements IMovieRepository {
 
       //  FileHandler.updateFile(moviesList, FILE_PATH);
       return MovieDTO.fromMovie(existingMovie);
-    }
-    return null;
   }
 
   /**
@@ -136,13 +132,8 @@ public class MovieRepositoryImpl implements IMovieRepository {
   @Override
   public void delete(MovieDTO entry) {
     Movie movieToDelete = foundMovieId(entry.id());
-
-    if (movieToDelete != null) {
       moviesList.remove(movieToDelete);
       //FileHandler.updateFile(moviesList, FILE_PATH);
-    } else {
-      throw new MovieException(entry.title() + "Do not exist");
-    }
   }
 
   /**
@@ -185,11 +176,13 @@ public class MovieRepositoryImpl implements IMovieRepository {
    */
 
   private Movie foundMovieId(int id) {
-    return moviesList.stream()
+    Movie movie1 = moviesList.stream()
             .filter(movie -> movie.getId() == id)
             .findFirst()
             .orElse(null);
-  }
+    checkMovieNotFoundException(movie1);
+    return movie1;
+    }
 
   /**
    * Finds movies by their title.
@@ -215,12 +208,20 @@ public class MovieRepositoryImpl implements IMovieRepository {
   }
 
   private void checkEmptyListException(List<MovieDTO> list) {
-    try {
       if (list.isEmpty()) {
         throw new MovieException.MovieListIsEmpty();
       }
-    } catch (MovieException.MovieListIsEmpty e) {
-      return;
+  }
+
+  /**
+   * Checks if a movie was not found and throws a {@link MovieException.MovieNotFoundException} if it wasn't.
+   * @param movie The movie to check.
+   * @throws MovieException.MovieNotFoundException if the movie is null.
+   */
+  private void checkMovieNotFoundException(Movie movie)  {
+    if (movie == null) {
+      throw new MovieException.MovieNotFoundException();
     }
   }
 }
+

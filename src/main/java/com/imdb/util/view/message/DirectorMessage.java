@@ -19,7 +19,7 @@ public enum DirectorMessage {
   ENTER_SEARCH_KEYWORD_DIRECTOR("Enter the name keyword to search for a director: "),
   ENTER_DIRECTOR_NAME("Enter the name of the director: "),
   ENTER_DIRECTOR_NATIONALITY("Enter the nationality of the director: "),
-  ENTER_DIRECTOR_BIRTHDATE("Enter the birthdate of the director: ");
+  ENTER_DIRECTOR_BIRTHDATE("Enter the birthdate of the director (XXXX-XX-XX): ");
   private final String message;
 
   DirectorMessage(String message) {

@@ -9,8 +9,8 @@ import java.util.List;
  */
 
 public class Movie {
-  private final List<Actor> actors;
-  private final List<Director> directors;
+  private List<Actor> actors;
+  private List<Director> directors;
   private int id;
   private String title;
   private int releaseDate;
@@ -41,13 +41,13 @@ public class Movie {
     this.actors = actors;
     this.directors = directors;
 
-        /*for (Actor actor : actors) {
-            actor.getMovies().add(this);
-        }
+    for (Actor actor : actors) {
+      actor.getMovies().add(this);
+    }
 
-        /*for (Director director : directors) {
-            director.getMovies().add(this);
-        }*/
+    for (Director director : directors) {
+      director.getMovies().add(this);
+    }
   }
 
   /**
@@ -179,6 +179,14 @@ public class Movie {
   public List<Actor> getActors() {
     return actors;
   }
+  public void setActors(List<Actor> actors) {
+    this.actors = actors;
+  }
+
+  public void setDirectors(List<Director> directors) {
+    this.directors = directors;
+  }
+
 
   /**
    * Gets the list of directors of the movie.

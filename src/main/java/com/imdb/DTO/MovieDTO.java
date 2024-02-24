@@ -53,14 +53,12 @@ MovieDTO(
   }
 
   public static String formatMovies(List<MovieDTO> movies) {
-    // Constrói a string formatada dos filmes
     StringBuilder stringBuilder = new StringBuilder();
     if (movies.isEmpty()) {
       stringBuilder.append(MovieMessage.LIST_NOT_FOUND.get());
     } else {
       stringBuilder.append(Colors.YELLOW).append("Lista de filmes\n").append(Colors.RESET);
       for (MovieDTO movie : movies) {
-        // Supondo que o método toString() de MovieDTO retorne uma representação apropriada do filme
         stringBuilder.append(Colors.YELLOW).append(movie.id).append(" - ").append(Colors.RESET).append(movie.title).append("\n");
       }
     }

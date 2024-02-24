@@ -7,6 +7,7 @@ import com.imdb.repository.IMovieRepository;
 import com.imdb.util.exceptions.MovieException;
 import com.imdb.util.view.message.MovieMessage;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -32,14 +33,10 @@ public class MovieController {
    * @param scanner            Scanner for reading user input from the console.
    */
 
-  public MovieController(IMovieRepository movieRepository,
-                         ActorController actorController,
-                         DirectorController directorController,
-                         Scanner scanner) {
-
+  public MovieController(IMovieRepository movieRepository, ActorController actorController, DirectorController directorController, Scanner scanner) {
+    this.movieRepository = movieRepository;
     this.actorController = actorController;
     this.directorController = directorController;
-    this.movieRepository = movieRepository;
     this.scanner = scanner;
   }
 
@@ -66,6 +63,7 @@ public class MovieController {
 
     MovieDTO newMovie = new MovieDTO(0, title, releaseDate, budget, currency, description, actors, directors);
     movieRepository.create(newMovie);
+
     System.out.println(MovieMessage.REGISTERED.get());
   }
 
@@ -82,86 +80,150 @@ public class MovieController {
    */
 
   public void updateMovie() {
-    System.out.println(MovieDTO.formatMovies(movieRepository.read()));
-    System.out.println("Enter the ID of the movie to update:");
-    int id = scanner.nextInt();
+    System.out.println("Available movies for update:");
+    movieRepository.read().forEach(movie -> System.out.println(movie.id() + ": " + movie.title()));
+
+    System.out.print("Enter the ID of the movie you want to update: ");
+    int movieId = scanner.nextInt();
     scanner.nextLine();
-    MovieDTO movieId = new MovieDTO.MovieDTOBuilder().id(id).build();
-    MovieDTO movieToUpdate = movieRepository.readById(movieId);
-    if (movieToUpdate != null) {
-      System.out.println("Enter the new title:");
-      String title = scanner.nextLine();
 
-      System.out.println("Enter the new release date:");
-      int releaseDate = scanner.nextInt();
+    MovieDTO selectedMovie = movieRepository.readById(new MovieDTO.MovieDTOBuilder().id(movieId).build());
+    if (selectedMovie == null) {
+      System.out.println("Movie not found.");
+      return;
+    }
 
-      System.out.println("Enter the new budget:");
-      double budget = scanner.nextDouble();
+    System.out.println("You are updating: " + selectedMovie.title());
 
-      scanner.nextLine();
-      System.out.println("Enter the new currency:");
-      String currency = scanner.nextLine();
+    System.out.println("Updating movie details...");
 
-      System.out.println("Enter the new description:");
-      String description = scanner.nextLine();
+    System.out.println("Enter the new title:");
+    String title = scanner.nextLine();
 
-      List<ActorDTO> actors = movieToUpdate.actors();
-      List<DirectorDTO> directors = movieToUpdate.directors();
+    System.out.println("Enter the new release date:");
+    int releaseDate = scanner.nextInt();
 
-      MovieDTO updatedMovie = new MovieDTO(
-              movieToUpdate.id(),
-              title,
-              releaseDate,
-              budget,
-              currency,
-              description,
-              actors,
-              directors
-      );
+    System.out.println("Enter the new budget:");
+    double budget = scanner.nextDouble();
 
-      movieRepository.update(movieToUpdate, updatedMovie);
-      System.out.println(MovieMessage.UPDATED.get());
-    } else {
-      System.out.println(MovieMessage.LIST_NOT_FOUND.get());
+    scanner.nextLine();
+    System.out.println("Enter the new currency:");
+    String currency = scanner.nextLine();
+
+    System.out.println("Enter the new description:");
+    String description = scanner.nextLine();
+
+    System.out.println("Do you want to update actors? (yes/no)");
+
+    if (scanner.nextLine().trim().equalsIgnoreCase("yes")) {
+      updateActorsInMovie(selectedMovie);
+    }
+
+    System.out.println("Do you want to update directors? (yes/no)");
+
+    if (scanner.nextLine().trim().equalsIgnoreCase("yes")) {
+      updateDirectorsInMovie(selectedMovie);
+    }
+
+    MovieDTO updatedMovie = new MovieDTO.MovieDTOBuilder()
+            .title(title)
+            .releaseDate(releaseDate).build();
+
+
+    movieRepository.update(selectedMovie,updatedMovie);
+    System.out.println("Movie updated successfully.");
+  }
+
+  private void updateActorsInMovie(MovieDTO movie) {
+    System.out.println("Current actors in the movie:");
+    movie.actors().forEach(actor -> System.out.println(actor.id() + " - " + actor.name()));
+
+    System.out.println("Do you want to add or remove actors? (add/remove)");
+    String action = scanner.nextLine().trim();
+
+    switch (action) {
+      case "add":
+        List<ActorDTO> addedActors = actorController.createActor();
+        movie.actors().addAll(addedActors);
+        break;
+      case "remove":
+        System.out.println("Enter actor IDs to remove (comma separated):");
+        String[] idsToRemove = scanner.nextLine().split(",");
+        for (String idStr : idsToRemove) {
+          int idToRemove = Integer.parseInt(idStr.trim());
+          movie.actors().removeIf(actor -> actor.id() == idToRemove);
+        }
+        break;
     }
   }
 
-  /**
-   * Handles the deletion of a movie record identified by its unique ID.
-   */
+  private List<DirectorDTO> updateDirectorsInMovie(MovieDTO movie) {
+    System.out.println("Current directors in the movie:");
+    movie.directors().forEach(director -> System.out.println(director.id() + " - " + director.name()));
+
+    System.out.println("Do you want to add or remove directors? (add/remove)");
+    String action = scanner.nextLine().trim();
+
+    switch (action) {
+      case "add":
+        List<DirectorDTO> addedDirectors = directorController.createDirector();
+        movie.directors().addAll(addedDirectors);
+        break;
+      case "remove":
+        System.out.println("Enter director IDs to remove:");
+        String[] idsToRemove = scanner.nextLine().split(",");
+        for (String idStr : idsToRemove) {
+          int idToRemove = Integer.parseInt(idStr.trim());
+          movie.directors().removeIf(director -> director.id() == idToRemove);
+        }
+        break;
+    }
+    return new ArrayList<>(movie.directors());
+  }
+
+
+/**
+ * Handles the deletion of a movie record identified by its unique ID.
+ */
 
   public void deleteMovie() {
-    System.out.println(MovieDTO.formatMovies(movieRepository.read()));
-    System.out.println("Enter the ID of the movie to delete:");
-    int id = scanner.nextInt();
+    System.out.println("Available movies for deletion:");
+    movieRepository.read().forEach(movie -> System.out.println(movie.id() + ": " + movie.title()));
+
+    System.out.print("Enter the ID of the movie you want to delete: ");
+    int movieId = scanner.nextInt();
     scanner.nextLine();
-    MovieDTO movieId = new MovieDTO.MovieDTOBuilder().id(id).build();
-    MovieDTO idMovie = movieRepository.readById(movieId);
-    movieRepository.delete(idMovie);
-    System.out.println(MovieMessage.DELETED.get());
-  }
 
-  /**
-   * Supports searching for movies by title or specific attributes through user input.
-   */
-
-  public void searchMovies() {
-    System.out.println("Enter a title keyword or release date to search for movies:");
-    String query = scanner.nextLine();
-
-    try {
-      MovieDTO movieQuery = new MovieDTO.MovieDTOBuilder().query(query).build();
-      List<MovieDTO> movies = movieRepository.search(movieQuery);
-      if (movies.isEmpty()) {
-        System.out.println(MovieMessage.LIST_NOT_FOUND.get());
-      } else {
-        movies.forEach(movie -> System.out.println(movie.toString()));
-      }
-    } catch (MovieException e) {
-      System.out.println(e.getMessage());
-    } catch (Exception e) {
-      System.out.println(MovieMessage.SEARCH_ERROR.get());
+    MovieDTO movieToDelete = movieRepository.readById(new MovieDTO.MovieDTOBuilder().id(movieId).build());
+    if (movieToDelete == null) {
+      System.out.println("Movie not found.");
+      return;
     }
+
+    movieRepository.delete(movieToDelete);
+    System.out.println("Movie deleted successfully.");
   }
 
+/**
+ * Supports searching for movies by title or specific attributes through user input.
+ */
+
+    public void searchMovies () {
+      System.out.println("Enter a title keyword or release date to search for movies:");
+      String query = scanner.nextLine();
+
+      try {
+        MovieDTO movieQuery = new MovieDTO.MovieDTOBuilder().query(query).build();
+        List<MovieDTO> movies = movieRepository.search(movieQuery);
+        if (movies.isEmpty()) {
+          System.out.println(MovieMessage.LIST_NOT_FOUND.get());
+        } else {
+          movies.forEach(movie -> System.out.println(movie.toString()));
+        }
+      } catch (MovieException e) {
+        System.out.println(e.getMessage());
+      } catch (Exception e) {
+        System.out.println(MovieMessage.SEARCH_ERROR.get());
+      }
+    }
 }

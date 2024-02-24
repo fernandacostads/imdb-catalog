@@ -1,7 +1,6 @@
 package com.imdb.DTO;
 
 import com.imdb.model.Director;
-import com.imdb.model.Movie;
 import com.imdb.util.view.message.Colors;
 import com.imdb.util.view.message.DirectorMessage;
 
@@ -18,8 +17,7 @@ public record DirectorDTO(
         int id,
         String name,
         String nationality,
-        LocalDate birthDate,
-        List<Movie> movies
+        LocalDate birthDate
 ) {
 
   /**
@@ -34,8 +32,7 @@ public record DirectorDTO(
             directorDTO.id(),
             directorDTO.name(),
             directorDTO.nationality(),
-            directorDTO.birthDate(),
-            directorDTO.movies()
+            directorDTO.birthDate()
     );
   }
 
@@ -51,8 +48,7 @@ public record DirectorDTO(
             director.getId(),
             director.getName(),
             director.getNationality(),
-            director.getBirthDate(),
-            director.getMovies()
+            director.getBirthDate()
     );
   }
 

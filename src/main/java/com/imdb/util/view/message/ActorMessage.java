@@ -20,7 +20,7 @@ public enum ActorMessage {
   ENTER_SEARCH_KEYWORD("Enter the name keyword to search for an actor: "),
   ENTER_ACTOR_NAME("Enter the name of the actor: "),
   ENTER_ACTOR_NATIONALITY("Enter the nationality of the actor: "),
-  ENTER_ACTOR_BIRTHDATE("Enter the birthdate of the director: ");
+  ENTER_ACTOR_BIRTHDATE("Enter the birthdate of the director (XXXX-XX-XX): ");
 
   private final String message;
 

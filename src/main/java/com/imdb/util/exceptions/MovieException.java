@@ -1,5 +1,8 @@
 package com.imdb.util.exceptions;
 
+import com.imdb.util.view.Menu;
+import com.imdb.util.view.message.Colors;
+
 /**
  * Custom exception class for movie-related errors within the application.
  * Extends RuntimeException to allow for unchecked exceptions tailored to movie operations.
@@ -7,6 +10,7 @@ package com.imdb.util.exceptions;
 
 
 public class MovieException extends RuntimeException {
+  Menu menu = new Menu();
 
   /**
    * Constructor for MovieException with a detailed error message.
@@ -16,6 +20,8 @@ public class MovieException extends RuntimeException {
 
   public MovieException(String message) {
     super(message);
+    System.out.println(Colors.RED + message + Colors.RESET);
+    menu.displayMainMenu();
   }
 
   /**
@@ -30,6 +36,8 @@ public class MovieException extends RuntimeException {
 
     public MovieListIsEmpty() {
       super("No movies found on the list.");
+      System.out.println(Colors.RED + "No movies found on the list." + Colors.RESET);
+      menu.displayMainMenu();
     }
   }
 
@@ -47,6 +55,8 @@ public class MovieException extends RuntimeException {
 
     public MovieAlreadyExists(String title) {
       super("The movie '" + title + "' already exists in the repository.");
+      System.out.println(Colors.RED + "The movie '" + title + "' already exists in the repository." + Colors.RESET);
+      menu.displayMainMenu();
     }
   }
 
@@ -62,6 +72,8 @@ public class MovieException extends RuntimeException {
 
     public MovieNotFoundException() {
       super("Movie not found on the list.");
+      System.out.println(Colors.RED + "Movie not found on the list." + Colors.RESET);
+      menu.displayMainMenu();
     }
   }
 }

@@ -6,8 +6,6 @@ import com.imdb.DTO.MovieDTO;
 import com.imdb.repository.IMovieRepository;
 import com.imdb.util.exceptions.MovieException;
 import com.imdb.util.view.message.MovieMessage;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -127,7 +125,11 @@ public class MovieController {
 
     MovieDTO updatedMovie = new MovieDTO.MovieDTOBuilder()
             .title(title)
-            .releaseDate(releaseDate).build();
+            .releaseDate(releaseDate)
+            .budget(budget)
+            .currency(currency)
+            .description(description)
+            .build();
 
 
     movieRepository.update(selectedMovie,updatedMovie);
@@ -157,7 +159,7 @@ public class MovieController {
     }
   }
 
-  private List<DirectorDTO> updateDirectorsInMovie(MovieDTO movie) {
+  private void updateDirectorsInMovie(MovieDTO movie) {
     System.out.println("Current directors in the movie:");
     movie.directors().forEach(director -> System.out.println(director.id() + " - " + director.name()));
 
@@ -178,7 +180,6 @@ public class MovieController {
         }
         break;
     }
-    return new ArrayList<>(movie.directors());
   }
 
 
@@ -213,7 +214,7 @@ public class MovieController {
       String query = scanner.nextLine();
 
       try {
-        MovieDTO movieQuery = new MovieDTO.MovieDTOBuilder().query(query).build();
+        MovieDTO movieQuery = new MovieDTO.MovieDTOBuilder().title(query).build();
         List<MovieDTO> movies = movieRepository.search(movieQuery);
         if (movies.isEmpty()) {
           System.out.println(MovieMessage.LIST_NOT_FOUND.get());

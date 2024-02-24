@@ -3,8 +3,6 @@ package com.imdb.repository.impl;
 import com.imdb.DTO.DirectorDTO;
 import com.imdb.model.Director;
 import com.imdb.repository.IDirectorRepository;
-import com.imdb.util.FileHandler;
-import com.imdb.util.exceptions.ActorException;
 import com.imdb.util.exceptions.DirectorException;
 
 import java.time.LocalDate;
@@ -59,7 +57,7 @@ public class DirectorRepositoryImpl implements IDirectorRepository {
    */
   @Override
   public DirectorDTO create(DirectorDTO entry) {
-    checkDirectorAlreadyExist(entry.name(), entry.nationality(), String.valueOf(entry.birthDate()));
+    checkDirectorAlreadyExist(entry.name(), entry.nationality(),(entry.birthDate()));
 
     Director newDirector = new Director(
             idGenerator++,
@@ -175,7 +173,7 @@ public class DirectorRepositoryImpl implements IDirectorRepository {
    * @param nationality The nationality of the director.
    * @param birthDate The birthDate of the director.
    */
-  private void checkDirectorAlreadyExist(String name, String nationality, String birthDate) {
+  private void checkDirectorAlreadyExist(String name, String nationality, LocalDate birthDate) {
     boolean exist = directorsList.stream()
             .anyMatch(director -> director.getName().equalsIgnoreCase(name) &&
                                   director.getNationality().equalsIgnoreCase(nationality) &&

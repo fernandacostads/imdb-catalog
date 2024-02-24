@@ -2,8 +2,8 @@ package com.imdb.repository.impl;
 
 import com.imdb.DTO.ActorDTO;
 import com.imdb.model.Actor;
-import com.imdb.repository.IActorRepository;
 import com.imdb.util.FileHandler;
+import com.imdb.repository.IActorRepository;
 import com.imdb.util.exceptions.ActorException;
 
 import java.util.ArrayList;

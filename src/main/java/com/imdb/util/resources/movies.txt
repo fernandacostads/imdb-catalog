@@ -1,0 +1,119 @@
+Id: 1
+Title: Inception
+ReleaseDate: 2010
+Budget: 160000000
+Currency: USD
+Description: A mind-bending heist movie
+Actors:
+    Id: 101, Name: Leonardo DiCaprio, Nationality: American
+    Id: 102, Name: Joseph Gordon-Levitt, Nationality: American
+Directors:
+    Id: 201, Name: Christopher Nolan, Nationality: British
+
+Id: 2
+Title: The Shawshank Redemption
+ReleaseDate: 1994
+Budget: 25000000
+Currency: USD
+Description: A tale of hope and friendship in prison
+Actors:
+    Id: 103, Name: Tim Robbins, Nationality: American
+    Id: 104, Name: Morgan Freeman, Nationality: American
+Directors:
+    Id: 202, Name: Frank Darabont, Nationality: American
+
+Id: 3
+Title: The Godfather
+ReleaseDate: 1972
+Budget: 6000000
+Currency: USD
+Description: Mafia family drama
+Actors:
+    Id: 105, Name: Marlon Brando, Nationality: American
+    Id: 106, Name: Al Pacino, Nationality: American
+Directors:
+    Id: 203, Name: Francis Ford Coppola, Nationality: American
+
+Id: 4
+Title: The Dark Knight
+ReleaseDate: 2008
+Budget: 185000000
+Currency: USD
+Description: Batman faces the Joker
+Actors:
+    Id: 107, Name: Christian Bale, Nationality: British
+    Id: 108, Name: Heath Ledger, Nationality: Australian
+Directors:
+    Id: 204, Name: Christopher Nolan, Nationality: British
+
+Id: 5
+Title: Pulp Fiction
+ReleaseDate: 1994
+Budget: 8000000
+Currency: USD
+Description: Interwoven crime stories in Los Angeles
+Actors:
+    Id: 109, Name: John Travolta, Nationality: American
+    Id: 110, Name: Samuel L. Jackson, Nationality: American
+Directors:
+    Id: 205, Name: Quentin Tarantino, Nationality: American
+
+Id: 6
+Title: Schindler's List
+ReleaseDate: 1993
+Budget: 22000000
+Currency: USD
+Description: A businessman saves Jewish lives during the Holocaust
+Actors:
+    Id: 111, Name: Liam Neeson, Nationality: Irish
+    Id: 112, Name: Ben Kingsley, Nationality: British
+Directors:
+    Id: 206, Name: Steven Spielberg, Nationality: American
+
+Id: 7
+Title: Forrest Gump
+ReleaseDate: 1994
+Budget: 55000000
+Currency: USD
+Description: A man with a low IQ witnesses and unwittingly influences historical events
+Actors:
+    Id: 113, Name: Tom Hanks, Nationality: American
+    Id: 114, Name: Robin Wright, Nationality: American
+Directors:
+    Id: 207, Name: Robert Zemeckis, Nationality: American
+
+Id: 8
+Title: Fight Club
+ReleaseDate: 1999
+Budget: 63000000
+Currency: USD
+Description: An insomniac office worker and a soap salesman form an underground fight club
+Actors:
+    Id: 115, Name: Edward Norton, Nationality: American
+    Id: 116, Name: Brad Pitt, Nationality: American
+Directors:
+    Id: 208, Name: David Fincher, Nationality: American
+
+Id: 9
+Title: The Matrix
+ReleaseDate: 1999
+Budget: 63000000
+Currency: USD
+Description: A computer hacker learns about the true nature of his reality
+Actors:
+    Id: 117, Name: Keanu Reeves, Nationality: Canadian
+    Id: 118, Name: Laurence Fishburne, Nationality: American
+Directors:
+    Id: 209, Name: Lana and Lilly Wachowski, Nationality: American
+
+Id: 10
+Title: The Lord of the Rings: The Fellowship of the Ring
+ReleaseDate: 2001
+Budget: 93000000
+Currency: USD
+Description: A hobbit sets out to destroy a powerful ring
+Actors:
+    Id: 119, Name: Elijah Wood, Nationality: American
+    Id: 120, Name: Ian McKellen, Nationality: British
+Directors:
+    Id: 210, Name: Peter Jackson, Nationality: New Zealand

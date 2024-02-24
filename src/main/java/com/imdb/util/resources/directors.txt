@@ -1,0 +1,6 @@
+Directors: 
+Id: 1, Name: Sofia Rivera, Nationality: Mexican
+Id: 2, Name: Alex Johnson, Nationality: Canadian
+Id: 3, Name: Emilia Clarke, Nationality: Irish
+Id: 4, Name: Carlos Santos, Nationality: Portuguese
+Id: 5, Name: Mohammed Al Fayed, Nationality: Egyptian

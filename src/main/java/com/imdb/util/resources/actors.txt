@@ -1,0 +1,11 @@
+Actors: 
+Id: 1, Name: Marco Silva, Nationality: Brazilian
+Id: 2, Name: Elena Rodriguez, Nationality: Spanish
+Id: 3, Name: Aarav Patel, Nationality: Indian
+Id: 4, Name: Li Wei, Nationality: Chinese
+Id: 5, Name: Natasha Ivanova, Nationality: Russian
+Id: 6, Name: David Smith, Nationality: British
+Id: 7, Name: Clara Müller, Nationality: German
+Id: 8, Name: Yuto Nakamura, Nationality: Japanese
+Id: 9, Name: Olivia Martin, Nationality: French
+Id: 10, Name: James O'Neil, Nationality: Irish

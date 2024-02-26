@@ -30,7 +30,7 @@ public class Director {
     this.name = name;
     this.nationality = nationality;
     this.birthDate = birthDate;
-    this.movies = new ArrayList<>(10);
+    this.movies = new ArrayList<>();
   }
 
   /**
@@ -121,6 +121,10 @@ public class Director {
 
   public List<Movie> getMovies() {
     return movies;
+  }
+
+  public void addMovie(Movie movie) {
+    this.movies.add(movie);
   }
 
 }

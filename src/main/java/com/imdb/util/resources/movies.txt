@@ -1,119 +1,96 @@
 Id: 1
-Title: Inception
-ReleaseDate: 2010
-Budget: 160000000
+Title: The Matrix
+ReleaseDate: 1999
+Budget: 63000000
 Currency: USD
-Description: A mind-bending heist movie
+Description: A cyberpunk action film
 Actors:
-    Id: 101, Name: Leonardo DiCaprio, Nationality: American
-    Id: 102, Name: Joseph Gordon-Levitt, Nationality: American
+    Id: 113, Name: Keanu Reeves, Nationality: Canadian, BirthDate: 1964-09-02
+    Id: 114, Name: Carrie-Anne Moss, Nationality: Canadian, BirthDate: 1967-08-21
 Directors:
-    Id: 201, Name: Christopher Nolan, Nationality: British
+    Id: 207, Name: The Wachowskis, Nationality: American, BirthDate: 1947-09-14
 
 Id: 2
+Title: Jurassic Park
+ReleaseDate: 1993
+Budget: 63000000
+Currency: USD
+Description: Dinosaurs in a theme park
+Actors:
+    Id: 115, Name: Sam Neill, Nationality: New Zealand, BirthDate: 1947-09-14
+    Id: 116, Name: Laura Dern, Nationality: American, BirthDate: 1967-02-10
+Directors:
+    Id: 208, Name: Steven Spielberg, Nationality: American, BirthDate: 1946-12-18
+
+Id: 3
+Title: Avatar
+ReleaseDate: 2009
+Budget: 237000000
+Currency: USD
+Description: Journey to Pandora
+Actors:
+    Id: 117, Name: Sam Worthington, Nationality: Australian, BirthDate: 1976-08-02
+    Id: 118, Name: Zoe Saldana, Nationality: American, BirthDate: 1978-06-19
+Directors:
+    Id: 209, Name: James Cameron, Nationality: Canadian, BirthDate: 1954-08-16
+
+Id: 4
+Title: Titanic
+ReleaseDate: 1997
+Budget: 200000000
+Currency: USD
+Description: Love story on a sinking ship
+Actors:
+    Id: 119, Name: Leonardo DiCaprio, Nationality: American, BirthDate: 1974-11-11
+    Id: 120, Name: Kate Winslet, Nationality: British, BirthDate: 1975-10-05
+Directors:
+    Id: 210, Name: James Cameron, Nationality: Canadian, BirthDate: 1954-08-16
+
+Id: 5
+Title: Star Wars: Episode IV - A New Hope
+ReleaseDate: 1977
+Budget: 11000000
+Currency: USD
+Description: Epic space opera
+Actors:
+    Id: 121, Name: Mark Hamill, Nationality: American, BirthDate: 1951-09-25
+    Id: 122, Name: Harrison Ford, Nationality: American, BirthDate: 1942-07-13
+Directors:
+    Id: 211, Name: George Lucas, Nationality: American, BirthDate: 1944-05-14
+
+Id: 6
+Title: The Dark Knight Rises
+ReleaseDate: 2012
+Budget: 250000000
+Currency: USD
+Description: Batman faces Bane
+Actors:
+    Id: 123, Name: Christian Bale, Nationality: British, BirthDate: 1974-01-30
+    Id: 124, Name: Tom Hardy, Nationality: British, BirthDate: 1977-09-15
+Directors:
+    Id: 212, Name: Christopher Nolan, Nationality: British, BirthDate: 1970-07-30
+
+Id: 7
+Title: Inglourious Basterds
+ReleaseDate: 2009
+Budget: 70000000
+Currency: USD
+Description: Quentin Tarantino's WWII film
+Actors:
+    Id: 125, Name: Brad Pitt, Nationality: American, BirthDate: 1963-12-18
+    Id: 126, Name: Christoph Waltz, Nationality: German, BirthDate: 1956-10-04
+Directors:
+    Id: 213, Name: Quentin Tarantino, Nationality: American, BirthDate: 1963-03-27
+
+Id: 8
 Title: The Shawshank Redemption
 ReleaseDate: 1994
 Budget: 25000000
 Currency: USD
 Description: A tale of hope and friendship in prison
 Actors:
-    Id: 103, Name: Tim Robbins, Nationality: American
-    Id: 104, Name: Morgan Freeman, Nationality: American
+    Id: 127, Name: Tim Robbins, Nationality: American, BirthDate: 1958-10-16
+    Id: 128, Name: Morgan Freeman, Nationality: American, BirthDate: 1937-06-01
 Directors:
-    Id: 202, Name: Frank Darabont, Nationality: American
+    Id: 214, Name: Frank Darabont, Nationality: American, BirthDate: 1959-01-28
 
-Id: 3
-Title: The Godfather
-ReleaseDate: 1972
-Budget: 6000000
-Currency: USD
-Description: Mafia family drama
-Actors:
-    Id: 105, Name: Marlon Brando, Nationality: American
-    Id: 106, Name: Al Pacino, Nationality: American
-Directors:
-    Id: 203, Name: Francis Ford Coppola, Nationality: American
-
-Id: 4
-Title: The Dark Knight
-ReleaseDate: 2008
-Budget: 185000000
-Currency: USD
-Description: Batman faces the Joker
-Actors:
-    Id: 107, Name: Christian Bale, Nationality: British
-    Id: 108, Name: Heath Ledger, Nationality: Australian
-Directors:
-    Id: 204, Name: Christopher Nolan, Nationality: British
-
-Id: 5
-Title: Pulp Fiction
-ReleaseDate: 1994
-Budget: 8000000
-Currency: USD
-Description: Interwoven crime stories in Los Angeles
-Actors:
-    Id: 109, Name: John Travolta, Nationality: American
-    Id: 110, Name: Samuel L. Jackson, Nationality: American
-Directors:
-    Id: 205, Name: Quentin Tarantino, Nationality: American
-
-Id: 6
-Title: Schindler's List
-ReleaseDate: 1993
-Budget: 22000000
-Currency: USD
-Description: A businessman saves Jewish lives during the Holocaust
-Actors:
-    Id: 111, Name: Liam Neeson, Nationality: Irish
-    Id: 112, Name: Ben Kingsley, Nationality: British
-Directors:
-    Id: 206, Name: Steven Spielberg, Nationality: American
-
-Id: 7
-Title: Forrest Gump
-ReleaseDate: 1994
-Budget: 55000000
-Currency: USD
-Description: A man with a low IQ witnesses and unwittingly influences historical events
-Actors:
-    Id: 113, Name: Tom Hanks, Nationality: American
-    Id: 114, Name: Robin Wright, Nationality: American
-Directors:
-    Id: 207, Name: Robert Zemeckis, Nationality: American
-
-Id: 8
-Title: Fight Club
-ReleaseDate: 1999
-Budget: 63000000
-Currency: USD
-Description: An insomniac office worker and a soap salesman form an underground fight club
-Actors:
-    Id: 115, Name: Edward Norton, Nationality: American
-    Id: 116, Name: Brad Pitt, Nationality: American
-Directors:
-    Id: 208, Name: David Fincher, Nationality: American
-
-Id: 9
-Title: The Matrix
-ReleaseDate: 1999
-Budget: 63000000
-Currency: USD
-Description: A computer hacker learns about the true nature of his reality
-Actors:
-    Id: 117, Name: Keanu Reeves, Nationality: Canadian
-    Id: 118, Name: Laurence Fishburne, Nationality: American
-Directors:
-    Id: 209, Name: Lana and Lilly Wachowski, Nationality: American
-
-Id: 10
-Title: The Lord of the Rings: The Fellowship of the Ring
-ReleaseDate: 2001
-Budget: 93000000
-Currency: USD
-Description: A hobbit sets out to destroy a powerful ring
-Actors:
-    Id: 119, Name: Elijah Wood, Nationality: American
-    Id: 120, Name: Ian McKellen, Nationality: British
-Directors:
-    Id: 210, Name: Peter Jackson, Nationality: New Zealand

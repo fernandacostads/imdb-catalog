@@ -6,6 +6,7 @@ import com.imdb.DTO.MovieDTO;
 import com.imdb.repository.IMovieRepository;
 import com.imdb.util.exceptions.MovieException;
 import com.imdb.util.view.message.MovieMessage;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -132,7 +133,7 @@ public class MovieController {
             .build();
 
 
-    movieRepository.update(selectedMovie,updatedMovie);
+    movieRepository.update(selectedMovie, updatedMovie);
     System.out.println("Movie updated successfully.");
   }
 
@@ -183,9 +184,9 @@ public class MovieController {
   }
 
 
-/**
- * Handles the deletion of a movie record identified by its unique ID.
- */
+  /**
+   * Handles the deletion of a movie record identified by its unique ID.
+   */
 
   public void deleteMovie() {
     System.out.println("Available movies for deletion:");
@@ -205,26 +206,27 @@ public class MovieController {
     System.out.println("Movie deleted successfully.");
   }
 
-/**
- * Supports searching for movies by title or specific attributes through user input.
- */
+  /**
+   * Supports searching for movies by title or specific attributes through user input.
+   */
 
-    public void searchMovies () {
-      System.out.println("Enter a title keyword or release date to search for movies:");
-      String query = scanner.nextLine();
+  public void searchMovies() {
+    System.out.println("Enter a title keyword or release date to search for movies:");
+    String query = scanner.nextLine();
 
-      try {
-        MovieDTO movieQuery = new MovieDTO.MovieDTOBuilder().title(query).build();
-        List<MovieDTO> movies = movieRepository.search(movieQuery);
-        if (movies.isEmpty()) {
-          System.out.println(MovieMessage.LIST_NOT_FOUND.get());
-        } else {
-          movies.forEach(movie -> System.out.println(movie.toString()));
-        }
-      } catch (MovieException e) {
-        System.out.println(e.getMessage());
-      } catch (Exception e) {
-        System.out.println(MovieMessage.SEARCH_ERROR.get());
-      }
+    MovieDTO movieQuery;
+    if (query.matches("\\d+")) {
+      int releaseDate = Integer.parseInt(query);
+      movieQuery = new MovieDTO.MovieDTOBuilder().releaseDate(releaseDate).build();
+    } else {
+      movieQuery = new MovieDTO.MovieDTOBuilder().title(query).build();
     }
+    try {
+      List<MovieDTO> movies = movieRepository.search(movieQuery);
+      movies.forEach(System.out::println);
+    } catch (MovieException e) {
+      System.err.println(e.getMessage());
+    }
+
+  }
 }

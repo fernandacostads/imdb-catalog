@@ -107,7 +107,7 @@ public final class DirectorController {
 
   public void searchDirectors() {
     System.out.print(DirectorMessage.ENTER_SEARCH_KEYWORD_DIRECTOR.get());
-    String keyword = scanner.next();
+    String keyword = scanner.nextLine();
     DirectorDTO directorName = new DirectorDTO(0, keyword, null, null);
     List<DirectorDTO> directorDTOList = directorRepository.search(directorName);
     System.out.println(directorDTOList.isEmpty() ? DirectorMessage.DIRECTOR_FOUND_NAME : directorDTOList);

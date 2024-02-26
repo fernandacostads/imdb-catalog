@@ -123,4 +123,8 @@ public class Actor {
     return movies;
   }
 
+  public void addMovie(Movie movie) {
+    this.movies.add(movie);
+  }
+
 }

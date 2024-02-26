@@ -42,7 +42,7 @@ public final class ActorController {
     System.out.print(ActorMessage.HOW_MANY_ACTORS.get());
     int qntActors = scanner.nextInt();
     scanner.nextLine();
-    List<ActorDTO> actors = new ArrayList<>(10);
+    List<ActorDTO> actors = new ArrayList<>();
 
     for (int i = 1; i <= qntActors; i++) {
       ActorDTO newActorDTO = inputActor();
@@ -108,7 +108,7 @@ public final class ActorController {
 
   public void searchActors() {
     System.out.print(ActorMessage.ENTER_SEARCH_KEYWORD.get());
-    String keyword = scanner.next();
+    String keyword = scanner.nextLine();
     ActorDTO actorName = new ActorDTO(0, keyword, null, null);
     List<ActorDTO> actorDTOList = actorRepository.search(actorName);
     System.out.println(actorDTOList.isEmpty() ? ActorMessage.ACTOR_FOUND_NAME : actorDTOList);

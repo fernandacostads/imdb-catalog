@@ -9,6 +9,7 @@ import com.imdb.repository.IMovieRepository;
 import com.imdb.repository.impl.ActorRepositoryImpl;
 import com.imdb.repository.impl.DirectorRepositoryImpl;
 import com.imdb.repository.impl.MovieRepositoryImpl;
+import com.imdb.util.fileHandler.MovieReader;
 import com.imdb.util.view.message.MenuMessage;
 
 import java.util.Scanner;
@@ -21,6 +22,8 @@ import java.util.Scanner;
  */
 
 public class Menu {
+  private static final String FILE_PATH = "src/main/java/com/imdb/util/resources/movies.txt";
+  // private static final String FILE_PATH = "src/main/java/com/imdb/util/resources/movies.txt";
   IActorRepository actorRepository = ActorRepositoryImpl.getInstance();
   IDirectorRepository directorRepository = DirectorRepositoryImpl.getInstance();
   IMovieRepository movieRepository = MovieRepositoryImpl.getInstance();
@@ -41,6 +44,12 @@ public class Menu {
           scanner
   );
 
+  MovieReader movieReader = new MovieReader(
+          movieRepository,
+          actorRepository,
+          directorRepository
+  );
+
   /**
    * Displays the main menu to the user and processes the user's choice to navigate
    * to various parts of the application. It loops continuously until the user chooses
@@ -48,6 +57,12 @@ public class Menu {
    */
 
   public void displayMainMenu() {
+    try {
+      movieReader.readMoviesFromFile(FILE_PATH);
+      System.out.println("**All movies loaded**");
+    } catch (Exception e) {
+      System.out.println("**Load movies failed**");
+    }
     String choice;
     while (true) {
       System.out.println(MenuMessage.MAIN_MENU.get());

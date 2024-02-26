@@ -75,20 +75,19 @@ MovieDTO(
    */
 
   public static Movie toMovie(MovieDTO movieDTO) {
-    return new Movie(
-            movieDTO.id(),
-            movieDTO.title(),
-            movieDTO.releaseDate(),
-            movieDTO.budget(),
-            movieDTO.currency(),
-            movieDTO.description(),
-            movieDTO.actors().stream()
-                    .map(ActorDTO::toActor)
-                    .collect(Collectors.toList()),
-            movieDTO.directors().stream()
-                    .map(DirectorDTO::toDirector)
-                    .collect(Collectors.toList())
+    Movie movie=
+            new Movie(
+            movieDTO.id,
+            movieDTO.title,
+            movieDTO.releaseDate,
+            movieDTO.budget,
+            movieDTO.currency,
+            movieDTO.description
     );
+    movieDTO.actors.forEach(actorDTO -> movie.addActor(ActorDTO.toActor(actorDTO)));
+    movieDTO.directors.forEach(directorDTO -> movie.addDirector(DirectorDTO.toDirector(directorDTO)));
+
+    return movie;
   }
 
   /**
@@ -120,12 +119,10 @@ MovieDTO(
   public static class MovieDTOBuilder {
     private int id;
     private String title;
-    private int releaseDate;
+    private int releaseDate = 0;
     private double budget;
     private String currency;
     private String description;
-    private List<ActorDTO> actors;
-    private List<DirectorDTO> director;
 
     /**
      * Sets the movie ID.

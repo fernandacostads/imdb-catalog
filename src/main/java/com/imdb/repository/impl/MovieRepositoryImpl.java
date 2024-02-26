@@ -6,6 +6,7 @@ import com.imdb.DTO.MovieDTO;
 import com.imdb.model.Movie;
 import com.imdb.repository.IMovieRepository;
 import com.imdb.util.exceptions.MovieException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,11 +18,10 @@ import java.util.stream.Collectors;
  */
 
 public class MovieRepositoryImpl implements IMovieRepository {
-  private static final String FILE_PATH =
-          "src/main/java/com/imdb/util/resources/movies.txt";
   private static MovieRepositoryImpl instance;
   private static List<Movie> moviesList;
   private int idGenerator;
+
 
   /**
    * Initializes the movie list from the file and sets up the ID generator.
@@ -30,8 +30,7 @@ public class MovieRepositoryImpl implements IMovieRepository {
 
   private MovieRepositoryImpl() {
     moviesList = new ArrayList<>(10);
-    //moviesList = FileHandler.readMoviesFromFile(FILE_PATH);
-    idGenerator = moviesList.isEmpty() ? 1 : moviesList.getLast().getId() + 1;
+    idGenerator = 1;
   }
 
   /**
@@ -70,17 +69,12 @@ public class MovieRepositoryImpl implements IMovieRepository {
               entry.releaseDate(),
               entry.budget(),
               entry.currency(),
-              entry.description(),
-              entry.actors().stream()
-                      .map(ActorDTO::toActor)
-                      .collect(Collectors.toList()),
-              entry.directors().stream()
-                      .map(DirectorDTO::toDirector)
-                      .collect(Collectors.toList())
+              entry.description()
       );
+      entry.actors().forEach(actorDTO -> newMovie.addActor(ActorDTO.toActor(actorDTO)));
+      entry.directors().forEach(directorDTO -> newMovie.addDirector(DirectorDTO.toDirector(directorDTO)));
 
       moviesList.add(newMovie);
-      //  FileHandler.updateFile(moviesList, FILE_PATH);
       return MovieDTO.fromMovie(newMovie);
     }
   }
@@ -112,14 +106,13 @@ public class MovieRepositoryImpl implements IMovieRepository {
   public MovieDTO update(MovieDTO entry, MovieDTO entry2) {
     Movie existingMovie = foundMovieId(entry.id());
 
-      existingMovie.setTitle(entry2.title());
-      existingMovie.setReleaseDate(entry2.releaseDate());
-      existingMovie.setBudget(entry2.budget());
-      existingMovie.setCurrency(entry2.currency());
-      existingMovie.setDescription(entry2.description());
+    existingMovie.setTitle(entry2.title());
+    existingMovie.setReleaseDate(entry2.releaseDate());
+    existingMovie.setBudget(entry2.budget());
+    existingMovie.setCurrency(entry2.currency());
+    existingMovie.setDescription(entry2.description());
 
-      //  FileHandler.updateFile(moviesList, FILE_PATH);
-      return MovieDTO.fromMovie(existingMovie);
+    return MovieDTO.fromMovie(existingMovie);
   }
 
   /**
@@ -131,8 +124,7 @@ public class MovieRepositoryImpl implements IMovieRepository {
   @Override
   public void delete(MovieDTO entry) {
     Movie movieToDelete = foundMovieId(entry.id());
-      moviesList.remove(movieToDelete);
-      //FileHandler.updateFile(moviesList, FILE_PATH);
+    moviesList.remove(movieToDelete);
   }
 
   /**
@@ -141,13 +133,10 @@ public class MovieRepositoryImpl implements IMovieRepository {
 
   @Override
   public List<MovieDTO> search(MovieDTO movie) {
-    try {
-      int date = Integer.parseInt(movie.currency());
-      return searchByReleaseDate(date);
-    } catch (NumberFormatException e) {
-      return searchMovieTitle(movie.currency()).stream()
-              .map(MovieDTO::fromMovie)
-              .collect(Collectors.toList());
+    if (movie.releaseDate() != 0) {
+      return searchByReleaseDate(movie.releaseDate());
+    } else {
+      return searchMovieTitle(movie.title());
     }
   }
 
@@ -181,7 +170,7 @@ public class MovieRepositoryImpl implements IMovieRepository {
             .orElse(null);
     checkMovieNotFoundException(movie1);
     return movie1;
-    }
+  }
 
   /**
    * Finds movies by their title.
@@ -190,10 +179,15 @@ public class MovieRepositoryImpl implements IMovieRepository {
    * @return A list of Movies matching the search criteria.
    */
 
-  private List<Movie> searchMovieTitle(String title) {
-    return moviesList.stream()
+  private List<MovieDTO> searchMovieTitle(String title) {
+    List<Movie> filteredMovies = moviesList.stream()
             .filter(movie -> movie.getTitle().toLowerCase().contains(title.toLowerCase()))
-            .collect(Collectors.toList());
+            .toList();
+    if (!filteredMovies.isEmpty()) {
+      return filteredMovies.stream().map(MovieDTO::fromMovie).collect(Collectors.toList());
+    } else {
+      throw new MovieException("No movies found for the Title: " + title);
+    }
   }
 
   public List<MovieDTO> searchByReleaseDate(int releaseDate) {
@@ -207,17 +201,18 @@ public class MovieRepositoryImpl implements IMovieRepository {
   }
 
   private void checkEmptyListException(List<MovieDTO> list) {
-      if (list.isEmpty()) {
-        throw new MovieException.MovieListIsEmpty();
-      }
+    if (list.isEmpty()) {
+      throw new MovieException.MovieListIsEmpty();
+    }
   }
 
   /**
    * Checks if a movie was not found and throws a {@link MovieException.MovieNotFoundException} if it wasn't.
+   *
    * @param movie The movie to check.
    * @throws MovieException.MovieNotFoundException if the movie is null.
    */
-  private void checkMovieNotFoundException(Movie movie)  {
+  private void checkMovieNotFoundException(Movie movie) {
     if (movie == null) {
       throw new MovieException.MovieNotFoundException();
     }

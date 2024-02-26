@@ -1,5 +1,6 @@
 package com.imdb.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,14 +10,14 @@ import java.util.List;
  */
 
 public class Movie {
-  private List<Actor> actors;
-  private List<Director> directors;
   private int id;
   private String title;
   private int releaseDate;
   private double budget;
   private String currency;
   private String description;
+  private final List<Actor> actors;
+  private final List<Director> directors;
 
   /**
    * Constructs a new Movie instance with specified details and associations.
@@ -27,27 +28,17 @@ public class Movie {
    * @param budget      The budget allocated for the movie.
    * @param currency    The currency in which the budget is specified.
    * @param description A brief synopsis or description of the movie.
-   * @param actors      A list of actors associated with the movie.
-   * @param directors   A list of directors of the movie.
    */
 
-  public Movie(int id, String title, int releaseDate, double budget, String currency, String description, List<Actor> actors, List<Director> directors) {
+  public Movie(int id, String title, int releaseDate, double budget, String currency, String description) {
     this.id = id;
     this.title = title;
     this.releaseDate = releaseDate;
     this.budget = budget;
     this.currency = currency;
     this.description = description;
-    this.actors = actors;
-    this.directors = directors;
-
-    for (Actor actor : actors) {
-      actor.getMovies().add(this);
-    }
-
-    for (Director director : directors) {
-      director.getMovies().add(this);
-    }
+    this.actors = new ArrayList<>();
+    this.directors = new ArrayList<>();
   }
 
   /**
@@ -179,13 +170,6 @@ public class Movie {
   public List<Actor> getActors() {
     return actors;
   }
-  public void setActors(List<Actor> actors) {
-    this.actors = actors;
-  }
-
-  public void setDirectors(List<Director> directors) {
-    this.directors = directors;
-  }
 
 
   /**
@@ -196,6 +180,16 @@ public class Movie {
 
   public List<Director> getDirectors() {
     return directors;
+  }
+
+  public void addActor(Actor actor) {
+    this.actors.add(actor);
+    actor.addMovie(this);
+  }
+
+  public void addDirector(Director director) {
+    this.directors.add(director);
+    director.addMovie(this);
   }
 
 }

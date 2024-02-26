@@ -3,9 +3,10 @@ package com.imdb.DTO;
 import com.imdb.model.Director;
 import com.imdb.util.view.message.Colors;
 import com.imdb.util.view.message.DirectorMessage;
-
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Represents a data transfer object for Director entities.
@@ -14,12 +15,12 @@ import java.util.List;
  */
 
 public record DirectorDTO(
-        int id,
-        String name,
-        String nationality,
-        LocalDate birthDate
+  int id,
+  String name,
+  String nationality,
+  LocalDate birthDate,
+  List<MovieDTO> movies
 ) {
-
   /**
    * Converts this DTO to a Director domain model.
    *
@@ -29,10 +30,10 @@ public record DirectorDTO(
 
   public static Director toDirector(DirectorDTO directorDTO) {
     return new Director(
-            directorDTO.id(),
-            directorDTO.name(),
-            directorDTO.nationality(),
-            directorDTO.birthDate()
+      directorDTO.id(),
+      directorDTO.name(),
+      directorDTO.nationality(),
+      directorDTO.birthDate()
     );
   }
 
@@ -45,10 +46,21 @@ public record DirectorDTO(
 
   public static DirectorDTO fromDirector(Director director) {
     return new DirectorDTO(
-            director.getId(),
-            director.getName(),
-            director.getNationality(),
-            director.getBirthDate()
+      director.getId(),
+      director.getName(),
+      director.getNationality(),
+      director.getBirthDate(),
+      director
+        .getMovies()
+        .stream()
+        .map(movie ->
+          new MovieDTO.MovieDTOBuilder()
+            .id(movie.getId())
+            .title(movie.getTitle())
+            .releaseDate(movie.getReleaseDate())
+            .build()
+        )
+        .collect(Collectors.toList())
     );
   }
 
@@ -64,14 +76,49 @@ public record DirectorDTO(
     if (directors.isEmpty()) {
       stringBuilder.append(DirectorMessage.LIST_NOT_FOUND.get());
     } else {
-      stringBuilder.append(Colors.YELLOW).append("List of directors\n").append(Colors.RESET);
+      stringBuilder
+        .append(Colors.YELLOW)
+        .append("List of directors\n")
+        .append(Colors.RESET);
       int index = 1;
       for (DirectorDTO director : directors) {
-        stringBuilder.append(Colors.YELLOW).append(index).append(" - ").append(Colors.RESET).append(director.toString());
+        stringBuilder
+          .append(Colors.YELLOW)
+          .append(index)
+          .append(" - ")
+          .append(Colors.RESET)
+          .append(director.toString());
         index++;
       }
     }
     return stringBuilder.toString();
+  }
+
+  public static String actorDetailed(DirectorDTO director) {
+    StringBuilder directorString = new StringBuilder(
+      "\nId: " +
+      director.id +
+      ", Name: " +
+      director.name +
+      ", Nationality: " +
+      director.nationality +
+      ", Age: " +
+      Period.between(director.birthDate, LocalDate.now()).getYears() +
+      " y/o\n" +
+      "Movies:\n"
+    );
+
+    for (MovieDTO movie : director.movies) {
+      directorString
+        .append("\tId: ")
+        .append(movie.id())
+        .append(", Title: ")
+        .append(movie.title())
+        .append(", Release Date: ")
+        .append(movie.releaseDate())
+        .append("\n");
+    }
+    return directorString.toString();
   }
 
   /**
@@ -82,8 +129,16 @@ public record DirectorDTO(
 
   @Override
   public String toString() {
-    return "ID: " + id +
-           ", Name: " + name +
-           ", Nationality: " + nationality + "\n";
+    return (
+      "ID: " +
+      id +
+      ", Name: " +
+      name +
+      ", Nationality: " +
+      nationality +
+      ", Age: " +
+      Period.between(birthDate, LocalDate.now()).getYears() +
+      " y/o\n"
+    );
   }
 }

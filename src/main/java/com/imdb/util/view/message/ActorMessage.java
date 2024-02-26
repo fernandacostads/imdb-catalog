@@ -1,6 +1,5 @@
 package com.imdb.util.view.message;
 
-
 /**
  * Defines messages related to actor operations, incorporating ANSI colors for
  * enhanced user interface experience. Each message corresponds to different
@@ -8,11 +7,17 @@ package com.imdb.util.view.message;
  */
 
 public enum ActorMessage {
-  LIST_NOT_FOUND(Colors.RED + "No actors found. Returning to the view..." + Colors.RESET),
+  LIST_NOT_FOUND(
+    Colors.RED + "No actors found. Returning to the view..." + Colors.RESET
+  ),
   REGISTERED(Colors.GREEN + "Actor registered successfully." + Colors.RESET),
   UPDATED(Colors.GREEN + "Actor updated successfully." + Colors.RESET),
-  ACTOR_FOUND_NAME(Colors.RED + "No actor found with the specified name." + Colors.RESET),
-  ACTOR_ID_NOT_FOUND(Colors.RED + "No actor found with the specified ID." + Colors.RESET),
+  ACTOR_FOUND_NAME(
+    Colors.RED + "No actor found with the specified name." + Colors.RESET
+  ),
+  ACTOR_ID_NOT_FOUND(
+    Colors.RED + "No actor found with the specified ID." + Colors.RESET
+  ),
   DELETED(Colors.RED + "Actor deleted successfully." + Colors.RESET),
   HOW_MANY_ACTORS("How many actors would you like to register? "),
   ENTER_ACTOR_ID_UPDATE("Enter the ID of the actor to update: "),

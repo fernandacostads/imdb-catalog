@@ -10,7 +10,6 @@ import java.util.List;
  */
 
 public interface CRUDRepository<T> {
-
   /**
    * Creates a new entity in the repository.
    *
@@ -33,10 +32,9 @@ public interface CRUDRepository<T> {
    *
    * @param entry  the entity to be updated
    * @param entry2 the entity containing the new values
-   * @return the updated entity
    */
 
-  T update(T entry, T entry2);
+  void update(T entry, T entry2);
 
   /**
    * Deletes an entity from the repository.

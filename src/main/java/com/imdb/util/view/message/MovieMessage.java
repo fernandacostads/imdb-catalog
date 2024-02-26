@@ -7,9 +7,17 @@ package com.imdb.util.view.message;
  */
 
 public enum MovieMessage {
-  LIST_NOT_FOUND(Colors.RED + "No movies found. Returning to the view menu..." + Colors.RESET),
-  MOVIE_NOT_FOUND(Colors.RED + "No movies found during this search. Returning to the menu..." + Colors.RESET),
-  SEARCH_ERROR(Colors.RED + "An error occurred while searching..." + Colors.RESET),
+  LIST_NOT_FOUND(
+    Colors.RED + "No movies found. Returning to the view menu..." + Colors.RESET
+  ),
+  MOVIE_NOT_FOUND(
+    Colors.RED +
+    "No movies found during this search. Returning to the menu..." +
+    Colors.RESET
+  ),
+  SEARCH_ERROR(
+    Colors.RED + "An error occurred while searching..." + Colors.RESET
+  ),
   REGISTERED(Colors.GREEN + "Movie registered successfully." + Colors.RESET),
   UPDATED(Colors.GREEN + "Movie updated successfully." + Colors.RESET),
   DELETED(Colors.GREEN + "Movie deleted successfully." + Colors.RESET);
@@ -30,4 +38,3 @@ public enum MovieMessage {
     return message;
   }
 }
-

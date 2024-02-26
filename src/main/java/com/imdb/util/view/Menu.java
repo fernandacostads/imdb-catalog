@@ -9,8 +9,9 @@ import com.imdb.repository.IMovieRepository;
 import com.imdb.repository.impl.ActorRepositoryImpl;
 import com.imdb.repository.impl.DirectorRepositoryImpl;
 import com.imdb.repository.impl.MovieRepositoryImpl;
+import com.imdb.util.fileHandler.MovieReader;
+import com.imdb.util.fileHandler.MovieWriter;
 import com.imdb.util.view.message.MenuMessage;
-
 import java.util.Scanner;
 
 /**
@@ -21,24 +22,42 @@ import java.util.Scanner;
  */
 
 public class Menu {
+
+  private static final String MOVIE_FILE_PATH =
+    "src/main/java/com/imdb/util/resources/movies.txt";
+  private static final String ACTOR_FILE_PATH =
+    "src/main/java/com/imdb/util/resources/actors.txt";
+  private static final String DIRECTOR_FILE_PATH =
+    "src/main/java/com/imdb/util/resources/directors.txt";
   IActorRepository actorRepository = ActorRepositoryImpl.getInstance();
   IDirectorRepository directorRepository = DirectorRepositoryImpl.getInstance();
   IMovieRepository movieRepository = MovieRepositoryImpl.getInstance();
   Scanner scanner = new Scanner(System.in);
 
   ActorController actorController = new ActorController(
-          actorRepository,
-          scanner
+    actorRepository,
+    scanner
   );
   DirectorController directorController = new DirectorController(
-          directorRepository,
-          scanner
+    directorRepository,
+    scanner
   );
   MovieController movieController = new MovieController(
-          movieRepository,
-          actorController,
-          directorController,
-          scanner
+    movieRepository,
+    actorController,
+    directorController,
+    scanner
+  );
+
+  MovieReader movieReader = new MovieReader(
+    movieRepository,
+    actorRepository,
+    directorRepository
+  );
+  MovieWriter updater = new MovieWriter(
+    movieRepository,
+    actorRepository,
+    directorRepository
   );
 
   /**
@@ -48,6 +67,13 @@ public class Menu {
    */
 
   public void displayMainMenu() {
+    try {
+      movieReader.readMoviesFromFile(MOVIE_FILE_PATH);
+      System.out.println("**All movies loaded**");
+    } catch (Exception e) {
+      System.out.println("**Load movies failed**");
+    }
+
     String choice;
     while (true) {
       System.out.println(MenuMessage.MAIN_MENU.get());
@@ -61,6 +87,15 @@ public class Menu {
         case "5" -> searchDisplay();
         case "0" -> {
           System.out.println(MenuMessage.EXITING_PROGRAM.get());
+          try {
+            updater.updateMoviesToFile(MOVIE_FILE_PATH);
+            updater.updateActorsToFile(ACTOR_FILE_PATH);
+            updater.updateDirectorsToFile(DIRECTOR_FILE_PATH);
+
+            System.out.println("**All saved**");
+          } catch (Exception e) {
+            System.out.println("**Save failed**");
+          }
           return;
         }
         default -> System.out.println(MenuMessage.INVALID_CHOICE_MAIN.get());
@@ -116,4 +151,3 @@ public class Menu {
     }
   }
 }
-

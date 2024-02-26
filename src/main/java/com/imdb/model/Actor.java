@@ -10,6 +10,7 @@ import java.util.List;
  */
 
 public class Actor {
+
   private int id;
   private String name;
   private String nationality;
@@ -123,4 +124,7 @@ public class Actor {
     return movies;
   }
 
+  public void addMovie(Movie movie) {
+    this.movies.add(movie);
+  }
 }

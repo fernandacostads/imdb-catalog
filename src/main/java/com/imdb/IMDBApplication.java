@@ -1,8 +1,6 @@
 package com.imdb;
 
-
 import com.imdb.util.view.Menu;
-
 import javax.swing.*;
 
 /**
@@ -10,12 +8,14 @@ import javax.swing.*;
  * the application, displaying a welcome message and showing the main menu.
  */
 
-
 public class IMDBApplication {
 
   public static void main(String[] args) {
     Menu menu = new Menu();
-    JOptionPane.showMessageDialog(null, "Welcome to the IMDB Library Application");
+    JOptionPane.showMessageDialog(
+      null,
+      "Welcome to the IMDB Library Application"
+    );
     menu.displayMainMenu();
   }
 }

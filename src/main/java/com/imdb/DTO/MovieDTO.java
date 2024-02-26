@@ -2,8 +2,6 @@ package com.imdb.DTO;
 
 import com.imdb.model.Movie;
 import com.imdb.util.view.message.Colors;
-import com.imdb.util.view.message.MovieMessage;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,18 +14,16 @@ import java.util.stream.Collectors;
  * models or services.
  */
 
-public record
-MovieDTO(
-        int id,
-        String title,
-        int releaseDate,
-        double budget,
-        String currency,
-        String description,
-        List<ActorDTO> actors,
-        List<DirectorDTO> directors
+public record MovieDTO(
+  int id,
+  String title,
+  int releaseDate,
+  double budget,
+  String currency,
+  String description,
+  List<ActorDTO> actors,
+  List<DirectorDTO> directors
 ) {
-
   /**
    * Transforms a Movie domain model into a MovieDTO.
    *
@@ -37,57 +33,23 @@ MovieDTO(
 
   public static MovieDTO fromMovie(Movie movie) {
     return new MovieDTO(
-            movie.getId(),
-            movie.getTitle(),
-            movie.getReleaseDate(),
-            movie.getBudget(),
-            movie.getCurrency(),
-            movie.getDescription(),
-            movie.getActors().stream()
-                    .map(ActorDTO::fromActor)
-                    .collect(Collectors.toList()),
-            movie.getDirectors().stream()
-                    .map(DirectorDTO::fromDirector)
-                    .collect(Collectors.toList())
+      movie.getId(),
+      movie.getTitle(),
+      movie.getReleaseDate(),
+      movie.getBudget(),
+      movie.getCurrency(),
+      movie.getDescription(),
+      movie
+        .getActors()
+        .stream()
+        .map(ActorDTO::fromActor)
+        .collect(Collectors.toList()),
+      movie
+        .getDirectors()
+        .stream()
+        .map(DirectorDTO::fromDirector)
+        .collect(Collectors.toList())
     );
-  }
-
-  public static String formatMovies(List<MovieDTO> movies) {
-    StringBuilder stringBuilder = new StringBuilder();
-    if (movies.isEmpty()) {
-      stringBuilder.append(MovieMessage.LIST_NOT_FOUND.get());
-    } else {
-      stringBuilder.append(Colors.YELLOW).append("Lista de filmes\n").append(Colors.RESET);
-      for (MovieDTO movie : movies) {
-        stringBuilder.append(Colors.YELLOW).append(movie.id).append(" - ").append(Colors.RESET).append(movie.title).append("\n");
-      }
-    }
-    return stringBuilder.toString();
-  }
-
-  /**
-   * Converts this MovieDTO to a Movie domain model.
-   * This method is useful when transferring data from a DTO to a domain model,
-   * typically before persisting the data in a database.
-   *
-   * @param movieDTO The MovieDTO to convert.
-   * @return A Movie model populated with data from the MovieDTO.
-   */
-
-  public static Movie toMovie(MovieDTO movieDTO) {
-    Movie movie=
-            new Movie(
-            movieDTO.id,
-            movieDTO.title,
-            movieDTO.releaseDate,
-            movieDTO.budget,
-            movieDTO.currency,
-            movieDTO.description
-    );
-    movieDTO.actors.forEach(actorDTO -> movie.addActor(ActorDTO.toActor(actorDTO)));
-    movieDTO.directors.forEach(directorDTO -> movie.addDirector(DirectorDTO.toDirector(directorDTO)));
-
-    return movie;
   }
 
   /**
@@ -100,15 +62,24 @@ MovieDTO(
 
   @Override
   public String toString() {
-    return Colors.YELLOW + "\n - Movie's Details - " + Colors.RESET +
-           "\nID: " + id +
-           "\nTitle: " + title +
-           "\nRelease date: " + releaseDate +
-           "\nBudget: " + budget +
-           "\nCurrency: " + currency +
-           "\nDescription: " + description + "\n" +
-           ActorDTO.formatActors(actors) +
-           DirectorDTO.formatDirectors(directors);
+    return String.format(
+      Colors.YELLOW +
+      "\n - Movie's Details - " +
+      Colors.RESET +
+      "%nId: %d%n" +
+      "Title: %s%n" +
+      "ReleaseDate: %s%n" +
+      "Budget: %.2f %s%n" +
+      "Description: %s%n" +
+      ActorDTO.formatActors(actors) +
+      DirectorDTO.formatDirectors(directors),
+      id,
+      title,
+      releaseDate,
+      budget,
+      currency,
+      description
+    );
   }
 
   /**
@@ -117,12 +88,10 @@ MovieDTO(
    */
 
   public static class MovieDTOBuilder {
+
     private int id;
     private String title;
     private int releaseDate = 0;
-    private double budget;
-    private String currency;
-    private String description;
 
     /**
      * Sets the movie ID.
@@ -161,46 +130,22 @@ MovieDTO(
     }
 
     /**
-     * Sets a search query used for filtering movies based on certain criteria, such as title or release date.
-     * This method is particularly useful when constructing a MovieDTO for search operations where the query
-     * might not directly map to a specific movie property but is used to filter the list of movies.
-     *
-     * @param  budget search query string.
-     * @return The builder instance with the query set, allowing for fluent chaining of builder methods.
-     */
-
-    public MovieDTOBuilder budget(double budget) {
-      this.budget = budget;
-      return this;
-    }
-
-    public MovieDTOBuilder currency(String currency) {
-      this.currency = currency;
-      return this;
-    }
-
-    /**
-     * Sets the movie release date.
-     *
-     * @param description The movie release date.
-     * @return The builder instance.
-     */
-
-    public MovieDTOBuilder description(String description) {
-      this.description = description;
-      return this;
-    }
-
-
-
-    /**
      * Builds and returns a MovieDTO instance based on the previously set properties.
      *
      * @return A new instance of MovieDTO.
      */
 
     public MovieDTO build() {
-      return new MovieDTO(id, title, releaseDate, budget, currency, description, List.of(), List.of());
+      return new MovieDTO(
+        id,
+        title,
+        releaseDate,
+        0,
+        null,
+        null,
+        List.of(),
+        List.of()
+      );
     }
   }
 }

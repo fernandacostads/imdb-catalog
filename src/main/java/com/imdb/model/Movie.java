@@ -10,6 +10,7 @@ import java.util.List;
  */
 
 public class Movie {
+
   private int id;
   private String title;
   private int releaseDate;
@@ -30,7 +31,14 @@ public class Movie {
    * @param description A brief synopsis or description of the movie.
    */
 
-  public Movie(int id, String title, int releaseDate, double budget, String currency, String description) {
+  public Movie(
+    int id,
+    String title,
+    int releaseDate,
+    double budget,
+    String currency,
+    String description
+  ) {
     this.id = id;
     this.title = title;
     this.releaseDate = releaseDate;
@@ -171,7 +179,6 @@ public class Movie {
     return actors;
   }
 
-
   /**
    * Gets the list of directors of the movie.
    *
@@ -180,6 +187,30 @@ public class Movie {
 
   public List<Director> getDirectors() {
     return directors;
+  }
+
+  /**
+   * Sets the list of actors associated with the movie.
+   *
+   * @param actors The new list of actors.
+   */
+  public void setActors(List<Actor> actors) {
+    this.actors.clear();
+    if (actors != null) {
+      this.actors.addAll(actors);
+    }
+  }
+
+  /**
+   * Sets the list of directors associated with the movie.
+   *
+   * @param directors The new list of directors.
+   */
+  public void setDirectors(List<Director> directors) {
+    this.directors.clear();
+    if (directors != null) {
+      this.directors.addAll(directors);
+    }
   }
 
   public void addActor(Actor actor) {
@@ -191,5 +222,4 @@ public class Movie {
     this.directors.add(director);
     director.addMovie(this);
   }
-
 }

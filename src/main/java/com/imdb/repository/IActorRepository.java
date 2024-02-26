@@ -7,5 +7,4 @@ import com.imdb.DTO.ActorDTO;
  * This extends the CRUDRepository interface to define CRUD operations specifically for ActorDTO objects.
  */
 
-public interface IActorRepository extends CRUDRepository<ActorDTO> {
-}
+public interface IActorRepository extends CRUDRepository<ActorDTO> {}

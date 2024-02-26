@@ -1,13 +1,9 @@
 package com.imdb.util.exceptions;
 
-import com.imdb.util.view.Menu;
-import com.imdb.util.view.message.Colors;
-
 /**
  * Custom exception class for movie-related errors within the application.
  * Extends RuntimeException to allow for unchecked exceptions tailored to movie operations.
  */
-
 
 public class MovieException extends RuntimeException {
 
@@ -68,4 +64,3 @@ public class MovieException extends RuntimeException {
     }
   }
 }
-

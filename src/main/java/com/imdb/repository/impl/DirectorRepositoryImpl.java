@@ -4,8 +4,6 @@ import com.imdb.DTO.DirectorDTO;
 import com.imdb.model.Director;
 import com.imdb.repository.IDirectorRepository;
 import com.imdb.util.exceptions.DirectorException;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +16,7 @@ import java.util.stream.Collectors;
  */
 
 public class DirectorRepositoryImpl implements IDirectorRepository {
+
   private static DirectorRepositoryImpl instance;
   private static List<Director> directorsList;
   private int idGenerator;
@@ -55,13 +54,13 @@ public class DirectorRepositoryImpl implements IDirectorRepository {
    */
   @Override
   public DirectorDTO create(DirectorDTO entry) {
-    Director directorExist = getDirectorIfExists(entry.name(), entry.nationality(), (entry.birthDate()));
+    Director directorExist = getDirectorIfExists(entry);
     if (directorExist == null) {
       Director newDirector = new Director(
-              idGenerator++,
-              entry.name(),
-              entry.nationality(),
-              entry.birthDate()
+        idGenerator++,
+        entry.name(),
+        entry.nationality(),
+        entry.birthDate()
       );
       directorsList.add(newDirector);
       return DirectorDTO.fromDirector(newDirector);
@@ -76,9 +75,10 @@ public class DirectorRepositoryImpl implements IDirectorRepository {
    */
   @Override
   public List<DirectorDTO> read() {
-    List<DirectorDTO> directorDTOList = directorsList.stream()
-            .map(DirectorDTO::fromDirector)
-            .collect(Collectors.toList());
+    List<DirectorDTO> directorDTOList = directorsList
+      .stream()
+      .map(DirectorDTO::fromDirector)
+      .collect(Collectors.toList());
 
     checkEmptyListException(directorDTOList);
 
@@ -90,18 +90,16 @@ public class DirectorRepositoryImpl implements IDirectorRepository {
    *
    * @param entry  The DTO representing the director to be updated.
    * @param entry2 The DTO with the new information of the director.
-   * @return A DTO representing the updated director.
    */
   @Override
-  public DirectorDTO update(DirectorDTO entry, DirectorDTO entry2) {
+  public void update(DirectorDTO entry, DirectorDTO entry2) {
     Director director = DirectorDTO.toDirector(entry);
-
 
     director.setName(entry2.name());
     director.setNationality(entry2.nationality());
     director.setBirthDate(entry2.birthDate());
 
-    return DirectorDTO.fromDirector(director);
+    DirectorDTO.fromDirector(director);
   }
 
   /**
@@ -124,11 +122,13 @@ public class DirectorRepositoryImpl implements IDirectorRepository {
    */
   @Override
   public List<DirectorDTO> search(DirectorDTO entry) {
-
-    return directorsList.stream()
-            .filter(director -> director.getName().toLowerCase().contains(entry.name().toLowerCase()))
-            .map(DirectorDTO::fromDirector)
-            .collect(Collectors.toList());
+    return directorsList
+      .stream()
+      .filter(director ->
+        director.getName().toLowerCase().contains(entry.name().toLowerCase())
+      )
+      .map(DirectorDTO::fromDirector)
+      .collect(Collectors.toList());
   }
 
   /**
@@ -153,10 +153,11 @@ public class DirectorRepositoryImpl implements IDirectorRepository {
    * @return The found director or null if not found.
    */
   private Director foundDirectorId(int id) {
-    return directorsList.stream()
-            .filter(director1 -> director1.getId() == id)
-            .findFirst()
-            .orElse(null);
+    return directorsList
+      .stream()
+      .filter(director1 -> director1.getId() == id)
+      .findFirst()
+      .orElse(null);
   }
 
   /**
@@ -173,19 +174,21 @@ public class DirectorRepositoryImpl implements IDirectorRepository {
   /**
    * Checks if a director with the same name, nationality, and birthDate already exists and throws an exception if it does.
    *
-   * @param name        The name of the director.
-   * @param nationality The nationality of the director.
-   * @param birthDate   The birthDate of the director.
+   * @param director The object of the director.
    */
-  private Director getDirectorIfExists(String name, String nationality, LocalDate birthDate) {
-    return directorsList.stream()
-            .filter(director -> director.getName().equalsIgnoreCase(name) &&
-                                director.getNationality().equalsIgnoreCase(nationality) &&
-                                director.getBirthDate().equals(birthDate))
-            .findFirst()
-            .orElse(null);
+  protected Director getDirectorIfExists(DirectorDTO director) {
+    return directorsList
+      .stream()
+      .filter(existDirector ->
+        existDirector.getName().equalsIgnoreCase(director.name()) &&
+        existDirector
+          .getNationality()
+          .equalsIgnoreCase(director.nationality()) &&
+        existDirector.getBirthDate().equals(director.birthDate())
+      )
+      .findFirst()
+      .orElse(null);
   }
-
 
   /**
    * Checks if the director was found and throws an exception if not.
@@ -197,5 +200,4 @@ public class DirectorRepositoryImpl implements IDirectorRepository {
       throw new DirectorException.DirectorNotFoundException();
     }
   }
-
 }

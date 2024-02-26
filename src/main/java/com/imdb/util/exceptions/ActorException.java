@@ -1,8 +1,5 @@
 package com.imdb.util.exceptions;
 
-import com.imdb.util.view.Menu;
-import com.imdb.util.view.message.Colors;
-
 /**
  * Custom exception class for handling actor-related errors within the application.
  * This class extends RuntimeException, allowing for unchecked exceptions tailored to
@@ -10,7 +7,6 @@ import com.imdb.util.view.message.Colors;
  */
 
 public class ActorException extends RuntimeException {
-  Menu menu = new Menu();
 
   /**
    * Constructor for ActorException that takes a detailed error message.
@@ -20,8 +16,6 @@ public class ActorException extends RuntimeException {
 
   public ActorException(String message) {
     super(message);
-    System.out.println(Colors.RED + message + Colors.RESET);
-    menu.displayMainMenu();
   }
 
   /**
@@ -36,27 +30,6 @@ public class ActorException extends RuntimeException {
 
     public ActorListIsEmpty() {
       super("No actors found on the list.");
-      System.out.println(Colors.RED + "No actors found on the list." + Colors.RESET);
-      menu.displayMainMenu();
-    }
-  }
-
-  /**
-   * Subclass representing the situation where an actor already exists in a list.
-   */
-
-  public static class ActorAlreadyExist extends ActorException {
-
-    /**
-     * Constructor for ActorAlreadyExist, indicating an actor already exists.
-     *
-     * @param name The name of the actor that already exists.
-     */
-
-    public ActorAlreadyExist(String name) {
-      super(name + " is already included on the list.");
-      System.out.println(Colors.RED + name + " is already included on the list." + Colors.RESET);
-      menu.displayMainMenu();
     }
   }
 
@@ -72,9 +45,6 @@ public class ActorException extends RuntimeException {
 
     public ActorNotFoundException() {
       super("Actor not found on the list.");
-      System.out.println(Colors.RED + "Actor not found on the list." + Colors.RESET);
-      menu.displayMainMenu();
     }
   }
 }
-

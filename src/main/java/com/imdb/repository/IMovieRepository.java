@@ -7,5 +7,4 @@ import com.imdb.DTO.MovieDTO;
  * This extends the CRUDRepository interface to define CRUD operations specifically for MovieDTO objects.
  */
 
-public interface IMovieRepository extends CRUDRepository<MovieDTO> {
-}
+public interface IMovieRepository extends CRUDRepository<MovieDTO> {}

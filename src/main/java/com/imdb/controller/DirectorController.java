@@ -3,10 +3,10 @@ package com.imdb.controller;
 import com.imdb.DTO.DirectorDTO;
 import com.imdb.repository.IDirectorRepository;
 import com.imdb.util.view.message.DirectorMessage;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 /**
@@ -16,6 +16,7 @@ import java.util.Scanner;
  */
 
 public final class DirectorController {
+
   private final IDirectorRepository directorRepository;
   private final Scanner scanner;
 
@@ -26,7 +27,10 @@ public final class DirectorController {
    * @param scanner            Scanner instance for reading console input.
    */
 
-  public DirectorController(IDirectorRepository directorRepository, Scanner scanner) {
+  public DirectorController(
+    IDirectorRepository directorRepository,
+    Scanner scanner
+  ) {
     this.directorRepository = directorRepository;
     this.scanner = scanner;
   }
@@ -59,25 +63,49 @@ public final class DirectorController {
     List<DirectorDTO> directors = directorRepository.read();
     String formattedDirectors = DirectorDTO.formatDirectors(directors);
     System.out.println(formattedDirectors);
+    System.out.println(
+      "Would you like to see details of an Director? (yes/no)"
+    );
+
+    if (scanner.nextLine().trim().equalsIgnoreCase("yes")) {
+      System.out.println("Enter actor ID:");
+      String id = scanner.nextLine();
+
+      Optional<DirectorDTO> directorToSee = directors
+        .stream()
+        .filter(director -> director.id() == Integer.parseInt(id))
+        .findFirst();
+
+      if (directorToSee.isPresent()) {
+        DirectorDTO directorDetails = directorToSee.get();
+        System.out.println(DirectorDTO.actorDetailed(directorDetails));
+      } else {
+        System.out.println("Actor Id: " + id + " is not on the list");
+      }
+    }
   }
 
   /**
    * Updates the information of an existing director based on their ID.
    */
 
-  public void updateDirector() {
-    System.out.print(DirectorMessage.ENTER_DIRECTOR_ID_UPDATE.get());
-    int id = scanner.nextInt();
-    scanner.nextLine();
-    DirectorDTO directorDTOId = new DirectorDTO(id, null, null, null);
-    DirectorDTO directorToUpdate = directorRepository.readById(directorDTOId);
+  public void updateDirector(List<DirectorDTO> directors) {
+    System.out.println("Current directors in the movie:");
+    directors.forEach(director ->
+      System.out.println(director.id() + " - " + director.name())
+    );
 
-    if (directorToUpdate == null) {
-      System.out.println(DirectorMessage.DIRECTOR_ID_NOT_FOUND.get());
-    } else {
-      DirectorDTO updatedDirectorDTO = inputDirector();
-      directorRepository.update(directorToUpdate, updatedDirectorDTO);
-      System.out.println(DirectorMessage.UPDATED.get());
+    System.out.println("Do you want to add or remove directors? (add/remove)");
+    String action = scanner.nextLine().trim();
+
+    switch (action) {
+      case "add":
+        List<DirectorDTO> addedDirectors = createDirector();
+        directors.addAll(addedDirectors);
+        break;
+      case "remove":
+        deleteDirector(directors);
+        break;
     }
   }
 
@@ -85,19 +113,12 @@ public final class DirectorController {
    * Deletes a director from the system based on their ID.
    */
 
-  public void deleteDirector() {
-    System.out.print(DirectorMessage.ENTER_DIRECTOR_ID_DELETE.get());
-    int id = scanner.nextInt();
-    scanner.nextLine();
-    DirectorDTO directorDTO = new DirectorDTO(id, null, null, null);
-
-    DirectorDTO directorToDelete = directorRepository.readById(directorDTO);
-
-    if (directorToDelete == null) {
-      System.out.println(DirectorMessage.DIRECTOR_ID_NOT_FOUND.get());
-    } else {
-      directorRepository.delete(directorToDelete);
-      System.out.println(DirectorMessage.DELETED.get());
+  public void deleteDirector(List<DirectorDTO> directors) {
+    System.out.println("Enter director IDs to remove:");
+    String[] idsToRemove = scanner.nextLine().split(",");
+    for (String idStr : idsToRemove) {
+      int idToRemove = Integer.parseInt(idStr.trim());
+      directors.removeIf(director -> director.id() == idToRemove);
     }
   }
 
@@ -108,9 +129,21 @@ public final class DirectorController {
   public void searchDirectors() {
     System.out.print(DirectorMessage.ENTER_SEARCH_KEYWORD_DIRECTOR.get());
     String keyword = scanner.nextLine();
-    DirectorDTO directorName = new DirectorDTO(0, keyword, null, null);
+    DirectorDTO directorName = new DirectorDTO(
+      0,
+      keyword,
+      null,
+      null,
+      List.of()
+    );
     List<DirectorDTO> directorDTOList = directorRepository.search(directorName);
-    System.out.println(directorDTOList.isEmpty() ? DirectorMessage.DIRECTOR_FOUND_NAME : directorDTOList);
+    if (directorDTOList.isEmpty()) {
+      System.out.println(DirectorMessage.DIRECTOR_FOUND_NAME);
+    } else {
+      directorDTOList.forEach(directorDTO ->
+        System.out.println(DirectorDTO.actorDetailed(directorDTO))
+      );
+    }
   }
 
   /**
@@ -126,6 +159,6 @@ public final class DirectorController {
     String nationality = scanner.nextLine();
     System.out.print(DirectorMessage.ENTER_DIRECTOR_BIRTHDATE.get());
     LocalDate birthdate = LocalDate.parse(scanner.nextLine());
-    return new DirectorDTO(0, name, nationality, birthdate);
+    return new DirectorDTO(0, name, nationality, birthdate, List.of());
   }
 }

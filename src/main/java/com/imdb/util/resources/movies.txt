@@ -1,96 +1,96 @@
-Id: 1
-Title: The Matrix
-ReleaseDate: 1999
-Budget: 63000000
-Currency: USD
-Description: A cyberpunk action film
+Id:1
+Title:The Matrix
+Release Date:1999
+Budget:6.3E7
+Currency:USD
+Description:A cyberpunk action film
 Actors:
-    Id: 113, Name: Keanu Reeves, Nationality: Canadian, BirthDate: 1964-09-02
-    Id: 114, Name: Carrie-Anne Moss, Nationality: Canadian, BirthDate: 1967-08-21
+    Id:1,Name:Keanu Reeves,Nationality:Canadian,BirthDate:1964-09-02
+    Id:2,Name:Carrie-Anne Moss,Nationality:Canadian,BirthDate:1967-08-21
 Directors:
-    Id: 207, Name: The Wachowskis, Nationality: American, BirthDate: 1947-09-14
+    Id:1,Name:The Wachowskis,Nationality:American,BirthDate:1947-09-14
 
-Id: 2
-Title: Jurassic Park
-ReleaseDate: 1993
-Budget: 63000000
-Currency: USD
-Description: Dinosaurs in a theme park
+Id:2
+Title:Jurassic Park
+Release Date:1993
+Budget:6.3E7
+Currency:USD
+Description:Dinosaurs in a theme park
 Actors:
-    Id: 115, Name: Sam Neill, Nationality: New Zealand, BirthDate: 1947-09-14
-    Id: 116, Name: Laura Dern, Nationality: American, BirthDate: 1967-02-10
+    Id:3,Name:Sam Neill,Nationality:New Zealand,BirthDate:1947-09-14
+    Id:4,Name:Laura Dern,Nationality:American,BirthDate:1967-02-10
 Directors:
-    Id: 208, Name: Steven Spielberg, Nationality: American, BirthDate: 1946-12-18
+    Id:2,Name:Steven Spielberg,Nationality:American,BirthDate:1946-12-18
 
-Id: 3
-Title: Avatar
-ReleaseDate: 2009
-Budget: 237000000
-Currency: USD
-Description: Journey to Pandora
+Id:3
+Title:Avatar
+Release Date:2009
+Budget:2.37E8
+Currency:USD
+Description:Journey to Pandora
 Actors:
-    Id: 117, Name: Sam Worthington, Nationality: Australian, BirthDate: 1976-08-02
-    Id: 118, Name: Zoe Saldana, Nationality: American, BirthDate: 1978-06-19
+    Id:5,Name:Sam Worthington,Nationality:Australian,BirthDate:1976-08-02
+    Id:6,Name:Zoe Saldana,Nationality:American,BirthDate:1978-06-19
 Directors:
-    Id: 209, Name: James Cameron, Nationality: Canadian, BirthDate: 1954-08-16
+    Id:3,Name:James Cameron,Nationality:Canadian,BirthDate:1954-08-16
 
-Id: 4
-Title: Titanic
-ReleaseDate: 1997
-Budget: 200000000
-Currency: USD
-Description: Love story on a sinking ship
+Id:4
+Title:Titanic
+Release Date:1997
+Budget:2.0E8
+Currency:USD
+Description:Love story on a sinking ship
 Actors:
-    Id: 119, Name: Leonardo DiCaprio, Nationality: American, BirthDate: 1974-11-11
-    Id: 120, Name: Kate Winslet, Nationality: British, BirthDate: 1975-10-05
+    Id:7,Name:Leonardo DiCaprio,Nationality:American,BirthDate:1974-11-11
+    Id:8,Name:Kate Winslet,Nationality:British,BirthDate:1975-10-05
 Directors:
-    Id: 210, Name: James Cameron, Nationality: Canadian, BirthDate: 1954-08-16
+    Id:3,Name:James Cameron,Nationality:Canadian,BirthDate:1954-08-16
 
-Id: 5
-Title: Star Wars: Episode IV - A New Hope
-ReleaseDate: 1977
-Budget: 11000000
-Currency: USD
-Description: Epic space opera
+Id:5
+Title:Star Wars
+Release Date:1977
+Budget:1.1E7
+Currency:USD
+Description:Epic space opera
 Actors:
-    Id: 121, Name: Mark Hamill, Nationality: American, BirthDate: 1951-09-25
-    Id: 122, Name: Harrison Ford, Nationality: American, BirthDate: 1942-07-13
+    Id:9,Name:Mark Hamill,Nationality:American,BirthDate:1951-09-25
+    Id:10,Name:Harrison Ford,Nationality:American,BirthDate:1942-07-13
 Directors:
-    Id: 211, Name: George Lucas, Nationality: American, BirthDate: 1944-05-14
+    Id:4,Name:George Lucas,Nationality:American,BirthDate:1944-05-14
 
-Id: 6
-Title: The Dark Knight Rises
-ReleaseDate: 2012
-Budget: 250000000
-Currency: USD
-Description: Batman faces Bane
+Id:6
+Title:The Dark Knight Rises
+Release Date:2012
+Budget:2.5E8
+Currency:USD
+Description:Batman faces Bane
 Actors:
-    Id: 123, Name: Christian Bale, Nationality: British, BirthDate: 1974-01-30
-    Id: 124, Name: Tom Hardy, Nationality: British, BirthDate: 1977-09-15
+    Id:11,Name:Christian Bale,Nationality:British,BirthDate:1974-01-30
+    Id:12,Name:Tom Hardy,Nationality:British,BirthDate:1977-09-15
 Directors:
-    Id: 212, Name: Christopher Nolan, Nationality: British, BirthDate: 1970-07-30
+    Id:5,Name:Christopher Nolan,Nationality:British,BirthDate:1970-07-30
 
-Id: 7
-Title: Inglourious Basterds
-ReleaseDate: 2009
-Budget: 70000000
-Currency: USD
-Description: Quentin Tarantino's WWII film
+Id:7
+Title:Inglourious Basterds
+Release Date:2009
+Budget:7.0E7
+Currency:USD
+Description:Quentin Tarantino's WWII film
 Actors:
-    Id: 125, Name: Brad Pitt, Nationality: American, BirthDate: 1963-12-18
-    Id: 126, Name: Christoph Waltz, Nationality: German, BirthDate: 1956-10-04
+    Id:13,Name:Brad Pitt,Nationality:American,BirthDate:1963-12-18
+    Id:14,Name:Christoph Waltz,Nationality:German,BirthDate:1956-10-04
 Directors:
-    Id: 213, Name: Quentin Tarantino, Nationality: American, BirthDate: 1963-03-27
+    Id:6,Name:Quentin Tarantino,Nationality:American,BirthDate:1963-03-27
 
-Id: 8
-Title: The Shawshank Redemption
-ReleaseDate: 1994
-Budget: 25000000
-Currency: USD
-Description: A tale of hope and friendship in prison
+Id:8
+Title:The Shawshank Redemption
+Release Date:1994
+Budget:2.5E7
+Currency:USD
+Description:A tale of hope and friendship in prison
 Actors:
-    Id: 127, Name: Tim Robbins, Nationality: American, BirthDate: 1958-10-16
-    Id: 128, Name: Morgan Freeman, Nationality: American, BirthDate: 1937-06-01
+    Id:15,Name:Tim Robbins,Nationality:American,BirthDate:1958-10-16
+    Id:16,Name:Morgan Freeman,Nationality:American,BirthDate:1937-06-01
 Directors:
-    Id: 214, Name: Frank Darabont, Nationality: American, BirthDate: 1959-01-28
+    Id:7,Name:Frank Darabont,Nationality:American,BirthDate:1959-01-28
 

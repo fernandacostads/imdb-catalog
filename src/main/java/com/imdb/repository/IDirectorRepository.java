@@ -7,5 +7,4 @@ import com.imdb.DTO.DirectorDTO;
  * This extends the CRUDRepository interface to define CRUD operations specifically for DirectorDTO objects.
  */
 
-public interface IDirectorRepository extends CRUDRepository<DirectorDTO> {
-}
+public interface IDirectorRepository extends CRUDRepository<DirectorDTO> {}

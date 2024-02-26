@@ -4,8 +4,6 @@ import com.imdb.DTO.ActorDTO;
 import com.imdb.model.Actor;
 import com.imdb.repository.IActorRepository;
 import com.imdb.util.exceptions.ActorException;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,16 +16,15 @@ import java.util.stream.Collectors;
  */
 
 public class ActorRepositoryImpl implements IActorRepository {
+
   private static ActorRepositoryImpl instance;
   private static List<Actor> actorsList;
   private int idGenerator;
-
 
   private ActorRepositoryImpl() {
     actorsList = new ArrayList<>(10);
     idGenerator = 1;
   }
-
 
   public static synchronized ActorRepositoryImpl getInstance() {
     if (instance == null) {
@@ -35,7 +32,6 @@ public class ActorRepositoryImpl implements IActorRepository {
     }
     return instance;
   }
-
 
   /**
    * Creates a new actor with the provided details, adds it to the list of actors, and returns a DTO representing the new actor.
@@ -45,13 +41,13 @@ public class ActorRepositoryImpl implements IActorRepository {
    */
   @Override
   public ActorDTO create(ActorDTO entry) {
-    Actor actorExist = getActorIfExists(entry.name(), entry.nationality(), entry.birthDate());
+    Actor actorExist = getActorIfExists(entry);
     if (actorExist == null) {
       Actor newActor = new Actor(
-              idGenerator++,
-              entry.name(),
-              entry.nationality(),
-              entry.birthDate()
+        idGenerator++,
+        entry.name(),
+        entry.nationality(),
+        entry.birthDate()
       );
       actorsList.add(newActor);
       return ActorDTO.fromActor(newActor);
@@ -66,9 +62,10 @@ public class ActorRepositoryImpl implements IActorRepository {
    */
   @Override
   public List<ActorDTO> read() {
-    List<ActorDTO> actorDTOList = actorsList.stream()
-            .map(ActorDTO::fromActor)
-            .collect(Collectors.toList());
+    List<ActorDTO> actorDTOList = actorsList
+      .stream()
+      .map(ActorDTO::fromActor)
+      .collect(Collectors.toList());
     checkEmptyListException(actorDTOList);
 
     return actorDTOList;
@@ -79,17 +76,16 @@ public class ActorRepositoryImpl implements IActorRepository {
    *
    * @param entry  The DTO representing the actor to be updated.
    * @param entry2 The DTO with the updated information of the actor.
-   * @return A DTO representing the updated actor.
    */
   @Override
-  public ActorDTO update(ActorDTO entry, ActorDTO entry2) {
+  public void update(ActorDTO entry, ActorDTO entry2) {
     Actor actor = ActorDTO.toActor(entry);
 
     actor.setName(entry2.name());
     actor.setNationality(entry2.nationality());
     actor.setBirthDate(entry2.birthDate());
 
-    return ActorDTO.fromActor(actor);
+    ActorDTO.fromActor(actor);
   }
 
   /**
@@ -137,10 +133,11 @@ public class ActorRepositoryImpl implements IActorRepository {
    * @return The found actor, or null if not found.
    */
   private Actor foundActorId(int id) {
-    return actorsList.stream()
-            .filter(actor1 -> actor1.getId() == id)
-            .findFirst()
-            .orElse(null);
+    return actorsList
+      .stream()
+      .filter(actor1 -> actor1.getId() == id)
+      .findFirst()
+      .orElse(null);
   }
 
   /**
@@ -150,10 +147,13 @@ public class ActorRepositoryImpl implements IActorRepository {
    * @return A list of DTOs representing the found actors.
    */
   private List<ActorDTO> searchActorName(String name) {
-    return actorsList.stream()
-            .filter(actor -> actor.getName().toLowerCase().contains(name.toLowerCase()))
-            .map(ActorDTO::fromActor)
-            .collect(Collectors.toList());
+    return actorsList
+      .stream()
+      .filter(actor ->
+        actor.getName().toLowerCase().contains(name.toLowerCase())
+      )
+      .map(ActorDTO::fromActor)
+      .collect(Collectors.toList());
   }
 
   /**
@@ -181,18 +181,17 @@ public class ActorRepositoryImpl implements IActorRepository {
   /**
    * Checks if an actor with the provided name, nationality, and birthDate already exists and throws an exception if it does.
    *
-   * @param name        The name of the actor.
-   * @param nationality The nationality of the actor.
-   * @param birthDate   The birthDate of the actor.
+   * @param actor The object of the actor.
    */
-  private Actor getActorIfExists(String name, String nationality, LocalDate birthDate) {
-    return actorsList.stream()
-            .filter(actor -> actor.getName().equalsIgnoreCase(name) &&
-                             actor.getNationality().equalsIgnoreCase(nationality) &&
-                             actor.getBirthDate().equals(birthDate))
-            .findFirst()
-            .orElse(null);
+  protected Actor getActorIfExists(ActorDTO actor) {
+    return actorsList
+      .stream()
+      .filter(existActor ->
+        existActor.getName().equalsIgnoreCase(actor.name()) &&
+        existActor.getNationality().equalsIgnoreCase(actor.nationality()) &&
+        existActor.getBirthDate().equals(actor.birthDate())
+      )
+      .findFirst()
+      .orElse(null);
   }
-
 }
-
